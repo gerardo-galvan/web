@@ -1,0 +1,15 @@
+.card {
+    color: #222222;
+    background: lightgray;
+    width: 300px;
+     /* control outside of an element with padding */
+    margin-top: 50px;
+    margin-left: auto;
+    margin-right: auto;
+   
+    /* control inside of an element with padding */
+    padding-top: 10px;
+    padding-right: 10px;
+    padding-bottom: 10px;
+    padding-left: 10px;
+}
