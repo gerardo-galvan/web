@@ -2,6 +2,20 @@ body, html {
     margin: 0;
     padding: 0; 
 }
+.main {
+    margin-top: 100px;    
+}
+
+.logo-img {
+    display: block;
+    width: 300px;
+    margin-bottom: 20px;
+}
+
+.search-input {
+    display: block;
+    width: 400px;
+}
 
 img {
     width: 30%;
@@ -42,4 +56,6 @@ button:first-of-type {
 button::hover {
     cursor: pointer;   
 }
+
+
 
