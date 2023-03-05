@@ -1,6 +1,5 @@
 .main {
-    margin-top: 100px;    
-    text-align: center;
+    margin-top: 100px;     
 }
 
 .logo-img {
@@ -35,5 +34,12 @@
     border-radius: 4px;
     font-size: 14px;
  
+    
+}
+
+.btn-wrapper {
+
+    display: flex;
+    justify-content: center;
     
 }
