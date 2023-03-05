@@ -1,4 +1,5 @@
 .nav-wrapper {
+    /* centering content with flexbox */
     display: flex;
     justify-content: center;
 }
