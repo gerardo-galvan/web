@@ -11,7 +11,9 @@
 }
 
 .search-input {
-  
+   display: block;
+   margin-right: auto;
+   margin-left: auto;
     width: 400px;
     line-height: 24px;
     padding-top: 10px;
