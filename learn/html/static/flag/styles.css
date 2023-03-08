@@ -24,7 +24,7 @@ body {
     border-radius: 100%;
     background: #BC002D;
     
-   
-    margin: 40px 0px 0px 100px;
+   /* 40px controls vertical and auto controls horizonal */
+    margin: 40px auto;
     
 }
