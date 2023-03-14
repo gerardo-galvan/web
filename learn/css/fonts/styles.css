@@ -1,0 +1,8 @@
+@font-face {
+    src: url("nasa.otf");
+    font-family: nasa;
+}
+
+h1 {
+    font-family: nasa;
+}
