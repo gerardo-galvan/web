@@ -72,6 +72,6 @@ margin: 0 auto;
  width: 400px;
 }
 
-.gift-img:hover {
+#hb:hover {
     background-image: url(hb.webp);
 }
