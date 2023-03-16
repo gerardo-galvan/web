@@ -1,6 +1,6 @@
 body {
     background-color: #a2d2ff;
-    text-align: center;
+    text-align: center; /* will only center inline elements in a container */
     font-family: 'Happy Monkey', cursive;
     color: #fff;
     display: flex;
@@ -62,7 +62,12 @@ h2, h4 {
 }
 
 .gift-img {
+margin: 0 auto;
  width: 400px;
  border: 6px solid white;
  border-radius: 10px;
+ background-image: url(gift-box.png);
+ background-size: cover;
+ height: 400px;
+ width: 400px;
 }
