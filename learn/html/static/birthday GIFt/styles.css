@@ -54,6 +54,13 @@ h2, h4 {
   margin-top: 50px;
 }
 
+.gift-title {
+    margin-bottom: 10px;
+}
+.gift-hint {
+    margin-top:0px;
+}
+
 .gift-img {
  width: 400px;
  border: 6px solid white;
