@@ -26,6 +26,7 @@ h2, h4 {
 */
 
 /*id selectors */
+
 #age {
     background: #EFB0C9;
     padding: 5px 10px;
@@ -47,4 +48,14 @@ h2, h4 {
     display:flex;
     flex-direction: column;
     align-items: center;
+}
+
+.gift-section {
+  margin-top: 50px;
+}
+
+.gift-img {
+ width: 400px;
+ border: 6px solid white;
+ border-radius: 10px;
 }
