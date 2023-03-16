@@ -1,0 +1,10 @@
+body {
+    text-align: center;
+    font-family: 'Happy Monkey', cursive;
+}
+
+#face {
+    width: 150px;
+    border-radius: 50%;
+}
+
