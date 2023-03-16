@@ -26,9 +26,20 @@ h2, h4 {
 */
 
 /*id selectors */
-#age, #date {
-    background: #efb0c0;
-    padding: 5px;
+#age {
+    background: #EFB0C9;
+    padding: 5px 10px;
+    border-radius: 5px;
+   
+    margin-top: 5px 0 10px 0;
+}
+
+
+#date {
+    margin: 0;
+    background: #EFB0C9;
+    padding: 5px 10px;
+    border-radius: 5px;
     
 }
 
