@@ -16,6 +16,7 @@
     display: flex;
     justify-content: space-around;
     align-items: center;
+    /* align-items: start;  by default it's set to strech */
     
 }
 
