@@ -35,7 +35,7 @@ img {
 }
 
 
-@media (max-width: 400px) {
+@media only screen and (max-width: 400px) {
     img  {
         width: 70%;
     }
