@@ -19,7 +19,4 @@ img {
     width: 50%;
 }
 
-img:hover {
-    border: 1px solid #ccc;
-    border-radius: 1000px;
-}
+ 
