@@ -20,10 +20,10 @@ img {
 }
 
  .logo {
+    margin-top: 50px;
     display: flex;
     flex-direction: column;
     align-items: center;
- 
     width: 100px;
     
  }
@@ -31,6 +31,5 @@ img {
 .blink {
     width: 350px;
     border: 1px solid white;
- 
     border-radius: 1000px;
 }
