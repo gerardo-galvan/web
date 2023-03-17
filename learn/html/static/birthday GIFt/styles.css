@@ -1,5 +1,6 @@
 body {
-    background-color: #a2d2ff;
+    background: linear-gradient(#a2d2ff,#efb0c9);
+   
     text-align: center; /* will only center inline elements in a container */
     font-family: 'Happy Monkey', cursive;
     color: #fff;
@@ -18,7 +19,7 @@ body {
     text-decoration: underline;
  }
 
- 
+
 #face {
     width: 150px;
     border-radius: 50%;
