@@ -34,6 +34,10 @@ img {
     border-radius: 1000px;
 }
 
+.blink:hover {
+    border: 5px solid #4a4a4a;
+}
+
 
 @media only screen and (max-width: 400px) {
     img  {
