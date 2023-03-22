@@ -1,5 +1,11 @@
 // document.getElementById("count-el").innerText = 5
 
+let countEL = document.getElementById("count-el");
+let count  = 0;
+
  function increment() {
-    console.log("test")
+    count = count + 1;
+    countEL.innerText = count;
+    
  }
+  
