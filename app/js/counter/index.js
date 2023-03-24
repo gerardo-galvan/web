@@ -6,12 +6,12 @@ let count  = 0;
 
  function increment() {
     count +=  1;
-    countEL.innerText = count;
+    countEL.textContent = count;
     
  }
   
  function save() {
     let countString = count + "-";
-    saveElement.innerText += countString;
+    saveElement.textContent += countString;
     
  }
