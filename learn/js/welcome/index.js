@@ -3,3 +3,5 @@ let user = "G!";
 let greeting = "Welcome back ";
 
 welcomeEl.innerText = greeting + user;
+
+welcomeEl.innerText += "👋"
