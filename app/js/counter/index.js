@@ -13,5 +13,5 @@ let count  = 0;
  function save() {
     let countString = count + "-";
     saveElement.innerText += countString;
-    console.log(count);
+    
  }
