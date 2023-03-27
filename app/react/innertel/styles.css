@@ -52,15 +52,7 @@ img {
 
 
 @media only screen and (max-width: 400px) {
-    img  {
-        width: 70%;
-    }
-
-    .blink  {
-        width: 70%;
-    }
-
-    .innertel {
+    #logo {
         width: 70%;
     }
 }
