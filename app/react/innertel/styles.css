@@ -14,7 +14,8 @@ body {
 h1 {
     font-family:  MIB;
     color: #3b3b3b;
-    font-size: 75px;
+    font-size: 70px;
+    letter-spacing: 2px;
     padding: 0px;
 }
 
