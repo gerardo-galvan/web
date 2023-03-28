@@ -4,4 +4,4 @@ function innertel () {
 
 var timer = setTimeout(function() {
     window.location='search.html'
-}, 1000);
+}, 1500);
