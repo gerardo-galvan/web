@@ -53,6 +53,7 @@ img {
     background-color: black !important;
     color: #9E9E9E !important;
     font-family:  'Courier New', Courier, monospace !important;
+    border-radius: 5px !important;
 }
 
 .gsc-results  {
