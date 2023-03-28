@@ -60,6 +60,11 @@ img {
     font-family:  'Courier New', Courier, monospace !important;
 }
 
+
+.gs-webResult:not(.gs-no-results-result):not(.gs-error-result) .gs-snippet, .gs-fileFormatType {
+    content-visibility: hidden !important;
+}
+
 @media only screen and (max-width: 400px) {
     #logo {
         width: 100%;
