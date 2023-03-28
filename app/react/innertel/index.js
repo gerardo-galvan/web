@@ -3,11 +3,22 @@ function innertel () {
 }
 
 
-function redirect_Page () {
-    var tID = setTimeout(function () {
-        window.location.href = "search.html";
-        window.clearTimeout(tID);		// clear time out.
-    }, 1000);
+
+
+function hide () {
+    setTimeout(function() {
+        $('#logo').fadeOut('fast');
+    }, 1000); 
 }
 
-redirect_Page();
+ 
+hide();
+
+function show () {
+    setTimeout(function() {
+        $('#search').fadeIn('fast');
+    }, 1000); 
+}
+
+ 
+show();
