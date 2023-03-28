@@ -78,7 +78,7 @@ table.gsc-search-box td.gsc-input {
 }
 
 .gsib_a {
-    background: none !important;
+    background-color: transparent !important;
 }
 
 .gsc-search-button-v2 {
