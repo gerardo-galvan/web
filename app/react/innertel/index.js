@@ -16,7 +16,7 @@ hide();
 
 function show () {
     setTimeout(function() {
-        $('#search').fadeIn('fast');
+        $('#search').fadeIn('slow');
     }, 1000); 
 }
 
