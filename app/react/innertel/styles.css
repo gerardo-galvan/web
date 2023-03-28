@@ -81,6 +81,8 @@ table.gsc-search-box td.gsc-input {
 .input.gsc-input, .gsc-input-box, .gsc-input-box-hover, .gsc-input-box-focus {
     background-color: #000 !important;
     border-radius: 8px 0 0 8px !important;
+    padding-bottom: 0px !important;
+    padding-top: 5px !important;
 }
 
 .gsc-search-button {
