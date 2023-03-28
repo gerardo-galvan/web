@@ -52,6 +52,7 @@ img {
 .gsc-input {
     background-color: black !important;
     color: #9E9E9E !important;
+    font-family:  'Courier New', Courier, monospace !important;
 }
 
 .gsc-results  {
