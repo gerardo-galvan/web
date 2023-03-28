@@ -49,6 +49,9 @@ img {
     border: 5px solid #4a4a4a;
 }
 
+.gsc-input-box {
+    background-color: #000 !important;
+}
 .gsc-input {
     background-color: black !important;
     color: #9E9E9E !important;
@@ -72,6 +75,7 @@ img {
 input {
     background-color: black !important;
 }
+
 @media only screen and (max-width: 400px) {
     #logo {
         width: 100%;
