@@ -71,7 +71,10 @@ img {
 .gcsc-find-more-on-google-root {
     display: none !important;
 }
-  
+
+.gcsc-more-maybe-branding-box {
+  border:   0px solid #dfe1e5 !important;
+}
 
 .gsst_a .gscb_a {
     color: #00cc00 !important;
