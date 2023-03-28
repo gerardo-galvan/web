@@ -69,7 +69,9 @@ img {
     display: none !important;
 }
  
-
+input {
+    background-color: black !important;
+}
 @media only screen and (max-width: 400px) {
     #logo {
         width: 100%;
