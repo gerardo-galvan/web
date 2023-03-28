@@ -72,6 +72,10 @@ img {
     display: none !important;
 }
 
+.gcsc-find-more-on-google {
+    display: none !important;
+}
+
 .gcsc-more-maybe-branding-box {
   border:   0px solid #dfe1e5 !important;
 }
