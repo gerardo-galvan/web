@@ -2,6 +2,12 @@ function innertel () {
     window.open("search.html", "_self");
 }
 
-var timer = setTimeout(function() {
-    window.location='search.html'
-}, 1500);
+
+function redirect_Page () {
+    var tID = setTimeout(function () {
+        window.location.href = "search.html";
+        window.clearTimeout(tID);		// clear time out.
+    }, 1000);
+}
+
+redirect_Page();
