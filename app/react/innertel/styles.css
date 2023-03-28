@@ -77,6 +77,10 @@ img {
     color: #00cc00 !important;
 }
 
+.gsc-tabHeader.gsc-tabhActive {
+    background-color: rgb(34 33 32) !important;
+    border-bottom: 0px solid #fff !important;
+}
 @media only screen and (max-width: 400px) {
     #logo {
         width: 100%;
