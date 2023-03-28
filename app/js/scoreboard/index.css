@@ -1,0 +1,38 @@
+body {
+    margin: 0;  
+    color: white;
+    background-color: azure;
+}
+
+@font-face {
+    src: url("CursedTimerUlil.ttf");
+    font-family:  'Cursed Timer Ulil', sans-serif;
+}
+
+
+
+
+.container {
+    display: flex;
+    justify-content: space-around;
+}
+
+
+.numbers {
+    display: flex;
+    align-items: center; 
+    flex-direction: column;
+    background: black;
+    width: 155px;
+    height: 120px;
+    border-radius: 5px;
+
+
+}
+
+h4 { 
+
+    font-family: 'Cursed Timer Ulil';
+    font-style: normal; 
+    color: #F94F6D; 
+}
