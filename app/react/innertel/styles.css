@@ -65,9 +65,7 @@ img {
     content-visibility: hidden !important;
 }
 
-.gs-web-image-box .gs-image, .gs-promotion-image-box .gs-promotion-image {
-    content-visibility: hidden !important;
-}
+ 
 
 @media only screen and (max-width: 400px) {
     #logo {
