@@ -49,6 +49,10 @@ img {
     border: 5px solid #4a4a4a;
 }
 
+.input.gsc-input {
+    background-color: black !important;
+    color: #9E9E9E !important;
+}
 
 .gsc-results  {
     background-color: black !important;
