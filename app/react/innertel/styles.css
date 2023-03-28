@@ -78,7 +78,8 @@ table.gsc-search-box td.gsc-input {
 }
 
 .gsib_a {
-    background-color: none !important;
+    border-radius: 8px 0 0 8px !important;
+    background: none !important;
 }
 
 .gsc-search-button-v2 {
