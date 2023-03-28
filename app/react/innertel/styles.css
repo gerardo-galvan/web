@@ -112,7 +112,11 @@ img {
 }
 
  
-
+.gsc-results .gsc-cursor-box .gsc-cursor-page {
+    border: 1px solid #ccc;
+    border-radius: 5px !important;
+    padding: 5px !important;
+}
 
 @media only screen and (max-width: 400px) {
     #logo {
