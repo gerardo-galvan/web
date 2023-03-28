@@ -49,7 +49,7 @@ img {
     border: 5px solid #4a4a4a;
 }
 
-.gsc-input-box {
+.input.gsc-input, .gsc-input-box, .gsc-input-box-hover, .gsc-input-box-focus {
     background-color: #000 !important;
 }
 .gsc-input {
@@ -71,10 +71,7 @@ img {
 .gcsc-find-more-on-google {
     display: none !important;
 }
- 
-input {
-    background-color: black !important;
-}
+  
 
 @media only screen and (max-width: 400px) {
     #logo {
