@@ -130,6 +130,10 @@ table.gsc-search-box td.gsc-input {
     content-visibility: hidden !important;
 }
 
+.gsc-adBlock {
+    display: none !important;
+}
+
 .gcsc-find-more-on-google-root {
     display: none !important;
 }
