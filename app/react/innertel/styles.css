@@ -120,8 +120,7 @@ table.gsc-search-box td.gsc-input {
     border-radius: 8px !important;
 }
 
-.gsc-tabsArea {
-    padding-bottom: 10px !important;
+.gsc-tabsArea { 
     border-bottom: 1px solid #222120 !important; 
 }
 
