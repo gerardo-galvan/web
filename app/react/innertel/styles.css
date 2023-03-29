@@ -134,6 +134,9 @@ table.gsc-search-box td.gsc-input {
     display: none !important;
 }
 
+.gs-imageResult .gs-image-box .gs-image {
+    width: 100% !important;
+}
 .gcsc-find-more-on-google-root {
     display: none !important;
 }
