@@ -117,9 +117,14 @@ table.gsc-search-box td.gsc-input {
 }
 
 .gsc-results  {
-    background-color: black !important; 
+    background-color: black !important;
 }
 
+.gs-webResult div.gs-visibleUrl {
+
+    font-family:  'Courier New', Courier, monospace !important;
+
+}
 
 .gs-webResult:not(.gs-no-results-result):not(.gs-error-result) .gs-snippet, .gs-fileFormatType {
     content-visibility: hidden !important;
