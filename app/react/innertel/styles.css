@@ -156,6 +156,7 @@ table.gsc-search-box td.gsc-input {
 .gsc-tabHeader.gsc-tabhActive {
     background-color: rgb(34 33 32) !important;
     border-bottom: 0px solid #fff !important;
+    border-radius: 8px !important;
 }
 
  
