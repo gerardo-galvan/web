@@ -161,9 +161,12 @@ table.gsc-search-box td.gsc-input {
 
 .gsc-tabsArea {
     padding-bottom: 10px !important;
-    /* border-bottom: 1px solid #222120 !important; */
+    border-bottom: 1px solid #222120 !important; 
 }
 
+.gsc-above-wrapper-area {
+    border-bottom: 1px solid #222120 !important;
+}
  
 .gsc-results .gsc-cursor-box .gsc-cursor-page {
     border: 1px solid #ccc;
