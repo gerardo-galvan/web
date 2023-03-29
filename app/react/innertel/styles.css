@@ -121,11 +121,11 @@ table.gsc-search-box td.gsc-input {
 }
 
 .gsc-tabsArea { 
-    border-bottom: 1px solid #222120 !important; 
+    /* border-bottom: 1px solid #222120 !important; */
 }
 
 .gsc-above-wrapper-area {
-    border-bottom: 1px solid #222120 !important;
+    /*  border-bottom: 1px solid #222120 !important; */
 }
  
 .gsc-adBlock {
