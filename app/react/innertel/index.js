@@ -14,6 +14,7 @@ function hide () {
  
 hide();
 
+/*
 function show () {
     setTimeout(function() {
         $('#search').fadeIn('slow');
@@ -23,6 +24,16 @@ function show () {
  
 show();
 
+*/
+
+function ichat() {
+    setTimeout(function() {
+        $('#chat_div').fadeIn('slow');
+    }, 1000); 
+}
+
+ 
+ichat();
 
 function chat() {
     var site = "https://innertel.vercel.app";
