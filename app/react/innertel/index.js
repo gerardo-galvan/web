@@ -30,4 +30,4 @@ function chat() {
 }
 
  
-show();
+chat();
