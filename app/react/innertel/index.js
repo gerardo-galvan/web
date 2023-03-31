@@ -25,7 +25,7 @@ show();
 
 
 function chat() {
-    var site = "https://chat-gpt-clone-ruby.vercel.app";
+    var site = "https://innertel.vercel.app";
     document.getElementsByName('chat')[0].src = site;
    
 }
