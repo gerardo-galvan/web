@@ -22,3 +22,12 @@ function show () {
 
  
 show();
+
+
+function chat() {
+    var site = "https://chat-gpt-clone-ruby.vercel.app";
+    document.getElementsByName('chat')[0].src = site;
+}
+
+ 
+show();
