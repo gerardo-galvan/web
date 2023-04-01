@@ -36,7 +36,7 @@ function ichat() {
 ichat();
 
 function chat() {
-    var site = "https://innertel.vercel.app";
+    var site = "https://innertel-ai.vercel.app";
     document.getElementsByName('chat')[0].src = site;
    
 }

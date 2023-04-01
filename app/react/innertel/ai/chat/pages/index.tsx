@@ -6,7 +6,7 @@ function Home() {
     <Page className="flex flex-col gap-12">
       <section className="flex flex-col gap-3">
       <Text variant="h2">INNERTEL</Text>
-        <div className="lg:w-2/3">
+        <div>
           <Chat />
         </div>
       </section>
