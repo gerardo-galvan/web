@@ -54,7 +54,7 @@ img {
 
  #chat_div {  
   width: 100%;
-  display: none;
+  content-visibility: none;
  }
 
  iframe {
