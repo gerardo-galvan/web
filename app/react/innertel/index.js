@@ -27,6 +27,14 @@ show();
 */
 
 
+function ichat() {
+    setTimeout(function() {
+        $('#chat_div').fadeIn('slow');
+    }, 1000); 
+}
+
+ichat();
+
 
 function chat() {
     var site = "https://innertel-ai.vercel.app";
@@ -37,10 +45,4 @@ function chat() {
  
 chat();
 
-function ichat() {
-    setTimeout(function() {
-        $('#chat_div').fadeIn('slow');
-    }, 1000); 
-}
 
-ichat();
