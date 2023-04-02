@@ -26,13 +26,6 @@ show();
 
 */
 
-function ichat() {
-    setTimeout(function() {
-        $('#chat_div').fadeIn('slow');
-    }, 1000); 
-}
-
- 
 ichat();
 
 function chat() {
@@ -43,3 +36,11 @@ function chat() {
 
  
 chat();
+
+function ichat() {
+    setTimeout(function() {
+        $('#chat_div').fadeIn('slow');
+    }, 1000); 
+}
+
+ 
