@@ -26,7 +26,7 @@ show();
 
 */
 
-ichat();
+
 
 function chat() {
     var site = "https://innertel-ai.vercel.app";
@@ -43,4 +43,4 @@ function ichat() {
     }, 1000); 
 }
 
- 
+ichat();
