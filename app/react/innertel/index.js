@@ -7,7 +7,7 @@ function innertel () {
 
 function hide () {
     setTimeout(function() {
-        $('#logo').fadeOut('fast');
+        $('#logo').fadeOut('slow');
     }, 1000); 
 }
 
@@ -21,7 +21,6 @@ function show () {
     }, 1000); 
 }
 
- 
 show();
 
 */
@@ -46,3 +45,10 @@ function chat() {
 chat();
 
 
+/* redirect to ai page 
+
+var timer = setTimeout(function() {
+    window.location='ai.html'
+}, 1000);
+
+*/
