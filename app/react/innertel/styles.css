@@ -191,5 +191,9 @@ table.gsc-search-box td.gsc-input {
     h1 {
         font-size: 45px;
     }
+
+    .logo_text {
+        align-items: normal;
+    }
     
 }
