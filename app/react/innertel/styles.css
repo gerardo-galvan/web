@@ -188,5 +188,8 @@ table.gsc-search-box td.gsc-input {
         align-items: stretch !important;
     }
 
+    h1 {
+        font-size: 40px;
+    }
     
 }
