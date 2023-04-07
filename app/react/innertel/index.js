@@ -52,7 +52,4 @@ var timer = setTimeout(function() {
 }, 1000);
 
 */
-
-function resizeIframe(obj) {
-    obj.style.height = obj.contentWindow.document.documentElement.scrollHeight + 'px';
-  }
+ 

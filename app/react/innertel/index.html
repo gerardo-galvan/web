@@ -19,7 +19,7 @@
             <div class="gcse-search"></div>
         </div>
 
-
+     
         <div  id="chat_div"> 
             <h1 class="logo_text"> INNERTEL </h1>
             <iframe name="chat" frameborder="0" scrolling="no" onload="resizeIframe(this)"></iframe>
@@ -28,5 +28,17 @@
 
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
         <script src="index.js"></script>
+        <script language="javascript" type="text/javascript">
+
+            function resizeIframe(obj) {
+            
+                jQuery(document).ready(function($) {
+            
+                    $(obj).animate({height: obj.contentWindow.document.body.scrollHeight + 'px'}, 500)
+            
+                });
+            
+            }    
+            </script>
     </body>
 </html>
