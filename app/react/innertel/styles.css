@@ -182,7 +182,7 @@ table.gsc-search-box td.gsc-input {
   border:   0px solid #dfe1e5 !important;
 }
 
-@media only screen and (max-width: 400px) {
+@media only screen and (max-width: 430px) {
 
     body {
         align-items: stretch !important;
