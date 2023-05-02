@@ -12,7 +12,7 @@ function hide () {
 }
 
  
-hide();
+/* hide(); */
 
 /*
 function show () {
