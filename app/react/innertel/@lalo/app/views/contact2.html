@@ -1,0 +1,15 @@
+<h1 class="card_title">Contact</h1>
+<form class="contact" data-ng-controller="contactController">
+    <div class="contact_line">
+        <input class="contact_input" type="text" placeholder="Your name" name="name"/>
+    </div>
+    <div class="contact_line">
+        <input class="contact_input" type="email" placeholder="Your e-mail" name="email"/>
+    </div>
+    <div class="contact_line">
+        <textarea class="contact_message" name="message" placeholder="Your message..."></textarea>
+    </div>
+    <div class="contact_btnWrapper">
+        <button class="contact_submit" data-ng-click="submit($event);">Send</button>
+    </div>
+</form>
