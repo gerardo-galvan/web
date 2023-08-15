@@ -1,0 +1,104 @@
+
+<!doctype html>
+<html data-ng-app="gApp" class="no-js" lang="en">
+    <head>
+        <meta charset="utf-8">
+          <meta name="viewport" content="width=device-width, initial-scale=1.0">
+		 <meta name="description" content="Curious Human BEing ツ">
+        <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
+
+        <link rel="icon" type="image/png" href="favicon.ico">
+        <title>LALO  </title>
+        <meta name="description" content="LALO ">
+
+        <link rel="stylesheet" href="app/css/normalize.min.css">
+        <link rel="stylesheet" href="app/css/main.css">
+         <link rel="stylesheet" href="app/css/font-awesome.css">
+         
+         
+        <meta name="theme-color" content="rgba(0,0,0,0.5)">
+        <meta property="og:title" content="LALO">
+        <meta property="og:type" content="article">
+        <meta property="og:image" content="http:///img/portrait.jpg">
+        <meta property="og:url" content="http://lalo.sdf.org">
+        <meta property="og:description" content="LALO  ">
+   
+   
+
+        <meta name="twitter:card" content="summary">
+        <meta name="twitter:url" content="http://lalo.sdf.org">
+        <meta name="twitter:title" content="LALO">
+        <meta name="twitter:description" content="LALO"> 
+        <meta name="theme-color" content="#3070f6" />
+
+
+        <!-- endbuild -->
+        <script src="https://kit.fontawesome.com/97d0311ab2.js" crossorigin="anonymous"></script>
+        <script src="app/js/jquery.min.js"></script>
+
+ 
+
+    </head>
+
+    <!--[if lt IE 7]>      <body class="lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+    <!--[if IE 7]>         <body class="lt-ie9 lt-ie8"> <![endif]-->
+    <!--[if IE 8]>         <body class="lt-ie9"> <![endif]-->
+    <!--[if gt IE 8]><!--> 
+    <body > <!--<![endif]-->
+
+    <!--[if lt IE 7]>
+      <p class="chromeframe">You are using an outdated browser. <a href="http://browsehappy.com/">Upgrade your browser today</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to better experience this site.</p>
+    <![endif]-->
+
+    <!--[if lt IE 9]>
+      <script src="bower_components/es5-shim/es5-shim.js"></script>
+      <script src="bower_components/json3/lib/json3.min.js"></script>
+    <![endif]-->
+
+
+  
+ 
+
+    <div data-ng-controller="myController">
+
+        <div data-ng-include="'app/views/header.html'"></div>
+
+        <div class="card" data-ng-class="{'card--closed': !menuIsOpen, 'card--open': menuIsOpen}">
+
+            <button data-ng-click="toggle($event);" class="header_opener"></button>
+
+            <div class="card_inner">
+                <div data-ng-view></div>
+                
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        var config = {
+            url: {
+                DATA_URL:'app/json/data.json',
+                CONTACT_URL:'app/php/mail.php',
+                BASE_URL:''
+            }
+        };
+    </script>
+    
+    
+    <script src="app/js/angular.min.js"></script>
+
+    <!-- build:js scripts/modules.js -->
+    <script src="app/js/modules/angular-sanitize.js"></script>
+    <!-- endbuild -->
+
+    <!-- build:js({.tmp,app}) scripts/scripts.js -->
+    <script src="app/js/app.js"></script>
+    <script src="app/js/controllers/myController.js"></script>
+    <script src="app/js/controllers/contactController.js"></script>
+    <!-- endbuild -->
+    
+ 
+
+</body>
+</html>

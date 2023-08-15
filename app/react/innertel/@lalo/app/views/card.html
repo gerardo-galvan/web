@@ -1,0 +1,25 @@
+
+
+<img class="card_img" data-ng-src="{{ appModel.image }}" alt="{{appModel.name}}" itemprop="image">
+
+
+<a href="sms:l_alo@icloud.com">
+<img class="card_draw" src="app/images/lalo.png" alt="{{appModel.name}}" itemprop="image">
+</a>
+
+<!-- <h1 class="card_title" itemprop="name" data-ng-switch="display" ng-animate="'animate'">
+
+    <span data-ng-switch-when="name">{{appModel.name}}</span>
+    <span data-ng-switch-when="nickname">{{appModel.nickname}}</span>
+
+</h1>
+-->
+
+
+<h1 class="card_title" itemprop="name">{{ appModel.name }}</h1>
+
+<h2 class="card_subtitle" itemprop="jobTitle">{{ appModel.job }}</h2>
+
+<h3 class="card_geo">{{ appModel.location.city }}, {{ appModel.location.country }}</h3>
+ 
+ <div class="icons" data-ng-include="'app/views/social.html'"></div>
