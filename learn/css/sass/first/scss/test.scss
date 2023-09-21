@@ -1,0 +1,41 @@
+@import "reset";
+@import "colors";
+@import "fonts";
+ 
+
+body {
+	color: $mainColor;
+}
+
+a{
+	color: aqua;
+	text-decoration: none;
+}
+
+h1 {
+	color: $textColor;
+	font-family: $mainFont; 
+}
+
+nav {
+	margin-top: 50px;
+	ul {
+		li {
+			color: $textColor;
+		}
+	}
+}
+
+
+.buttons {
+	border: 1px solid gray;
+	padding: 10px;
+	margin: 20px 50px;
+	
+}
+
+.button1 {
+	@extend .buttons;
+	background-color:  pink;
+}
+

@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="utf-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>The Big Lebowski</title>
+	<link rel="stylesheet" href="css/bootstrap.min.css">
+	<link rel="stylesheet" href="css/amelia-bootstrap.min.css">
+	<link href="css/site.css" rel="stylesheet" /> </head>
+
+<body>
+	<div id="page">
+		<header class="container">
+			<div id="menu" class="navbar navbar-default navbar-fixed-top">
+				<div class="navbar-header">
+					<button class="btn btn-success navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse"> <span class="glyphicon glyphicon-chevron-down"></span> </button>
+					<div id="logo">
+						<a href='.'>
+							<h4>The Big Lebowski</h4> </a>
+					</div>
+				</div>
+				<div class="navbar-collapse collapse">
+					<ul class="nav navbar-nav navbar-right">
+						<li class="nav"><a href=".">Home</a> </li>
+						<li class="nav"><a href="about.html">About</a> </li>
+						<li class="nav active"><a href="contact.html">Contact</a> </li>
+					</ul>
+				</div>
+			</div>
+		</header>
+		<section id="body" class="container">
+		
+			
+			<div class="alert alert-warning collapse" id="sentAlert">
+			<a href="#" data-dismiss="alert" class="close">&times;</a>
+			<p>cool show</p>
+			
+			</div>
+			
+			<ul class="nav nav-tabs">
+				<li class="active"><a href="#formTab" data-toggle="tab">Contact</a></li>
+				<li><a href="#addressTab" data-toggle="tab">Address</a></li>
+			</ul>
+
+			<div class="tab-content">
+				<div class="well tab-pane active" id="formTab">
+					<div class="row">
+						<form class="form-horizontal" id="contactForm">
+							<div class="form-group">
+								<label for="nameInput" class="control-label col-md-2">Your Name</label>
+								<div class="col-md-10">
+									<input type="text" name="nameInput" class="form-control" placeholder="e.g. Your Name" /> </div>
+							</div>
+							<div class="form-group">
+								<label for="emailInput" class="control-label col-md-2">Email</label>
+								<div class="col-md-10">
+									<div class="input-group"> <span class="input-group-addon">@</span>
+										<input type="email" name="emailInput" class="form-control" placeholder="e.g. Your Email" /> </div>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-md-2">Favorite</label>
+								<div class="col-md-10">
+									<div class="btn-group bt-group-md" data-toggle="buttons">
+										<label class="btn btn-success">
+											<input type="radio">The dude</label>
+										<label class="btn btn-success">
+											<input type="radio">Donny</label>
+										<label class="btn btn-success">
+											<input type="radio">Woody</label>
+										<div class="btn-group btn-group-md">
+											<label class="btn btn-success" data-toggle="dropdown">Other <span class="caret"></span> </label>
+											<ul class="dropdown-menu">
+												<li><a href="#" tabindex="-1">water</a></li>
+												<li class="divider"></li>
+												<li class="disabled"><a href="#" tabindex="-1">fire</a></li>
+											</ul>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-md-2">Reason</label>
+								<div class="col-md-10">
+									<!--<select class="form-control">
+                <option>Adoration</option>
+                <option>Ordering a White Russian</option>
+                <option>Complaint</option>
+                <option>I am lost</option>
+              </select> -->
+									<div class="dropdown">
+										<button class="btn btn-success" id="pickButton">Pick one</button>
+										<button class="btn btn-success" data-toggle="dropdown"> <span class="caret"></span> </button>
+										<ul class="dropdown-menu" id="reasonDropdown">
+											<li><a tabindex="-1">Reason One</a></li>
+											<li><a tabindex="-1">Reason Two</a></li>
+											<li><a tabindex="-1">Reason Three</a></li>
+										</ul>
+									</div>
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="control-label col-md-2">Message</label>
+								<div class="col-md-10">
+									<textarea cols="40" rows="6" class="form-control" placeholder="e.g. The Message"></textarea>
+								</div>
+							</div>
+							<div class="form-group">
+								<div class="col-md-10 col-md-offset-2">
+									<input type="submit" value="Submit" class="btn btn-success" /> </div>
+							</div>
+						</form>
+					</div>
+				</div>
+				
+				
+				
+				
+		<div class="well tab-pane" id="addressTab">
+				address
+					
+		</div>		
+					
+		</section>
+		<hr />
+		<footer class="container">
+			<p>Text placeholders courtesy of <a href="http://www.lebowskiipsum.com/">Lebowski Ipsum</a>.</p>
+		</footer>
+		
+		</div>
+		
+		
+	</div>
+	<div class="modal fade" id="openWindow" tabindex="-1">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-header"> <a href="#" class="close" data-dismiss="modal">&times;</a>
+					<h4>thanks for clicking</h4> </div>
+				<div class="modal-body">
+					<p>testt</p>
+				</div>
+				<div class="modal-footer">
+					<button class="btn btn-success" data-dismiss="modal"> close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script src="js/jquery-2.0.3.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+	<script src="js/site.js"></script>
+</body>
+
+</html>
