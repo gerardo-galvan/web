@@ -1,0 +1,1 @@
+<p>This paragraph is in an external file.</p>

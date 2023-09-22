@@ -1,0 +1,11 @@
+# Use the following lines to set error_reporting to the highest level
+# and turn on the display of errors in your local testing environment.
+
+php_value error_reporting 32767
+php_flag display_errors 1
+
+# If your remote server runs on Apache and you can change the
+# configuration with an .htaccess file, remove the hash from
+# the beginning of the next line to turn off the display of errors.
+
+# php_flag display_errors 0

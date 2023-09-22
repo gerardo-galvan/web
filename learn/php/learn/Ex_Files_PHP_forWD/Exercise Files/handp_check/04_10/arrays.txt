@@ -1,0 +1,13 @@
+$features = array(
+    'winter' => 'Beautiful arrangements for any occasion.',
+    'spring' => 'It must be spring! Delicate daffodils have arrived.',
+    'summer' => "It's summer, and we're in the pink!",
+    'autumn' => "Summer's over, but our flowers are still a riot of colors."
+    );
+
+$seasons = array(
+    'winter' => array('dec', 'jan', 'feb'),
+    'spring' => array('mar', 'apr', 'may'),
+    'summer' => array('jun', 'jul', 'aug'),
+    'autumn' => array('sep', 'oct', 'nov')
+    );
