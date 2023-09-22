@@ -1,0 +1,15 @@
+Project Root
+
+/projects/www/clients/client1
+
+|--image resources psd, images from client
+|--text, doc files
+|--php backups
+|--system
+|--application
+|--public_html
+    |--CSS
+    |--images
+    |--html
+    |--js
+    |--index.php
