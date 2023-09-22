@@ -1,0 +1,45 @@
+// 03-03
+//----- Basic FB.login -------------------------------------
+
+  FB.login();
+
+//-----Using Permissions-------------------------------------
+
+  FB.login(function(response) {
+  }, {scope: 'email,user_likes'}); //FB.login
+
+//-----Replace the Monogram with some content -------------------------------------
+
+    <div class="loggedoff">
+        <p>Welcome, you're not logged in. To see awesome features, please <a href="#" onclick="goLogIn()">Log in</a></p>
+    </div>
+
+    <div class="loggedin">
+      <p>Welcome! Thanks for visiting our App.</p>
+      <img src="images/vs_monogram.png" alt="View Source Monogram" />
+    </div>
+
+//----- Add some styles -------------------------------------
+
+.loggedoff {
+  display: block;
+}
+
+.loggedin {
+  display: none;
+}
+
+//----- Create the new goLogIn function -------------------------------------
+
+function goLogIn() {
+  FB.login(function(response) {
+    // handle the response
+    $(".loggedin").css('display','block');
+    $(".loggedoff").css('display','none');
+  }, {scope: 'email,user_likes'}); //FB.login
+} //goLogIn
+
+//----- Fix problem with reloading the page -------------------------------------
+
+    $(".loggedin").css('display','block');
+    $(".loggedoff").css('display','none');

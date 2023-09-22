@@ -1,0 +1,23 @@
+// 07-04
+
+//----- Create Function to Register Achievement -------------------------------------
+
+  function registerAchievement(url) {
+    FB.api( '/YOUR_APP_ID/achievements', 'post', {
+        'achievement': url,
+        'access_token': appToken,
+        'display_order': 1      
+      }, function(response) {
+        if (response.error) {
+          document.getElementById('mymessage').innerHTML = response.error.message;
+        } else {
+          document.getElementById('mymessage').innerHTML = "Thanks. This achievement has been registered with Facebook.";
+        }
+    });
+  }
+
+
+//----- Create a button for registering achievements -------------------------------------
+
+  <button id="register" onclick="registerAchievement(achievementName)">Register</button><br />
+

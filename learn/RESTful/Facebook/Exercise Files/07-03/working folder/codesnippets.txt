@@ -1,0 +1,61 @@
+// 07-02
+
+//----- Create an HTML page -------------------------------------
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Register Achievements Page</title>
+</head>
+<body>
+</body>
+</html>
+
+//----- Add the Facebook & Message DIVs -------------------------------------
+
+<div id="fb-root"></div>
+<div id="mymessage"></div>
+
+//----- Add the Facebook JavaScript SDK -------------------------------------
+
+  <script>
+
+  // Load the JavaScript SDK Asynchronously
+  (function(d){
+    var js, id = 'facebook-jssdk'; if (d.getElementById(id)) {return;}
+    js = d.createElement('script'); js.id = id; js.async = true;
+    js.src = "//connect.facebook.net/en_US/all.js";
+    d.getElementsByTagName('head')[0].appendChild(js);
+  }(document));
+
+  window.fbAsyncInit = function() {
+    FB.init({
+      appId      : '', // App ID
+      status     : true, // check login status
+      cookie     : true, // enable cookies to allow the server to access the session
+      frictionlessRequests : true, // enable frictionless requests
+      xfbml      : true  // parse XFBML
+    });
+  }
+</script>
+
+//----- Use PHP to get the App Token -------------------------------------
+
+    var appToken='<?php
+      $APPLICATION_ID = '';
+      $APPLICATION_SECRET = '';
+
+      $token_url ="https://graph.facebook.com/oauth/access_token?" .
+      "client_id=" . $APPLICATION_ID .
+      "&client_secret=" . $APPLICATION_SECRET .
+      "&grant_type=client_credentials";
+      $result=file_get_contents($token_url);
+      $pieces=explode("=", $result);
+      echo $pieces[1];
+      ?>';
+
+      alert(appToken);
+
+//----- Creating a php.ini file to enable file_get_contents -------------------------------------
+
+allow_url_fopen = 1;

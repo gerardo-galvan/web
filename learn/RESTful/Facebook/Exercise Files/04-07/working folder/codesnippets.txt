@@ -1,0 +1,83 @@
+// 04-07
+
+//----- Adding The Placeholder for our blog content -------------------------------------
+
+      <div id="blog"></div>
+
+//----- Adding The JavaScript to pull the JSON feed -------------------------------------
+
+function populateStories() {
+$.getJSON('/?json=recentstories', function(data) {
+    var output = '';
+    var excerpt='';
+    output = '<h2 class="label">Latest Blog Posts</h2>';
+    $.each(data.posts, function(key, val) {
+      var title = data.posts[key].title;
+      var link = data.posts[key].url;
+
+      //Set up the output
+      output += '<div id="storyid' +key+ '" class="articles">';
+      output += '<h3><a href="' + link + '" target="_blank">' + title + '</a></h3>';
+      output +='<p>' + data.posts[key].excerpt;
+      output += '</p>';
+      output += '</div>';
+    }); //Go through each piece of JSON data
+    document.getElementById('blog').innerHTML=output;
+  }); //Get JSON Data for Stories
+} //Populate Stories
+
+//----- Adding the JavaScript call after fbAsyncInit -------------------------------------
+
+		populateStories();
+
+//----- Create a temporary div to fix the excerpt -------------------------------------
+
+      //Get excerpt, but remove click to read link
+      var tempDiv = document.createElement("tempDiv");
+      tempDiv.innerHTML = data.posts[key].excerpt;
+      $("a", tempDiv).remove();
+      var excerpt = tempDiv.innerHTML;
+
+//----- Adding The function call before FBLogin Status -------------------------------------
+
+      output +='<p>' + excerpt;
+
+
+//----- Style the blog posts -------------------------------------
+
+#blog {
+  margin-top:20px;
+}
+
+#blog h3 {
+  margin-top:20px;
+  font: Normal 1.4em/1.2em Exo,sans-serif;
+  color: #078187;
+  margin: 0;
+  padding-right: 5%;
+}
+
+#blog p {
+  font: normal .9em/1.3em "lucida grande",tahoma,verdana,arial,sans-serif;
+  margin: .3em 0 1.3em 0;
+  padding-right: 5%;
+}
+
+#blog h3 a {
+  color: #3B5998;
+}
+
+#blog h3 a:hover {
+  color: #a31208;
+}
+
+#blog p a {
+  padding: 0 5px;
+  color: #456883;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+#blog p a:hover {
+  color: #a31208;
+}

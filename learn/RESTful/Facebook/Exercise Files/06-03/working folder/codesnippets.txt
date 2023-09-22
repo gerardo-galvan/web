@@ -1,0 +1,24 @@
+// 06-03
+
+//----- add the HTML -------------------------------------
+
+  <div id="join" onclick="requestToFriends();"><img src="images/invite.png" alt="Invite Button" /></div>
+
+//----- add the CSS -------------------------------------
+
+#join img{
+	margin-top:10px;
+	width:100%;
+	max-width:250px;
+}
+
+//----- add Message to friend under excerpts -------------------------------------
+
+function requestToFriends() {
+  FB.ui({
+      method: 'apprequests',
+      title: 'View Source Request',
+      message: 'Join me and be a part of the View Source revolution!'
+  }); // Call to FB.ui
+} // messageToFriend
+

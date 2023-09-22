@@ -1,0 +1,24 @@
+// 06-01
+
+//----- add Message to friend under excerpts -------------------------------------
+
+      output += '<a onclick="messageToFriend(\'' + title + '\',\'' + link + '\',\'' + excerpt + '\'); return false;" >Message a Friend</a>';
+
+//----- Add JavaScript to handle the messaging -------------------------------------
+
+function messageToFriend(myTitle, myLink, myExcerpt) {
+  FB.ui({
+    'method': 'send',
+    'link': myLink,
+    'picture': 'http://iviewsource.com/images/viewsourcemonogram-sm.png',
+    'name': myTitle,
+    'caption': 'View Source Blog',
+    'description': myExcerpt
+  }, function(response) {
+    if (response && response.post_id) {
+      document.getElementById('mymessage').innerHTML = "Thanks. The message has been sent.";
+    } else {
+      document.getElementById('mymessage').innerHTML = "The message was cancelled.";
+    } //Response from send attempt
+  }); // Call to FB.ui
+} // messageToFriend

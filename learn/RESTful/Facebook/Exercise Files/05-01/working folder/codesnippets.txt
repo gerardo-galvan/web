@@ -1,0 +1,13 @@
+// 05-01
+
+//----- Adding DIV and headline for our Social Plug-ins -------------------------------------
+      <div id="socialplugins">
+	        <h2 class="label">Social Stuff</h2>
+	        <p>Help us share View Source by liking this app. Click on the like button below.</p>
+      </div><!--social plugins -->
+
+//----- Adding Like Button -------------------------------------
+			<div class="fb-like" data-href="http://apps.facebook.com/sourcefooo" data-send="true" data-width="450" data-show-faces="true"></div>
+
+//----- Simplifying the code -------------------------------------
+			<div class="fb-like" data-width="200"></div>

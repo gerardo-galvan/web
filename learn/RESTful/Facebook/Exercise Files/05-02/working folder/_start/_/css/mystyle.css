@@ -1,0 +1,137 @@
+.group:before, .group:after { content: "\0020"; display: block; height: 0; overflow: hidden; }  
+.group:after { clear: both; }  
+.group { zoom: 1; }  
+
+body {
+    font: normal 100% "lucida grande",tahoma,verdana,arial,sans-serif;
+}
+
+p {
+	font-size: .8em;
+}
+
+#sidebar {
+  width: 30%;
+  float: right;
+}
+
+#main {
+  width: 70%;
+  float: left;
+}
+
+h2.label {
+  width: 55%;
+  font: Normal 1.2em/1.0em Exo,sans-serif;
+  background: #3B5998;
+  padding: 6px;
+  margin: 15px 0px 10px 0px;
+  color: white;
+  text-align: left;
+}
+
+#videogroup .first h3 {
+  font: normal 1.5em/1.0em Exo,sans-serif;
+  color: #3B5998;
+  margin: 0;
+  margin-bottom: 10px;
+}
+
+#videogroup .first p {
+  font: normal .9em/1.3em "lucida grande",tahoma,verdana,arial,sans-serif;
+}
+
+#videogroup .first iframe {
+  width: 100%;
+  height:200px;
+  padding: 0;
+}
+
+
+
+#videogroup .first h3 {
+  font: normal 1.5em/1.0em Exo,sans-serif;
+  color: #3B5998;
+  margin: 0;
+  margin-bottom: 10px;
+}
+
+#videogroup .first p {
+  font: normal .9em/1.3em "lucida grande",tahoma,verdana,arial,sans-serif;
+}
+
+#videogroup ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+#videogroup li {
+  width: 50%;
+  float: left;
+  border: none;
+  position: relative;
+}
+
+#videogroup .first iframe {
+  width: 100%;
+  height:200px;
+  padding: 0;
+}
+
+#videogroup li .entriestitle {
+  padding: 0 5px;
+  position: absolute;
+  left:-110%;
+  top:0;
+  display: none;
+}
+ 
+#videogroup li:hover .entriestitle {
+  display: block;
+  width: 100%;
+  background: #3B5998;
+  color: #FFF;
+  padding: 10px;
+  opacity: .9;
+  z-index: 100;
+  right: 0;
+}
+
+
+#blog {
+  margin-top:20px;
+}
+
+#blog h3 {
+  margin-top:20px;
+  font: Normal 1.4em/1.2em Exo,sans-serif;
+  color: #078187;
+  margin: 0;
+  padding-right: 5%;
+}
+
+#blog p {
+  font: normal .9em/1.3em "lucida grande",tahoma,verdana,arial,sans-serif;
+  margin: .3em 0 1.3em 0;
+  padding-right: 5%;
+}
+
+#blog h3 a {
+  color: #3B5998;
+}
+
+#blog h3 a:hover {
+  color: #a31208;
+}
+
+#blog p a {
+  padding: 0 5px;
+  color: #456883;
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+#blog p a:hover {
+  color: #a31208;
+}

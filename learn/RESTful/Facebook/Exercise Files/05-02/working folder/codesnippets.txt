@@ -1,0 +1,11 @@
+// 05-02
+
+//----- Adding Comments -------------------------------------
+
+          <div class="fb-comments" data-width="510" data-href="https://apps.facebook.com/sourcefooo" data-num-posts="2"></div>
+
+//----- Adding a Facepile -------------------------------------
+
+        <h2 class="label">Who loves us</h2>
+        <p>Here's a list of some your friends who also like this app.</p>
+        <div class="fb-facepile" data-width="240"></div>          

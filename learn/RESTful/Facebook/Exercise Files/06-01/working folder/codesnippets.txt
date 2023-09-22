@@ -1,0 +1,25 @@
+// 06-01
+
+//----- add post to a feed under excerpts -------------------------------------
+
+output += '<a onclick="postToFeed(\'' + title + '\',\'' + link + '\',\'' + excerpt + '\');">Post to Feed</a>';
+
+//----- Add JavaScript to handle the posting -------------------------------------
+
+function postToFeed(myTitle, myLink, myExcerpt) {
+	FB.ui({
+		method: 'feed',
+		'link': myLink,
+		'picture': 'http://iviewsource.com/images/viewsourcemonogram-sm.png',
+		'name': myTitle,
+		'caption': 'View Source Blog',
+		'description': myExcerpt
+	}, function(response) {
+		if (response && response.post_id) {
+			document.getElementById('mymessage').innerHTML = "Thanks. This has been posted onto your timeline.";
+		} else {
+			document.getElementById('mymessage').innerHTML = "The post was not published.";
+		} //Response from post attempt
+	}); // Call to FB.ui
+} // postToFeed
+

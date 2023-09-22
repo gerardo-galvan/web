@@ -1,0 +1,39 @@
+// 04-03
+//----- CSS -------------------------------------
+
+.group:before, .group:after { content: "\0020"; display: block; height: 0; overflow: hidden; }  
+.group:after { clear: both; }  
+.group { zoom: 1; }  
+
+body {
+    font: normal 100% "lucida grande",tahoma,verdana,arial,sans-serif;
+}
+
+p {
+	font-size: .8em;
+}
+
+#sidebar {
+  width: 30%;
+  float: right;
+}
+
+#main {
+  width: 70%;
+  float: left;
+}
+
+//----- Content -------------------------------------
+
+    <div id="main">
+      <div id="fb-root"></div>
+      <div id="mymessage"></div>
+      <div id="welcome"></div>
+    </div>
+    <div id="sidebar">
+    	Sidebar content goes here!
+    </div><!--sidebar -->
+
+//----- JavaScript -------------------------------------
+
+$('#welcome').html("Hello " + info.education[0].first_name );

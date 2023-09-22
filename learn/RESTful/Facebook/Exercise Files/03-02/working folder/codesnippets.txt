@@ -1,0 +1,44 @@
+// 03-02
+//-----Has a user authorized your App and Logged into Facebook? --------------------
+
+  //Next, find out if the user is logged in
+	FB.getLoginStatus(function(response) {
+		if (response.status === 'connected') {
+			var uid = response.authResponse.userID;
+			accessToken = response.authResponse.accessToken;
+		}
+	});
+	
+//----- A user is logged into Facebook, but hasn't authorized your App --------------------
+
+  //Next, find out if the user is logged in
+	FB.getLoginStatus(function(response) {
+		if (response.status === 'connected') {
+			var uid = response.authResponse.userID;
+			accessToken = response.authResponse.accessToken;
+			
+		} else if (response.status === 'not_authorized') {
+			//User is logged into Facebook, but not your App
+			
+		}
+
+
+	});
+	
+//----- The user is not even logged into Facebook --------------------
+
+  //Next, find out if the user is logged in
+	FB.getLoginStatus(function(response) {
+		if (response.status === 'connected') {
+			var uid = response.authResponse.userID;
+			accessToken = response.authResponse.accessToken;
+			
+		} else if (response.status === 'not_authorized') {
+			//User is logged into Facebook, but not your App
+			
+		} else {
+			//User is not logged into Facebook at all
+			window.top.location ='https://www.facebook.com/index.php';
+		}
+	});
+	

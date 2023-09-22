@@ -1,0 +1,37 @@
+// 03-04
+//----- Redirecting to a URL -------------------------------------
+
+      var oauth_url = 'https://www.facebook.com/dialog/oauth/';
+      oauth_url += '?client_id='; //Your Client ID
+      oauth_url += '&redirect_uri=' + 'https://apps.facebook.com/sourcefooo/'; //Send them here if they're not logged in
+      oauth_url += '&scope=user_about_me,email,user_location,user_photos,publish_actions,user_birthday,user_likes';
+
+      window.top.location = oauth_url;
+	
+//----- Modifying our HTML -------------------------------------
+
+		<div id="welcome"></div>
+		<img src="images/vs_monogram.png" alt="View Source Monogram" />
+		<h2>My First App</h2>
+		<p>This is some text to make sure my app is working on Facebook</p>
+
+//----- Calling the FB.api function -------------------------------------
+
+      FB.api(uid, function(info) {
+        console.log(info);
+      });
+
+//----- Outputting the Social Graph Name -------------------------------------
+
+        document.getElementById('welcome').innerHTML="Hello there " + info.first_name;
+  
+//----- jQuery Version -------------------------------------
+
+        $('#welcome').html("Hello there " + info.first_name );
+
+//----- Using /me -------------------------------------
+
+      FB.api('/me', function(info) {
+        console.log(info);
+        $('#welcome').html("Hello there " + info.first_name );
+      });

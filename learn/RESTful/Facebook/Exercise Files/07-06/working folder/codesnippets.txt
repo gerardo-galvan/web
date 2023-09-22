@@ -1,0 +1,83 @@
+// 07-06
+
+//----- Get the Achievements for this user -------------------------------------
+
+      //Get Achievements from this user
+      FB.api( '/' + uid + '/achievements', 'get', {
+          'access_token': accessToken
+      }, function(userResponse) {
+          userAchievements=userResponse.data;
+
+          //Output User Achievements
+					if (userAchievements.length) {
+						console.log(userAchievements);
+					} else { //user has achievements
+						var output = '<p>Sorry, you have not earned any achievements yet.</p>';
+					} //user has no achievements
+          document.getElementById('userachievements').innerHTML = output;
+
+      }); // get user achievements
+
+
+
+//----- Add an achievement  -------------------------------------
+
+	  FB.api( '/'+uid+'/achievements?access_token='+appToken, 'post', {
+		  'achievement': 'https://iviewsource.com/facebook/achievement-newbie.php'
+		});
+
+//----- Check for a specific Achievement  -------------------------------------
+
+            //Check to see if user has a newbie achievement
+            var hasNewbie;
+            $.each(userAchievements, function(userIndex, userObject) {
+              if (userObject.achievement.title='Newbie Achievement') {
+                hasNewbie=true;
+                return false;
+              }
+            });
+
+            if (!(hasNewbie)) {
+              //try to post a newbie achievement to a user
+              FB.api( '/'+uid+'/achievements?access_token='+appToken, 'post', {
+                  'achievement': 'https://iviewsource.com/facebook/achievement-newbie.php'
+                });
+            } //user doesn't have newbie achievement
+
+//----- Get the Achievements for this user -------------------------------------
+
+          //Output User Achievements
+          if (userAchievements.length) {
+            output = '<h3>Your Achievements</h3>';
+
+            for (i in userAchievements) {
+            	console.log(userAchievements);
+            } //go through each User Achievement
+
+
+//----- Output Achievements for this user -------------------------------------
+
+              $.each(appAchievements, function(appIndex, appObject) {
+                  //If the user achievements match app achievements, display them.
+                  if (userAchievements[i].achievement.title==appObject.title) {
+                    output += '<div class="article group">';
+                    output += '<img src="'+appObject.image[0].url+'" alt="' + appObject.title + '">';
+                    output += '<div class="text">';
+                    output += '<h4>' + userAchievements[i].achievement.title + '</h4>';
+                    output += '<p>' + appObject.description + '</p>';
+                    output += '</div><!-- Text -->';
+                    output += '</div><!-- article -->';
+                  }; // Check if titles match
+              }); //Go through each app Achievement
+
+//----- Styles for User Achievements -------------------------------------
+
+#userachievements .article {
+	margin-bottom: 10px;
+}
+
+#userachievements .article img {
+	display: inline;
+	margin-right: 10px;
+	float: left;
+}

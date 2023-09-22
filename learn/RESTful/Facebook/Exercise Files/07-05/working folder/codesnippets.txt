@@ -1,0 +1,128 @@
+// 07-05
+
+//----- Add a Placeholder for Achievements -------------------------------------
+
+<div id="achievements">
+	<div id="appachievements" class="group"></div>
+	<div id="userachievements" class="group"></div>
+</div>
+
+//----- Add App Token Script -------------------------------------
+  <script>
+    var appToken='<?php
+      $APPLICATION_ID = 'YOUR_APP_ID';
+      $APPLICATION_SECRET = 'YOUR_APP_SECRET';
+
+      $token_url ="https://graph.facebook.com/oauth/access_token?" .
+      "client_id=" . $APPLICATION_ID .
+      "&client_secret=" . $APPLICATION_SECRET .
+      "&grant_type=client_credentials";
+      $result=file_get_contents($token_url);
+      $pieces=explode("=", $result);
+      echo $pieces[1];
+      ?>';
+  </script>
+
+//----- Add Script for getting App Achievements -------------------------------------
+
+FB.api( '/YOUR_APP_ID/achievements', 'get', {
+    'access_token': appToken
+  }, function(appResponse) {
+    //Declare variable to hold App Achievement Data
+    appAchievements=appResponse.data;
+
+    console.log(appAchievements);
+
+}); //get app achievements
+
+//----- Add Script for getting App Achievements -------------------------------------
+
+FB.api( '/YOUR_APP_ID/achievements', 'get', {
+    'access_token': appToken
+  }, function(appResponse) {
+    //Declare variable to hold App Achievement Data
+    appAchievements=appResponse.data;
+
+    //Output App Achievements
+    var output =  '<h2 class="label">Achievements</h2>';
+    output += '<p>Achievements is our way to thank you for being active in our app...To get more try interacting with our app.</p>';
+
+    output += '<h3>Available Achievements</h3>';
+    $.each(appAchievements, function(appIndex, appObject) {
+      output += '<div class="article group">';
+      output += '<img src="'+appObject.image[0].url+'" alt="' + appObject.title + '">';
+      output += '<div class="text group">';
+      output += '<h4>' + appObject.title + '</h4>';
+      output += '<p>' + appObject.description + '</p>';
+      output += '</div><!-- text -->';
+      output += '</div><!-- articles -->';
+    });
+
+      document.getElementById('appachievements').innerHTML = output;
+
+}); //get app achievements
+
+
+//----- Styles for Achievements -------------------------------------
+
+#achievements {
+	padding-bottom: 10px;
+}
+
+#achievements h3 {
+	margin: 0;
+	padding: 0;
+	padding-bottom: 10px;
+	color: #3B5998;
+	font-size: 1em;
+}
+
+#achievements h4 {
+	margin: 0;
+	padding: 0;
+	font-size: .9em;
+}
+
+#achievements p {
+	font-size: .8em;
+}
+
+#achievements img {
+  width: 50px;
+}
+
+#achievements .article h3 {
+  font-size: .9em;
+  margin: 0;
+  padding: 0;
+}
+
+#achievements .article p {
+  font-size: .7em;
+  margin: 0;
+  padding: 0;
+}
+
+#appachievements .article {
+	float: left;
+	padding-right: 10px;
+	position: relative;
+}
+
+#appachievements .article .text {
+	background: #FFF;
+	margin-left: 3%;
+	display: none;
+	position: absolute;
+	right: 80px;
+	top: -20px;
+	width: 200px;
+	text-align: right;
+	padding: 10px;
+	opacity: .9;
+  z-index: 100;
+}
+
+#appachievements .article:hover .text {
+	display: block;
+}

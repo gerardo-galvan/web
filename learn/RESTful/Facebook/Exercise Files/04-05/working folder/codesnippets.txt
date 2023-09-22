@@ -1,0 +1,15 @@
+// 04-05
+
+//----- Fixing the problem lines -------------------------------------
+
+      output +=   '<iframe src="https://www.youtube.com/embed/'+entriesID+'?wmode=transparent&amp;HD=0&amp;rel=0&amp;showinfo=0&amp;controls=1&amp;autoplay="0" frameborder="0" allowfullscreen></iframe>';
+
+      output += '<a href="https://www.youtube.com/watch?v=' + entriesID + '&feature=youtube_gdata" target="_blank"><img src="' + entriesThumbnail + '" alt=' + entriesTitle + ' /></a>';
+
+//----- Fixing the call to google's feed -------------------------------------
+
+	<script type="text/javascript" src="http://gdata.youtube.com/feeds/users/lynda/uploads?alt=json-in-script&callback=populateVideos&max-results=7&category=Villalobos"></script>
+
+//----- Adding The Placeholder for our blog content -------------------------------------
+
+    var entriesThumbnail='https://i.ytimg.com/vi/' + entriesID + '/1.jpg';

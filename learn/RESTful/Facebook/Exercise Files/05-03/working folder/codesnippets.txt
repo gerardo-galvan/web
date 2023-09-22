@@ -1,0 +1,5 @@
+// 05-03
+
+//----- Adding a Live Event -------------------------------------
+
+        <div class="fb-live-stream" data-width="510" data-height="400" data-always-post-to-friends="false"></div>
