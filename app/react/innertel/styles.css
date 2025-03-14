@@ -123,8 +123,10 @@ table.gsc-search-box td.gsc-input {
 }
 
 .gsc-search-button-v2 {
-    padding: 8px 27px !important;
+    padding: 10px !important;
     margin-top: 0px !important;
+
+    
 }
 
 .gsc-tabHeader.gsc-tabhActive {
