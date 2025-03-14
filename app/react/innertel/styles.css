@@ -119,7 +119,7 @@ table.gsc-search-box td.gsc-input {
 }
 
 .gsst_a .gscb_a {
-    color: #00b7cc !important;
+    color: #1ED15A !important;
 }
 
 .gsc-search-button-v2 {
@@ -157,7 +157,7 @@ table.gsc-search-box td.gsc-input {
 
 .gs-webResult div.gs-visibleUrl {
 
-    font-family:  'Courier New', Courier, monospace !important;
+    font-family:  'Fira Mono', Courier, monospace !important;
 
 }
 
