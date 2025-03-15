@@ -141,6 +141,7 @@ table.gsc-search-box td.gsc-input {
 
 .gs-title {
     font-size: 15px !important;
+    font-family: 'Fira Mono' !important;
 }
 
 .gsc-tabHeader.gsc-tabhActive {
