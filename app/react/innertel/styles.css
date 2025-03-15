@@ -12,6 +12,16 @@ body {
     font-family: MIB;
 }
 
+@font-face {
+    src: url("Inconsolata.ttf");
+    font-family: Inconsolata;
+}
+
+@font-face {
+    src: url("FiraMono.ttf");
+    font-family: 'Fira Mono';
+}
+
 h1 {
     font-family:  MIB;
     color: #3b3b3b;
@@ -21,7 +31,7 @@ h1 {
 }
 
 h2 {
-    font-family:  'Courier New', Courier, monospace;
+    font-family:  'Fira Mono', Courier, monospace;
     font-size: 14px;
     border: 1px solid #3d3d3d;
     border-radius: 10px;
@@ -94,7 +104,7 @@ table.gsc-search-box td.gsc-input {
 .gsc-input {
     background-color: black !important;
     color: #9E9E9E !important;
-    font-family:  'Courier New', Courier, monospace !important; 
+    font-family:  'Fira Mono', Courier, monospace !important; 
     border-top-left-radius: 8px !important;
     border-bottom-left-radius: 8px !important;
 }
