@@ -139,6 +139,10 @@ table.gsc-search-box td.gsc-input {
     
 }
 
+.gs-title {
+    font-size: 15px !important;
+}
+
 .gsc-tabHeader.gsc-tabhActive {
     background-color: rgb(34 33 32) !important;
     border-bottom: 0px solid #fff !important;
