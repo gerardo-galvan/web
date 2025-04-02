@@ -12,11 +12,14 @@
       color: #111;
       line-height: 1.6;
     }
-    header {
+    header, footer {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 20px;
+      flex-wrap: wrap;
     }
     .logo {
       font-weight: bold;
@@ -73,15 +76,6 @@
       border-radius: 6px;
       border: none;
       cursor: pointer;
-    }
-    footer {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 40px 20px;
-      font-size: 0.9rem;
-      color: #666;
-      flex-wrap: wrap;
     }
     .social-icons a {
       margin-left: 15px;
