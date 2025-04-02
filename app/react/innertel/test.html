@@ -75,16 +75,16 @@
       cursor: pointer;
     }
     footer {
-      text-align: left;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
       padding: 40px 20px;
       font-size: 0.9rem;
       color: #666;
-    }
-    .social-icons {
-      margin-top: 10px;
+      flex-wrap: wrap;
     }
     .social-icons a {
-      margin-right: 15px;
+      margin-left: 15px;
       text-decoration: none;
       color: #666;
       font-size: 1.2rem;
@@ -154,7 +154,7 @@
   </section>
 
   <footer>
-    &copy; 2025 Innertel · hello@innertel.com
+    <div>&copy; 2025 Innertel · hello@innertel.com</div>
     <div class="social-icons">
       <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
       <a href="#" aria-label="Facebook"><i class="fab fa-facebook"></i></a>
