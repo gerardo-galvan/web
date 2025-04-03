@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Markdown Viewer</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 2rem;
+      background: #f9f9f9;
+      color: #333;
+    }
+    #markdown-container {
+      background: #fff;
+      padding: 1.5rem;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+  </style>
+</head>
+<body>
+  <h1>Markdown Viewer</h1>
+  <p><a href="#" onclick="loadMarkdown()">Load Example Markdown</a></p>
+  <div id="markdown-container"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script>
+    function loadMarkdown() {
+      // Fallback hardcoded markdown as example.md may not be accessible
+      const markdownContent = `# Example Markdown\n\nThis is a **sample** markdown file loaded without fetching external resources.\n\n- Item 1\n- Item 2\n\n> Note: This content is embedded directly for environments with restricted file access.`;
+
+      const html = marked.parse(markdownContent);
+      document.getElementById('markdown-container').innerHTML = html;
+    }
+
+    // Automatically load markdown on page load
+    window.addEventListener('DOMContentLoaded', () => {
+      loadMarkdown();
+    });
+  </script>
+</body>
+</html>

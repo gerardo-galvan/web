@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Link Directory</title>
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 2rem;
+      max-width: 800px;
+      margin: auto;
+      background-color: #f9f9f9;
+    }
+    h1 {
+      text-align: center;
+    }
+    #search {
+      display: block;
+      margin: 1rem auto 2rem auto;
+      width: 100%;
+      padding: 0.5rem;
+      font-size: 1rem;
+    }
+    #content a {
+      color: #007acc;
+      text-decoration: none;
+    }
+    #content a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <h1>🌐 Link Directory</h1>
+  <input type="text" id="search" placeholder="Search links...">
+  <div id="content">Loading links...</div>
+
+  <script>
+    let rawMarkdown = '';
+
+    fetch('links.md')
+      .then(response => response.text())
+      .then(text => {
+        rawMarkdown = text;
+        document.getElementById('content').innerHTML = marked.parse(text);
+      })
+      .catch(err => {
+        document.getElementById('content').innerHTML = 'Failed to load links.';
+        console.error(err);
+      });
+
+    document.getElementById('search').addEventListener('input', function (e) {
+      const query = e.target.value.toLowerCase();
+      const filtered = rawMarkdown
+        .split('\n')
+        .filter(line => line.toLowerCase().includes(query) || line.trim().startsWith('#'))
+        .join('\n');
+      document.getElementById('content').innerHTML = marked.parse(filtered);
+    });
+  </script>
+</body>
+</html>
