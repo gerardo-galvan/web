@@ -208,11 +208,20 @@ const visiblePayments = payments.filter(p => p.user === currentUser?.email);
   <Card>
     <CardContent className="p-4">
       <h2 className="text-xl font-semibold mb-2">Your Properties</h2>
-      <ul className="list-disc pl-5 mb-4">
-        {visibleProperties.map((p, i) => (
-          <li key={i}>{p.address}</li>
-        ))}
-      </ul>
+      <table className="w-full text-left mb-4">
+  <thead>
+    <tr className="border-b border-gray-600">
+      <th className="py-2">Property Address</th>
+    </tr>
+  </thead>
+  <tbody>
+    {visibleProperties.map((p, i) => (
+      <tr key={i} className="border-b border-gray-700">
+        <td className="py-2">{p.address}</td>
+      </tr>
+    ))}
+  </tbody>
+</table>
       <div className="flex gap-2">
         <Input
           placeholder="New Property Address"
@@ -234,11 +243,26 @@ const visiblePayments = payments.filter(p => p.user === currentUser?.email);
   <Card>
     <CardContent className="p-4">
       <h2 className="text-xl font-semibold mb-2">Your Tenants</h2>
-      <ul className="list-disc pl-5 mb-4">
-        {visibleTenants.map((t, i) => (
-          <li key={i}>{t.name} – {t.property.address}</li>
-        ))}
-      </ul>
+      <table className="w-full text-left mb-4">
+  <thead>
+    <tr className="border-b border-gray-600">
+      <th className="py-2">Tenant Name</th>
+      <th className="py-2">Tenant Address</th>
+      <th className="py-2">Lease Start</th>
+      <th className="py-2">Lease End</th>
+    </tr>
+  </thead>
+  <tbody>
+    {visibleTenants.map((t, i) => (
+      <tr key={i} className="border-b border-gray-700">
+        <td className="py-2">{t.name}</td>
+        <td className="py-2">{t.property.address}</td>
+        <td className="py-2">{t.start}</td>
+        <td className="py-2">{t.end}</td>
+      </tr>
+    ))}
+  </tbody>
+</table>
       <div className="flex flex-col md:flex-row gap-2">
         <Input
           placeholder="Tenant Name"
