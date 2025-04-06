@@ -1,0 +1,287 @@
+// A simple TurboTenant-style dashboard with in-memory state and inline edit/delete with icons
+'use client';
+import { useState } from 'react';
+import { Card, CardContent } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+import { Input } from "@/components/ui/input";
+import { Pencil, Trash } from "lucide-react";
+
+export default function TurboTenantClone() {
+  const [users, setUsers] = useState([{ email: 'user@example.com', password: 'password123' }]);
+  const [currentUser, setCurrentUser] = useState(null);
+  const [view, setView] = useState('login');
+  const [login, setLogin] = useState({ email: '', password: '' });
+  const [properties, setProperties] = useState([
+    { address: "1000 yeah rd, Planet, GA 3400", user: "user@example.com" },
+    { address: "123 Elm Street, Springfield, IL 62704", user: "user@example.com" }
+  ]);
+
+  const [tenants, setTenants] = useState([
+    { name: "Jane Doe", property: properties[0], lease: [], start: "", end: "", user: "user@example.com" },
+    { name: "John Smith", property: properties[1], lease: [], start: "", end: "", user: "user@example.com" }
+  ]);
+
+  const [payments, setPayments] = useState([]);
+  const [newProperty, setNewProperty] = useState("");
+const visibleProperties = properties.filter(p => p.user === currentUser?.email);
+const visibleTenants = tenants.filter(t => t.user === currentUser?.email);
+const visiblePayments = payments.filter(p => p.user === currentUser?.email);
+  const [newTenant, setNewTenant] = useState({ name: "", property: properties[0], lease: [], start: "", end: "" });
+  const [newPayment, setNewPayment] = useState({ tenant: tenants[0]?.name || "", amount: "", due: "", date: "" });
+
+  const [editingPropertyIndex, setEditingPropertyIndex] = useState(null);
+  const [editingTenantIndex, setEditingTenantIndex] = useState(null);
+  const [editingPaymentIndex, setEditingPaymentIndex] = useState(null);
+
+  const deleteTenant = (index) => {
+    const updated = [...tenants];
+    updated.splice(index, 1);
+    setTenants(updated);
+  };
+
+  const deletePayment = (index) => {
+    const updated = [...payments];
+    updated.splice(index, 1);
+    setPayments(updated);
+  };
+
+  const deleteProperty = (index) => {
+    const updated = [...properties];
+    updated.splice(index, 1);
+    setProperties(updated);
+  };
+
+  const getTenantLabel = (tenantName) => {
+    const tenant = tenants.find(t => t.name === tenantName);
+    return tenant ? `${tenant.name} – ${tenant.property}` : tenantName;
+  };
+
+  const handleExportCSV = () => {
+    const headers = ["Tenant", "Amount Paid", "Rent Due", "Balance", "Date Paid"];
+    const rows = payments.map(p => [
+      getTenantLabel(p.tenant),
+      p.amount,
+      p.due,
+      (parseFloat(p.amount || 0) - parseFloat(p.due || 0)).toFixed(2),
+      p.date
+    ]);
+    const csvContent = [headers, ...rows].map(e => e.join(",")).join("\n");
+    const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.setAttribute("href", url);
+    link.setAttribute("download", "rent_ledger.csv");
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+  const handleExportExcel = async () => {
+    const headers = ["Tenant", "Amount Paid", "Rent Due", "Balance", "Date Paid"];
+    const rows = payments.map(p => [
+      getTenantLabel(p.tenant),
+      p.amount,
+      p.due,
+      (parseFloat(p.amount || 0) - parseFloat(p.due || 0)).toFixed(2),
+      p.date
+    ]);
+
+    const XLSX = await import("xlsx");
+    const worksheet = XLSX.utils.aoa_to_sheet([headers, ...rows]);
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(workbook, worksheet, "Rent Ledger");
+
+    const excelBuffer = XLSX.write(workbook, { bookType: "xlsx", type: "array" });
+    const blob = new Blob([excelBuffer], { type: "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" });
+
+    const url = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "rent_ledger.xlsx";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
+  return (
+    <div className="p-6 bg-gray-900 min-h-screen text-white">
+      <h1 className="text-3xl font-bold mb-6">🏠 Property Management Dashboard</h1>
+
+      {!currentUser ? (
+        <div className="mb-6 space-y-2">
+          <Input placeholder="Email" className="text-black" value={login.email} onChange={e => setLogin({ ...login, email: e.target.value })} />
+          <Input type="password" placeholder="Password" className="text-black" value={login.password} onChange={e => setLogin({ ...login, password: e.target.value })} />
+          <div className="flex gap-2">
+            {view === 'login' ? (
+              <>
+                <Button onClick={() => {
+                  const match = users.find(u => u.email === login.email && u.password === login.password);
+                  if (match) setCurrentUser(match);
+                  else alert('Invalid credentials');
+                }}>Login</Button>
+                <Button variant="outline" onClick={() => setView('register')}>Switch to Register</Button>
+              </>
+            ) : (
+              <>
+                <Button className="bg-green-600 hover:bg-green-700" onClick={() => {
+                  if (!login.email || !login.password) return alert('Please enter email and password');
+                  const exists = users.find(u => u.email === login.email);
+                  if (exists) return alert('User already exists');
+                  const newUser = { email: login.email, password: login.password };
+                  setUsers([...users, newUser]);
+                  setCurrentUser(newUser);
+                  alert('Account created!');
+                }}>Register</Button>
+                <Button variant="outline" onClick={() => setView('login')}>Back to Login</Button>
+              </>
+            )}
+          </div>
+        </div>
+      ) : (
+        <div className="mb-6">Welcome, {currentUser.email} <Button onClick={() => setCurrentUser(null)}>Logout</Button></div>
+      )}
+
+      <div className="flex gap-2 mb-4">
+        <Button onClick={handleExportCSV}>📁 Export to CSV</Button>
+        <Button onClick={handleExportExcel}>📊 Export to Excel</Button>
+      </div>
+
+      {currentUser && (
+        <Tabs defaultValue="tenants">
+          <TabsList className="bg-gray-800 mb-4">
+            <TabsTrigger value="properties">Properties</TabsTrigger>
+            <TabsTrigger value="tenants">Tenants</TabsTrigger>
+            <TabsTrigger value="rent">Rent Ledger</TabsTrigger>
+          </TabsList>
+
+          <TabsContent value="rent">
+  <Card>
+    <CardContent className="p-4">
+      <h2 className="text-xl font-semibold mb-2">Your Rent Ledger</h2>
+      <ul className="list-disc pl-5 mb-4">
+        {visiblePayments.map((p, i) => (
+          <li key={i}>{p.tenant} paid ${p.amount} on {p.date} (due ${p.due})</li>
+        ))}
+      </ul>
+      <div className="flex flex-col md:flex-row gap-2">
+        <select
+          value={newPayment.tenant}
+          onChange={(e) => setNewPayment({ ...newPayment, tenant: e.target.value })}
+          className="text-black p-2 rounded"
+        >
+          {visibleTenants.map((t, i) => (
+            <option key={i} value={t.name}>{t.name}</option>
+          ))}
+        </select>
+        <Input
+          placeholder="Amount Paid"
+          type="number"
+          className="text-black"
+          value={newPayment.amount}
+          onChange={(e) => setNewPayment({ ...newPayment, amount: e.target.value })}
+        />
+        <Input
+          placeholder="Rent Due"
+          type="number"
+          className="text-black"
+          value={newPayment.due}
+          onChange={(e) => setNewPayment({ ...newPayment, due: e.target.value })}
+        />
+        <Input
+          type="date"
+          className="text-black"
+          value={newPayment.date}
+          onChange={(e) => setNewPayment({ ...newPayment, date: e.target.value })}
+        />
+        <Button onClick={() => {
+          if (newPayment.tenant && newPayment.amount && newPayment.due && newPayment.date) {
+            setPayments([...payments, { ...newPayment, user: currentUser.email }]);
+            setNewPayment({ tenant: tenants[0]?.name || "", amount: "", due: "", date: "" });
+          }
+        }}>+ Add Payment</Button>
+      </div>
+    </CardContent>
+  </Card>
+</TabsContent>
+          <TabsContent value="properties">
+  <Card>
+    <CardContent className="p-4">
+      <h2 className="text-xl font-semibold mb-2">Your Properties</h2>
+      <ul className="list-disc pl-5 mb-4">
+        {visibleProperties.map((p, i) => (
+          <li key={i}>{p.address}</li>
+        ))}
+      </ul>
+      <div className="flex gap-2">
+        <Input
+          placeholder="New Property Address"
+          value={newProperty}
+          onChange={(e) => setNewProperty(e.target.value)}
+          className="text-black"
+        />
+        <Button onClick={() => {
+          if (newProperty.trim()) {
+            setProperties([...properties, { address: newProperty.trim(), user: currentUser.email }]);
+            setNewProperty("");
+          }
+        }}>+ Add Property</Button>
+      </div>
+    </CardContent>
+  </Card>
+</TabsContent>
+          <TabsContent value="tenants">
+  <Card>
+    <CardContent className="p-4">
+      <h2 className="text-xl font-semibold mb-2">Your Tenants</h2>
+      <ul className="list-disc pl-5 mb-4">
+        {visibleTenants.map((t, i) => (
+          <li key={i}>{t.name} – {t.property.address}</li>
+        ))}
+      </ul>
+      <div className="flex flex-col md:flex-row gap-2">
+        <Input
+          placeholder="Tenant Name"
+          value={newTenant.name}
+          onChange={(e) => setNewTenant({ ...newTenant, name: e.target.value })}
+          className="text-black"
+        />
+        <select
+          value={newTenant.property?.address || ""}
+          onChange={(e) => {
+            const selected = visibleProperties.find(p => p.address === e.target.value);
+            setNewTenant({ ...newTenant, property: selected });
+          }}
+          className="text-black p-2 rounded"
+        >
+          {visibleProperties.map((p, i) => (
+            <option key={i} value={p.address}>{p.address}</option>
+          ))}
+        </select>
+        <Input
+          type="date"
+          className="text-black"
+          value={newTenant.start}
+          onChange={(e) => setNewTenant({ ...newTenant, start: e.target.value })}
+        />
+        <Input
+          type="date"
+          className="text-black"
+          value={newTenant.end}
+          onChange={(e) => setNewTenant({ ...newTenant, end: e.target.value })}
+        />
+        <Button onClick={() => {
+          if (newTenant.name.trim() && newTenant.property) {
+            setTenants([...tenants, { ...newTenant, user: currentUser.email }]);
+            setNewTenant({ name: "", property: properties[0], lease: [], start: "", end: "" });
+          }
+        }}>+ Add Tenant</Button>
+      </div>
+    </CardContent>
+  </Card>
+</TabsContent>
+        </Tabs>
+      )}
+    </div>
+  );
+}
