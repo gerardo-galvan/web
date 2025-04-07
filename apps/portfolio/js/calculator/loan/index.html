@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Loan Calculator</title>
+</head>
+<body>
+  <h2>Loan Interest & Balance Calculator</h2>
+
+  <label>Loan Amount ($):</label>
+  <input type="number" id="loanAmount"><br><br>
+
+  <label>Annual Interest Rate (%):</label>
+  <input type="number" id="interestRate" step="0.01"><br><br>
+
+  <label>Loan Term (Years):</label>
+  <input type="number" id="loanTerm"><br><br>
+
+  <label>Months Paid:</label>
+  <input type="number" id="monthsPaid"><br><br>
+
+  <button onclick="calculateLoan()">Calculate</button>
+
+  <h3>Results:</h3>
+  <p id="monthlyPayment"></p>
+  <p id="totalInterest"></p>
+  <p id="remainingBalance"></p>
+
+  <script>
+    function calculateLoan() {
+      const principal = parseFloat(document.getElementById("loanAmount").value);
+      const annualRate = parseFloat(document.getElementById("interestRate").value) / 100;
+      const years = parseInt(document.getElementById("loanTerm").value);
+      const monthsPaid = parseInt(document.getElementById("monthsPaid").value);
+
+      const totalMonths = years * 12;
+      const monthlyRate = annualRate / 12;
+
+      const monthlyPayment = principal * (monthlyRate * Math.pow(1 + monthlyRate, totalMonths)) / 
+                             (Math.pow(1 + monthlyRate, totalMonths) - 1);
+
+      const totalPaid = monthlyPayment * totalMonths;
+      const totalInterest = totalPaid - principal;
+
+      // Remaining balance formula
+      const remainingBalance = principal * Math.pow(1 + monthlyRate, monthsPaid) -
+                               (monthlyPayment * (Math.pow(1 + monthlyRate, monthsPaid) - 1) / monthlyRate);
+
+      document.getElementById("monthlyPayment").innerText = 
+        "Monthly Payment: $" + monthlyPayment.toFixed(2);
+      document.getElementById("totalInterest").innerText = 
+        "Total Interest over life: $" + totalInterest.toFixed(2);
+      document.getElementById("remainingBalance").innerText = 
+        "Remaining Balance after " + monthsPaid + " months: $" + remainingBalance.toFixed(2);
+    }
+  </script>
+</body>
+</html>
