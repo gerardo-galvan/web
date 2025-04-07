@@ -8,17 +8,17 @@ body {
 }
 
 @font-face {
-    src: url("MIB.ttf");
+    src: url("../fonts/MIB.ttf");
     font-family: MIB;
 }
 
 @font-face {
-    src: url("Inconsolata.ttf");
+    src: url("../fonts/Inconsolata.ttf");
     font-family: Inconsolata;
 }
 
 @font-face {
-    src: url("FiraMono.ttf");
+    src: url("../fonts/FiraMono.ttf");
     font-family: 'Fira Mono';
 }
 
