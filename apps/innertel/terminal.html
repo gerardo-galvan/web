@@ -1,0 +1,32 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Web Terminal</title>
+  <style>
+    body { font-family: monospace; background: #111; color: #0f0; padding: 1rem; }
+    input, button { background: #222; color: #0f0; border: none; padding: 0.5rem; width: 100%; }
+    pre { white-space: pre-wrap; margin-top: 1rem; }
+  </style>
+</head>
+<body>
+  <h1>🖥️ Web Terminal</h1>
+  <input type="text" id="commandInput" placeholder="Enter command..." autofocus />
+  <button onclick="runCommand()">Run</button>
+  <pre id="output"></pre>
+
+  <script>
+    async function runCommand() {
+      const command = document.getElementById('commandInput').value;
+      const res = await fetch('http://localhost:3000/run', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ command })
+      });
+      const data = await res.json();
+      document.getElementById('output').textContent = data.output;
+    }
+  </script>
+</body>
+</html>
