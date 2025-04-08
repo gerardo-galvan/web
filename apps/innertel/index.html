@@ -88,13 +88,13 @@
     const files = Array.from({ length: 1 }, () => {
       const id = Math.floor(Math.random() * 9000) + 1000;
       return [
-        { text: `📄 Reading metadata: file_${id}.txt`, class: "magenta", delay: 300 },
-        { text: `📦 Archiving to internal storage: /archives/file_${id}.txt`, class: "cyan", delay: 300 },
+        { text: `📄 Reading metadata: file_${id}.json`, class: "magenta", delay: 300 },
+        { text: `📦 Archiving to internal storage: /innertel/file_${id}.json`, class: "cyan", delay: 300 },
       ];
     }).flat();
 
     const endSteps = [
-      { text: "📡 Archive live at: /innertel/archive", class: "green", delay: 700 },
+      { text: "📂 Archive live at: /innertel/archive", class: "green", delay: 700 },
     ];
 
     const successMessage = "\n✅ ARCHIVE COMPLETE — ALL SYSTEMS OPERATIONAL\n";
