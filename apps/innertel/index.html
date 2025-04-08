@@ -28,26 +28,32 @@
     .bright { font-weight: bold; }
 
     .progress-container {
-      width: 100%;
-      background: #333;
-      border-radius: 5px;
-      margin-top: 10px;
-      height: 25px;
-      overflow: hidden;
-      position: relative;
-    }
+  width: 100%;
+  background: #333;
+  border-radius: 5px;
+  margin-top: 10px;
+  height: 25px;
+  overflow: hidden;
+  position: relative;
+}
 
-    .progress-bar {
-      height: 100%;
-      width: 0%;
-      background: #00ff00;
-      transition: width 0.1s linear;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      color: #000;
-      font-weight: bold;
-    }
+.progress-bar {
+  height: 100%;
+  width: 0%;
+  background: #00ff00;
+  transition: width 0.1s linear;
+}
+
+.progress-label {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #000;
+  font-weight: bold;
+  pointer-events: none;
+}
+
   </style>
 </head>
 <body>
@@ -108,31 +114,38 @@
     }
 
     function showProgressBar() {
-      const container = document.createElement("div");
-      container.className = "progress-container";
+  const container = document.createElement("div");
+  container.className = "progress-container";
 
-      const bar = document.createElement("div");
-      bar.className = "progress-bar";
-      bar.innerText = "0%";
-      container.appendChild(bar);
-      terminal.appendChild(container);
+  const bar = document.createElement("div");
+  bar.className = "progress-bar";
 
-      let width = 0;
-      const interval = setInterval(() => {
-        width += 1;
-        bar.style.width = width + "%";
-        bar.innerText = width + "%";
-        if (width >= 100) {
-          clearInterval(interval);
-          appendLine(successMessage, "green bright");
+  const label = document.createElement("div");
+  label.className = "progress-label";
+  label.innerText = "0%";
 
-          // ✅ Redirect after delay
-          setTimeout(() => {
-            window.location.href = "search.html"; // Change as needed
-          }, 2000);
-        }
-      }, 20);
+  container.appendChild(bar);
+  container.appendChild(label);
+  terminal.appendChild(container);
+
+  let width = 0;
+  const interval = setInterval(() => {
+    width += 1;
+    bar.style.width = width + "%";
+    label.innerText = width + "%";
+
+    if (width >= 100) {
+      clearInterval(interval);
+      appendLine(successMessage, "green bright");
+
+      // ✅ Redirect after short delay
+      setTimeout(() => {
+        window.location.href = "search.html";
+      }, 2000);
     }
+  }, 20);
+}
+
 
     async function runTerminalSimulation() {
       const sequence = [...steps, ...files, ...endSteps];
