@@ -2,9 +2,6 @@ function innertel () {
     window.open("search.html", "_self");
 }
 
-
-
-
 function hide () {
     setTimeout(function() {
         $('#logo').fadeOut('slow');
@@ -12,6 +9,11 @@ function hide () {
 }
 
  
+setTimeout(function() {
+    window.location.href = './loading.html';
+  }, 1000);
+
+
 /* hide(); */
 
 /*
@@ -45,11 +47,5 @@ function chat() {
 chat();
 
 
-/* redirect to ai page 
 
-var timer = setTimeout(function() {
-    window.location='ai.html'
-}, 1000);
-
-*/
  

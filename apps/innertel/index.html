@@ -1,185 +1,49 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="description" content="Public archive preserving the complexity of our past and present. Curated by the algorithm. ">
+<html>
+    <head>
+        
+        <meta name="description" content="Public archive preserving the complexity of our past and present. Curated by the algorithm. ">
         <meta name="keywords" content="AI, Automation, Photography, Architecture, Nature, Film, Curation, Fashion, Images, Videos, Retro, Futurism, Escapism, Self-Expression, Comfort, Visionary, Cyberpunk, Dystopia, Utopia, Aliens, Intergalactic, Space Travel, Tech, Science, Inner, Emotions, Thoughs, Ideas, Transmission, Self-Discovery, Chat, Chatbot, Digital Museum, Art, Magazine, Minimal, Brutalism, Music">
         <meta name="author" content="G">
-
-  <title>INNERTEL</title>
-  <style>
-    body {
-      background: #111;
-      color: #eee;
-      font-family: monospace;
-      padding: 20px;
-    }
-    .terminal {
-      background-color: #000;
-      padding: 20px;
-      border-radius: 8px;
-      box-shadow: 0 0 10px #0f0;
-      max-width: 800px;
-      margin: auto;
-      white-space: pre-wrap;
-      line-height: 1.4;
-    }
-    .green { color: #00ff00; }
-    .blue { color: #00ccff; }
-    .yellow { color: #ffff66; }
-    .magenta { color: #ff66ff; }
-    .cyan { color: #66ffff; }
-    .bright { font-weight: bold; }
-
-    .progress-container {
-      width: 100%;
-      background: #333;
-      border-radius: 5px;
-      margin-top: 10px;
-      height: 25px;
-      overflow: hidden;
-      position: relative;
-    }
-
-    .progress-bar {
-      height: 100%;
-      width: 0%;
-      background: #00ff00;
-      transition: width 0.1s linear;
-    }
-
-    .progress-label {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      color: #000;
-      font-weight: bold;
-      pointer-events: none;
-    }
-
-  </style>
-</head>
-<body>
-  <div class="terminal" id="terminal"></div>
-
-  <script>
-    const terminal = document.getElementById("terminal");
-
-    const steps = [
-    { text: "🤖 Initiating innertel engine...", class: "green", delay: 600 },
-    { text: "🌐 Connecting to open web image stream...", class: "blue", delay: 800 },
-    { text: "🔍 Searching for public image content (keywords: architecture, brutalism, retro, futurism)...", class: "yellow", delay: 1000 },
-
-    // Simulated photo files
-    { text: "🖼️ Found image: brutalism_2600.jpg", class: "magenta", delay: 300 },
-    { text: "📎 Indexing metadata: resolution=1920x1080, tags=[architecture, brutalism, modern]", class: "cyan", delay: 300 },
-    { text: "💾 Storing to: /innertel/archive/brutalism_2600.jpg", class: "green", delay: 400 },
-
-    { text: "🖼️ Found image: neon_city_8831.jpg", class: "magenta", delay: 300 },
-    { text: "📎 Indexing metadata: resolution=1280x720, tags=[city, night, neon]", class: "cyan", delay: 300 },
-    { text: "💾 Storing to: /innertel/archive/neon_city_8831.jpg", class: "green", delay: 400 },
-
-    { text: "🖼️ Found image: mountain_trail_4482.jpg", class: "magenta", delay: 300 },
-    { text: "📎 Indexing metadata: resolution=2048x1365, tags=[mountain, hiking, nature]", class: "cyan", delay: 300 },
-    { text: "💾 Storing to: /innertel/archive/mountain_trail_4482.jpg", class: "green", delay: 400 },
-
-    { text: "🖼️ Found image: portrait_mira_1901.jpg", class: "magenta", delay: 300 },
-    { text: "📎 Indexing metadata: resolution=1080x1350, tags=[portrait, woman, studio]", class: "cyan", delay: 300 },
-    { text: "💾 Storing to: /innertel/archive/portrait_mira_1901.jpg", class: "green", delay: 400 },
-
-    { text: "🧠 Compressing and optimizing stored images...", class: "yellow", delay: 1000 },
-    { text: "📡 Uploading photo archive to live server...", class: "blue", delay: 1000 },
-    ];
-
-    const files = Array.from({ length: 1 }, () => {
-      const id = new Date().toISOString().replace(/[-:T]/g, "").slice(0, 8);
-      return [
-        { text: `📄 Creating archive metadata: images_${id}.json`, class: "magenta", delay: 300 },
-        { text: `📦 Uploading metadata: /innertel/archive/images_${id}.json`, class: "cyan", delay: 300 },
-      ];
-    }).flat();
-
-    const endSteps = [
-      { text: "📂 Archive live at: /innertel/archive", class: "green", delay: 700 },
-    ];
-
-    const successMessage = "\n✅ ARCHIVE COMPLETE — ALL SYSTEMS OPERATIONAL\n";
-
-    function appendLine(text, cssClass) {
-      const span = document.createElement("span");
-      span.className = cssClass;
-      span.textContent = text + "\n";
-      terminal.appendChild(span);
-      terminal.scrollTop = terminal.scrollHeight;
-    }
-
-    function showProgressBar() {
-  const container = document.createElement("div");
-  container.className = "progress-container";
-
-  const bar = document.createElement("div");
-  bar.className = "progress-bar";
-
-  const label = document.createElement("div");
-  label.className = "progress-label";
-  label.innerText = "0%";
-
-  container.appendChild(bar);
-  container.appendChild(label);
-  terminal.appendChild(container);
-
-  let width = 0;
-  const interval = setInterval(() => {
-    width += 1;
-    bar.style.width = width + "%";
-    label.innerText = width + "%";
-
-    if (width >= 100) {
-      clearInterval(interval);
-      appendLine(successMessage, "green bright");
-
-      // ✅ Redirect after short delay
-      setTimeout(() => {
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="p:domain_verify" content="55b306c09195d0f088203d4396f17e45"/>
+        <meta name="theme-color" content="#000000">
+        <link rel="icon" type="image/x-icon" href="favicon.ico">
+        <link rel="stylesheet" href="css/styles.css" />
 
 
-  const topics = [
-  "architecture brutalism",
-  "retro futurism",  
-  "space exploration",
-  "cyberpunk city",
-  "sci-fi landscape" 
-];
+        <title>INNERTEL</title>
+    </head>
+    <body>
+        <div  id="logo" onclick="innertel()">
+        <img src="images/blink.GIF" class="blink">  
+        </div>
+         
+        <div  id="search"> 
+            <h1 class="logo_text"> INNERTEL </h1>
+            <script async src="https://cse.google.com/cse.js?cx=30a07e2f00d574c06">
+            </script>
+            <div class="gcse-search"></div>
+        </div>
 
-        const generateRandomLink = () => {
-  const topic = topics[Math.floor(Math.random() * topics.length)];
-  const encodedTopic = encodeURIComponent(topic); // Handles spaces
-  const page = Math.floor(Math.random() * 5) + 1; // Pages 1–5
-  return `search.html#gsc.tab=1&gsc.q=${encodedTopic}&gsc.sort=&gsc.page=${page}`;
-};
+     
+        <div  id="chat_div"> 
+            <h1 class="logo_text">INNERTEL</h1> 
+        </div>
 
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+        <script src="js/index.js"></script>
+        
+        <script language="javascript" type="text/javascript">
 
-const loadImages = generateRandomLink();
-
-
-window.location.href = loadImages;
-      }, 2000);
-    }
-  }, 20);
-}
-
-
-    async function runTerminalSimulation() {
-      const sequence = [...steps, ...files, ...endSteps];
-      for (const step of sequence) {
-        appendLine(step.text, step.class);
-        await new Promise(res => setTimeout(res, step.delay));
-      }
-      appendLine("Finalizing...\n", "cyan");
-      showProgressBar();
-    }
-
-    runTerminalSimulation();
-  </script>
-</body>
+            function resizeIframe(obj) {
+            
+                jQuery(document).ready(function($) {
+            
+                    $(obj).animate({height: obj.contentWindow.document.body.scrollHeight + 'px'}, 500)
+            
+                });
+            
+            }    
+            </script>
+    </body>
 </html>

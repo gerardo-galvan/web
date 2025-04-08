@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>innertel.sh</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
+
+    body {
+      background-color: #000;
+      color: #0f0;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 1.2rem;
+      margin: 0;
+      padding: 40px;
+      overflow: hidden;
+    }
+
+    .terminal-line,
+    .progress-container,
+    #main-content {
+      display: none;
+    }
+
+    .show {
+      display: block;
+    }
+
+    .terminal-line {
+      white-space: pre;
+      overflow: hidden;
+      border-right: 2px solid #0f0;
+      animation: typing 2s steps(40, end), blink 0.75s step-end infinite;
+    }
+
+    @keyframes typing {
+      from { width: 0 }
+      to { width: 100% }
+    }
+
+    @keyframes blink {
+      50% { border-color: transparent }
+    }
+
+    .glitch {
+      animation: glitch 0.2s infinite;
+    }
+
+    @keyframes glitch {
+      0% { text-shadow: 2px 0 red, -2px 0 blue; }
+      50% { text-shadow: -2px 0 red, 2px 0 blue; }
+      100% { text-shadow: 2px 0 red, -2px 0 blue; }
+    }
+
+    .progress-container {
+      margin-top: 10px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      color: #000; /* Initially black text */
+    }
+
+    .progress-bar {
+      width: 20ch;
+      height: 1em;
+      border: 1px solid rgb(0, 0, 0);
+      background-color: #000;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .bar-fill {
+      background-color: #000; /* Initially black */
+      height: 100%;
+      width: 0%;
+      transition: width 0.04s linear, background-color 0.2s ease;
+    }
+
+    #main-content {
+      opacity: 0;
+      transition: opacity 2s ease;
+      margin-top: 40px;
+    }
+
+    body.loaded #main-content {
+      opacity: 1;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="line1" class="terminal-line">./innertel.sh --exec</div>
+  <div id="line2" class="terminal-line">↳ [ observe :: archive :: index :: publish ]</div>
+  <div id="line3" class="terminal-line">↳ status: loading...</div>
+
+  <!-- Progress bar and % -->
+  <div id="progress" class="progress-container">
+    <div class="progress-bar">
+      <div class="bar-fill" id="bar"></div>
+    </div>
+    <div id="percent">0%</div>
+  </div>
+
+  <div id="line4" class="terminal-line glitch">↳ signal: steady // no anomalies</div>
+
+  <div id="main-content">
+    <h1 style="color: #fff;">📁 innertel: photo archive now live</h1>
+  </div>
+
+  <audio id="typeSound" src="https://assets.mixkit.co/sfx/preview/mixkit-retro-typewriter-1124.mp3"></audio>
+
+  <script>
+    const audio = document.getElementById('typeSound');
+
+    const lines = [
+      { id: 'line1', delay: 500 },
+      { id: 'line2', delay: 2500 },
+      { id: 'line3', delay: 4500 },
+      { id: 'line4', delay: 11000 }
+    ];
+
+    lines.forEach(line => {
+      setTimeout(() => {
+        document.getElementById(line.id).classList.add('show');
+        audio.currentTime = 0;
+        audio.play();
+      }, line.delay);
+    });
+
+    const bar = document.getElementById("bar");
+    const percent = document.getElementById("percent");
+    const progressContainer = document.getElementById("progress");
+    let progress = 0;
+
+    // Reveal progress bar and start animation together
+    setTimeout(() => {
+      progressContainer.classList.add("show");
+      bar.style.backgroundColor = "#0f0"; // change to green when loading starts
+      progressContainer.style.color = "#0f0"; // percent text turns green too
+
+      const interval = setInterval(() => {
+        if (progress >= 100) {
+          clearInterval(interval);
+          document.body.classList.add('loaded');
+          setTimeout(() => {
+            window.location.href = "search.html";
+          }, 1000);
+        } else {
+          progress++;
+          bar.style.width = progress + "%";
+          percent.textContent = progress + "%";
+        }
+      }, 40);
+    }, 6500);
+  </script>
+
+</body>
+</html>
