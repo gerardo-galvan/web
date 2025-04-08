@@ -141,7 +141,28 @@
 
       // ✅ Redirect after short delay
       setTimeout(() => {
-        window.location.href = "search.html#gsc.tab=1&gsc.q=architecture%20brutalism&gsc.sort=&gsc.page=2";
+
+
+  const topics = [
+  "architecture brutalism",
+  "retro futurism",  
+  "space exploration",
+  "cyberpunk city",
+  "sci-fi landscape" 
+];
+
+        const generateRandomLink = () => {
+  const topic = topics[Math.floor(Math.random() * topics.length)];
+  const encodedTopic = encodeURIComponent(topic); // Handles spaces
+  const page = Math.floor(Math.random() * 5) + 1; // Pages 1–5
+  return `search.html#gsc.tab=1&gsc.q=${encodedTopic}&gsc.sort=&gsc.page=${page}`;
+};
+
+
+const loadImages = generateRandomLink();
+
+
+window.location.href = loadImages;
       }, 2000);
     }
   }, 20);
