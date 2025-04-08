@@ -57,10 +57,33 @@
     const terminal = document.getElementById("terminal");
 
     const steps = [
-      { text: "🧠 Initiating bot script...", class: "green", delay: 600 },
-      { text: "🌐 Connecting to internet global stream...", class: "blue", delay: 600 },
-      { text: "🔍 Searching internet for public files...", class: "yellow", delay: 800 },
+    { text: "🤖 Starting innertel engine...", class: "green", delay: 600 },
+  { text: "🌐 Connecting to open web image stream...", class: "blue", delay: 800 },
+  { text: "🔍 Searching for public image content (keywords: architecture, brutalism, futurism)...", class: "yellow", delay: 1000 },
+
+  // Simulated photo files
+  { text: "🖼️ Found image: brutalism_2600.jpg", class: "magenta", delay: 300 },
+  { text: "📎 Indexing metadata: resolution=1920x1080, tags=[architecture, brutalism, modern]", class: "cyan", delay: 300 },
+  { text: "💾 Storing to: /photos/brutalism_2600.jpg", class: "green", delay: 400 },
+
+  { text: "🖼️ Found image: neon_city_8831.jpg", class: "magenta", delay: 300 },
+  { text: "📎 Indexing metadata: resolution=1280x720, tags=[city, night, neon]", class: "cyan", delay: 300 },
+  { text: "💾 Storing to: /photos/neon_city_8831.jpg", class: "green", delay: 400 },
+
+  { text: "🖼️ Found image: mountain_trail_4482.jpg", class: "magenta", delay: 300 },
+  { text: "📎 Indexing metadata: resolution=2048x1365, tags=[mountain, hiking, nature]", class: "cyan", delay: 300 },
+  { text: "💾 Storing to: /photos/mountain_trail_4482.jpg", class: "green", delay: 400 },
+
+  { text: "🖼️ Found image: portrait_mira_1901.jpg", class: "magenta", delay: 300 },
+  { text: "📎 Indexing metadata: resolution=1080x1350, tags=[portrait, woman, studio]", class: "cyan", delay: 300 },
+  { text: "💾 Storing to: /photos/portrait_mira_1901.jpg", class: "green", delay: 400 },
+
+  { text: "🧠 Compressing and optimizing stored images...", class: "yellow", delay: 1000 },
+  { text: "📡 Uploading indexed photo archive to live server...", class: "blue", delay: 1000 },
+
     ];
+
+     
 
     const files = Array.from({ length: 5 }, () => {
       const id = Math.floor(Math.random() * 9000) + 1000;
@@ -71,10 +94,10 @@
     }).flat();
 
     const endSteps = [
-      { text: "📡 Broadcasting archive live at: innertel/archive", class: "green", delay: 700 },
+      { text: "📡 Archive live at: /innertel/archive", class: "green", delay: 700 },
     ];
 
-    const successMessage = "\n✅ ARCHIVE COMPLETE — ALL SYSTEMS GO\n";
+    const successMessage = "\n✅ ARCHIVE COMPLETE — ALL SYSTEMS OPERATIONAL\n";
 
     function appendLine(text, cssClass) {
       const span = document.createElement("span");
