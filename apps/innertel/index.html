@@ -93,7 +93,7 @@
     ];
 
     const files = Array.from({ length: 1 }, () => {
-      const id = Math.floor(Math.random() * 9000) + 1000;
+      const id = new Date().toISOString().replace(/[-:T]/g, "").slice(0, 8);
       return [
         { text: `📄 Creating archive metadata: innertel_${id}.json`, class: "magenta", delay: 300 },
         { text: `📦 Uploading archive metadata: /innertel/archive/innertel_${id}.json`, class: "cyan", delay: 300 },
