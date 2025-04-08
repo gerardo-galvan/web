@@ -32,31 +32,31 @@
     .bright { font-weight: bold; }
 
     .progress-container {
-  width: 100%;
-  background: #333;
-  border-radius: 5px;
-  margin-top: 10px;
-  height: 25px;
-  overflow: hidden;
-  position: relative;
-}
+      width: 100%;
+      background: #333;
+      border-radius: 5px;
+      margin-top: 10px;
+      height: 25px;
+      overflow: hidden;
+      position: relative;
+    }
 
-.progress-bar {
-  height: 100%;
-  width: 0%;
-  background: #00ff00;
-  transition: width 0.1s linear;
-}
+    .progress-bar {
+      height: 100%;
+      width: 0%;
+      background: #00ff00;
+      transition: width 0.1s linear;
+    }
 
-.progress-label {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  color: #000;
-  font-weight: bold;
-  pointer-events: none;
-}
+    .progress-label {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: #000;
+      font-weight: bold;
+      pointer-events: none;
+    }
 
   </style>
 </head>
@@ -68,38 +68,35 @@
 
     const steps = [
     { text: "🤖 Initiating innertel engine...", class: "green", delay: 600 },
-  { text: "🌐 Connecting to open web image stream...", class: "blue", delay: 800 },
-  { text: "🔍 Searching for public image content (keywords: architecture, brutalism, futurism)...", class: "yellow", delay: 1000 },
+    { text: "🌐 Connecting to open web image stream...", class: "blue", delay: 800 },
+    { text: "🔍 Searching for public image content (keywords: architecture, brutalism, retro, futurism)...", class: "yellow", delay: 1000 },
 
-  // Simulated photo files
-  { text: "🖼️ Found image: brutalism_2600.jpg", class: "magenta", delay: 300 },
-  { text: "📎 Indexing metadata: resolution=1920x1080, tags=[architecture, brutalism, modern]", class: "cyan", delay: 300 },
-  { text: "💾 Storing to: /photos/brutalism_2600.jpg", class: "green", delay: 400 },
+    // Simulated photo files
+    { text: "🖼️ Found image: brutalism_2600.jpg", class: "magenta", delay: 300 },
+    { text: "📎 Indexing metadata: resolution=1920x1080, tags=[architecture, brutalism, modern]", class: "cyan", delay: 300 },
+    { text: "💾 Storing to: /innertel/archive/brutalism_2600.jpg", class: "green", delay: 400 },
 
-  { text: "🖼️ Found image: neon_city_8831.jpg", class: "magenta", delay: 300 },
-  { text: "📎 Indexing metadata: resolution=1280x720, tags=[city, night, neon]", class: "cyan", delay: 300 },
-  { text: "💾 Storing to: /photos/neon_city_8831.jpg", class: "green", delay: 400 },
+    { text: "🖼️ Found image: neon_city_8831.jpg", class: "magenta", delay: 300 },
+    { text: "📎 Indexing metadata: resolution=1280x720, tags=[city, night, neon]", class: "cyan", delay: 300 },
+    { text: "💾 Storing to: /innertel/archive/neon_city_8831.jpg", class: "green", delay: 400 },
 
-  { text: "🖼️ Found image: mountain_trail_4482.jpg", class: "magenta", delay: 300 },
-  { text: "📎 Indexing metadata: resolution=2048x1365, tags=[mountain, hiking, nature]", class: "cyan", delay: 300 },
-  { text: "💾 Storing to: /photos/mountain_trail_4482.jpg", class: "green", delay: 400 },
+    { text: "🖼️ Found image: mountain_trail_4482.jpg", class: "magenta", delay: 300 },
+    { text: "📎 Indexing metadata: resolution=2048x1365, tags=[mountain, hiking, nature]", class: "cyan", delay: 300 },
+    { text: "💾 Storing to: /innertel/archive/mountain_trail_4482.jpg", class: "green", delay: 400 },
 
-  { text: "🖼️ Found image: portrait_mira_1901.jpg", class: "magenta", delay: 300 },
-  { text: "📎 Indexing metadata: resolution=1080x1350, tags=[portrait, woman, studio]", class: "cyan", delay: 300 },
-  { text: "💾 Storing to: /photos/portrait_mira_1901.jpg", class: "green", delay: 400 },
+    { text: "🖼️ Found image: portrait_mira_1901.jpg", class: "magenta", delay: 300 },
+    { text: "📎 Indexing metadata: resolution=1080x1350, tags=[portrait, woman, studio]", class: "cyan", delay: 300 },
+    { text: "💾 Storing to: /innertel/archive/portrait_mira_1901.jpg", class: "green", delay: 400 },
 
-  { text: "🧠 Compressing and optimizing stored images...", class: "yellow", delay: 1000 },
-  { text: "📡 Uploading indexed photo archive to live server...", class: "blue", delay: 1000 },
-
+    { text: "🧠 Compressing and optimizing stored images...", class: "yellow", delay: 1000 },
+    { text: "📡 Uploading photo archive to live server...", class: "blue", delay: 1000 },
     ];
-
-     
 
     const files = Array.from({ length: 1 }, () => {
       const id = Math.floor(Math.random() * 9000) + 1000;
       return [
-        { text: `📄 Reading metadata: file_${id}.json`, class: "magenta", delay: 300 },
-        { text: `📦 Archiving files to internal storage: /innertel/file_${id}.json`, class: "cyan", delay: 300 },
+        { text: `📄 Creating archive metadata: innertel_${id}.json`, class: "magenta", delay: 300 },
+        { text: `📦 Uploading archive metadata: /innertel/archive/innertel_${id}.json`, class: "cyan", delay: 300 },
       ];
     }).flat();
 
