@@ -2,7 +2,11 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Innertel Bot Terminal</title>
+  <meta name="description" content="Public archive preserving the complexity of our past and present. Curated by the algorithm. ">
+        <meta name="keywords" content="AI, Automation, Photography, Architecture, Nature, Film, Curation, Fashion, Images, Videos, Retro, Futurism, Escapism, Self-Expression, Comfort, Visionary, Cyberpunk, Dystopia, Utopia, Aliens, Intergalactic, Space Travel, Tech, Science, Inner, Emotions, Thoughs, Ideas, Transmission, Self-Discovery, Chat, Chatbot, Digital Museum, Art, Magazine, Minimal, Brutalism, Music">
+        <meta name="author" content="G">
+
+  <title>INNERTEL</title>
   <style>
     body {
       background: #111;
@@ -63,7 +67,7 @@
     const terminal = document.getElementById("terminal");
 
     const steps = [
-    { text: "🤖 Starting innertel engine...", class: "green", delay: 600 },
+    { text: "🤖 Initiating innertel engine...", class: "green", delay: 600 },
   { text: "🌐 Connecting to open web image stream...", class: "blue", delay: 800 },
   { text: "🔍 Searching for public image content (keywords: architecture, brutalism, futurism)...", class: "yellow", delay: 1000 },
 
@@ -95,7 +99,7 @@
       const id = Math.floor(Math.random() * 9000) + 1000;
       return [
         { text: `📄 Reading metadata: file_${id}.json`, class: "magenta", delay: 300 },
-        { text: `📦 Archiving to internal storage: /innertel/file_${id}.json`, class: "cyan", delay: 300 },
+        { text: `📦 Archiving files to internal storage: /innertel/file_${id}.json`, class: "cyan", delay: 300 },
       ];
     }).flat();
 
