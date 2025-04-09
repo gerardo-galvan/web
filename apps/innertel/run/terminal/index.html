@@ -8,7 +8,7 @@
     body {
       background-color: black;
       color: #00FF00;
-      font-family: "Courier New", Courier, monospace;
+      font-family: Inconsolata, monospace, "Courier New", Courier ;
       padding: 40px;
     }
 
@@ -17,6 +17,10 @@
     font-family: MIB;
     }
 
+    @font-face {
+    src: url("../../fonts/Inconsolata.ttf");
+    font-family: Inconsolata;
+    }
 
     h1 {
       font-family:  MIB;
@@ -250,7 +254,7 @@
          
 
         case 'links': {
-          response = 'Available links:\n[1] https://inner.tel/archive/images  (Images)\n[2] https://inner.tel/archive/videos  (Videos)';
+          response = 'Available links:\n[1] /archive/images  (Images)\n[2] /archive/videos  (Videos)';
           break;
         }
 

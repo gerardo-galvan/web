@@ -8,13 +8,21 @@
     body {
       background-color: black;
       color: #00FF00;
-      font-family: "Courier New", Courier, monospace;
+      font-family: Terminus,"Courier New", Courier, monospace;
       display: flex;
       justify-content: center;
       align-items: center;
       height: 100vh;
       margin: 0;
     }
+
+
+    @font-face {
+    src: url("../fonts/Terminus.ttf");
+    font-family: Terminus;
+    }
+
+    
     .terminal {
       width: 500px;
       padding: 20px;
@@ -71,7 +79,7 @@
         message.textContent = 'Access granted. Welcome, agent.';
         message.className = 'success';
         setTimeout(() => {
-          window.location.href = 'terminal.html'; // redirect after success
+          window.location.href = '../run/terminal'; // redirect after success
         }, 1500);
       } else {
         message.textContent = 'Access denied. Intruder detected!';
