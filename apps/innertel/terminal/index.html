@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Agent Dashboard</title>
+  <title>INNERTEL | Terminal</title>
   <style>
     body {
       background-color: black;
@@ -22,6 +22,7 @@
       border-radius: 10px;
     }
     #output {
+      display: none;
       white-space: pre-wrap;
       margin-top: 10px;
       min-height: 200px;
@@ -86,16 +87,19 @@
   </style>
 </head>
 <body>
-  <h1>Welcome, Agent</h1>
+  <h1>INNERTEL terminal</h1>
   <div class="console-box">
     <p class="info">Access Level: <strong>GRANTED</strong></p>
     <p class="info">System Status: <strong>ALL SYSTEMS ONLINE</strong></p>
     <p class="info">Last Login: <script>document.write(new Date().toLocaleString());</script></p>
-    <div id="prompt-line">
-      <span id="prompt-label">&gt;</span>
-      <input type="text" id="commandInput" autocomplete="off" autofocus onkeydown="handleCommand(event)">
-    </div>
-    <div id="output"> </div>
+    
+    <div id="output">
+      <!-- Output appears above -->
+</div>
+<div id="prompt-line">
+  <span id="prompt-label">&gt;</span>
+  <input type="text" id="commandInput" autocomplete="off" autofocus onkeydown="handleCommand(event)">
+</div>
   </div>
 
   <script>
@@ -171,15 +175,25 @@
       let response = '';
       let className = 'resp';
 
+      const linkMap = {
+          '1': 'https://inner.tel/archive/videos',
+          '2': 'https://inner.tel/archive/images'
+        };
+
       switch (base) {
         case 'help':
-          response = 'Available commands:\nhelp - list commands\ntime - show current time\nclear - clear console\nhack - simulate hacking\nls - list files\ncat <filename> - view file contents\ncd <dir> - change directory\nauth <password> - unlock protected directory';
+          response = 'Available commands:\nhelp - list commands\ntime - show current time\nclear - clear console\nhack - simulate hacking\nls - list files\nlinks - list links\nopen - opens links in new window. use open [link number] for faster access\ncat <filename> - view file contents\ncd <dir> - change directory\nauth <password> - unlock protected directory';
           break;
+
         case 'time':
           response = 'Current time: ' + new Date().toLocaleString();
           break;
+
+       
+
         case 'clear':
           output.innerHTML = '';
+          output.style.display = 'none';
           return;
         case 'hack':
           simulateHackingText();
@@ -222,6 +236,43 @@
             className = 'error';
           }
           break;
+
+          
+         
+
+        case 'links': {
+          response = 'Available links:\n[1] https://inner.tel/archive/images  (Images)\n[2] https://inner.tel/archive/videos  (Videos)';
+          break;
+        }
+
+        
+        case 'exit':
+          window.location.replace('/');
+          return;
+       
+        case 'open': {
+          let url = linkMap[arg] || arg;
+          if (!url.startsWith('http')) {
+            url = 'https://' + url;
+          }
+          try {
+            const parsed = new URL(url);
+            const allowedDomains = ['inner.tel', 'inner.tel/'];
+            if (allowedDomains.some(domain => parsed.hostname.includes(domain))) {
+              window.open(parsed.href, '_blank');
+              response = `Opening ${parsed.href}...`;
+            } else {
+              response = `Access to ${parsed.hostname} is not permitted.`;
+              className = 'error';
+            }
+          } catch (e) {
+            response = 'Invalid URL format or unknown shortcut.';
+            className = 'error';
+          }
+          break;
+        }
+          
+
         default:
           response = `Unknown command: ${cmd}`;
           className = 'error';
@@ -229,7 +280,10 @@
       appendToOutput(response, className);
     }
 
+    
+
     function appendToOutput(text, className = 'resp') {
+      output.style.display = 'block';
       const line = document.createElement('div');
       line.className = className;
       line.textContent = text;

@@ -1,5 +1,5 @@
 function innertel () {
-    window.open("search.html", "_self");
+    window.open("terminal/index.html", "_self");
 }
 
 function hide () {
