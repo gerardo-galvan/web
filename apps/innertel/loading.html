@@ -57,7 +57,7 @@
       font-weight: bold;
       pointer-events: none;
     }
-
+ 
   </style>
 </head>
 <body>
@@ -100,7 +100,7 @@ const imageData = [
 
 // 📁 Steps array built dynamically
 const steps = [
-  { text: "🤖 Initiating innertel engine...", class: "green", delay: 600 },
+  { text: "🤖 INNERTEL boot sequence initiated...", class: "green", delay: 600 },
   { text: "🌐 Connecting to open web stream...", class: "blue", delay: 800 },
   { text: "🔍 Searching for public data (keywords: architecture, brutalism, retro, futurism)...", class: "yellow", delay: 1000 },
 ];
@@ -125,7 +125,7 @@ imageData.forEach(img => {
   steps.push(
     { text: `[i] Found new image: ${fileName}`, class: "magenta", delay: 300 },
     { text: `[+] Indexing metadata: resolution=${img.resolution}, tags=[${img.tags.join(", ")}]`, class: "cyan", delay: 300 },
-    { text: `[+] Storing to: ${archivePath}`, class: "green", delay: 400 }
+    { text: `[*] Storing to: ${archivePath}`, class: "green", delay: 400 }
   );
 });
 
@@ -138,12 +138,12 @@ steps.push(
 // Metadata simulation step
 const jsonMetaName = `images_${dateStamp}.json`;
 steps.push(
-  { text: `[i] Creating archive metadata: ${jsonMetaName}`, class: "magenta", delay: 300 },
+  { text: `[i] Syncing metadata: ${jsonMetaName}`, class: "magenta", delay: 300 },
   { text: `[*] Uploading metadata: /innertel/archive/${jsonMetaName}`, class: "cyan", delay: 300 },
-  { text: "[✔] Archive live at: /innertel/archive", class: "green", delay: 700 }
+  { text: "[✔] Transmission Complete — data synced: /innertel/archive", class: "green", delay: 700 }
 );
 
-const successMessage = "\n✔ ARCHIVE COMPLETE — ALL SYSTEMS OPERATIONAL\n";
+const successMessage = "\n🟢 ARCHIVE ONLINE — ALL SYSTEMS OPERATIONAL\n";
 
 // Show in terminal
 function appendLine(text, cssClass) {
