@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Agent Dashboard</title>
   <style>
     body {
@@ -15,10 +15,11 @@
       color: lime;
     }
     .console-box {
-      border: 2px solid #00FF00;
-      padding: 20px;
+      border: 1px solid #00FF00;
+      padding: 10px;
       box-shadow: 0 0 15px #00FF00;
       margin-top: 20px;
+      border-radius: 10px;
     }
     #output {
       white-space: pre-wrap;
@@ -27,6 +28,31 @@
       max-height: 400px;
       overflow-y: auto;
     }
+
+      /* Terminal Scrollbar Styling */
+  #output::-webkit-scrollbar {
+    width: 12px;
+  }
+  #output::-webkit-scrollbar-track {
+    background: black;
+  }
+  #output::-webkit-scrollbar-thumb {
+    background-color: #00FF00;
+    border-radius: 0px;
+    border: 1px solid black;
+  }
+  #output::-webkit-scrollbar-button:single-button {
+    background-color: #00FF00;
+    height: 10px;
+  }
+  #output::-webkit-scrollbar-button:single-button:vertical:decrement {
+    border-bottom: 1px solid black;
+  }
+  #output::-webkit-scrollbar-button:single-button:vertical:increment {
+    border-top: 1px solid black;
+  }
+
+
     #prompt-line {
       display: flex;
       align-items: center;
@@ -45,19 +71,31 @@
       font-size: 1em;
       font-family: inherit;
     }
+    .cmd {
+      color: #00BFFF;
+    }
+    .resp {
+      color: #ADFF2F;
+    }
+    .error {
+      color: #FF5555;
+    }
+    .info {
+      color: #636363;
+    }
   </style>
 </head>
 <body>
   <h1>Welcome, Agent</h1>
   <div class="console-box">
-    <p>Access Level: <strong>GRANTED</strong></p>
-    <p>System Status: <strong>ALL SYSTEMS ONLINE</strong></p>
-    <p>Last Login: <script>document.write(new Date().toLocaleString());</script></p>
+    <p class="info">Access Level: <strong>GRANTED</strong></p>
+    <p class="info">System Status: <strong>ALL SYSTEMS ONLINE</strong></p>
+    <p class="info">Last Login: <script>document.write(new Date().toLocaleString());</script></p>
     <div id="prompt-line">
       <span id="prompt-label">&gt;</span>
       <input type="text" id="commandInput" autocomplete="off" autofocus onkeydown="handleCommand(event)">
     </div>
-    <div id="output">Awaiting your next command...</div>
+    <div id="output"> </div>
   </div>
 
   <script>
@@ -87,6 +125,7 @@
         if (command !== '') {
           history.push(command);
           historyIndex = history.length;
+          appendToOutput(`$${command}`, 'cmd');
           simulateHackingAnimation(() => processCommand(command));
           input.value = '';
         }
@@ -129,7 +168,8 @@
       const parts = cmd.split(' ');
       const base = parts[0].toLowerCase();
       const arg = parts[1];
-      let response;
+      let response = '';
+      let className = 'resp';
 
       switch (base) {
         case 'help':
@@ -139,30 +179,30 @@
           response = 'Current time: ' + new Date().toLocaleString();
           break;
         case 'clear':
-          output.textContent = '';
+          output.innerHTML = '';
           return;
         case 'hack':
           simulateHackingText();
           return;
-        case 'ls': {
+        case 'ls':
           if (isProtected(currentPath)) {
             response = 'Access denied. Authentication required.';
+            className = 'error';
           } else {
             const dir = getDir(currentPath);
             response = dir ? Object.keys(dir).join('\n') : 'Directory not found.';
           }
           break;
-        }
-        case 'cat': {
+        case 'cat':
           if (isProtected(currentPath)) {
             response = 'Access denied. Authentication required.';
+            className = 'error';
           } else {
             const dir = getDir(currentPath);
             response = (arg && dir && dir[arg] && typeof dir[arg] === 'string') ? dir[arg] : 'File not found or access denied.';
           }
           break;
-        }
-        case 'cd': {
+        case 'cd':
           const newPath = arg === '..' ? currentPath.split('/').slice(0, -2).join('/') + '/' : (currentPath + '/' + arg).replace(/\/+/g, '/');
           const dir = getDir(newPath);
           if (arg === '..' || dir) {
@@ -170,49 +210,50 @@
             response = 'Now in ' + currentPath;
           } else {
             response = 'Directory not found.';
+            className = 'error';
           }
           break;
-        }
-        case 'auth': {
+        case 'auth':
           if (arg === 'accessgranted') {
             authenticatedPaths.push(currentPath);
             response = 'Authentication successful. Access granted to protected directory.';
           } else {
             response = 'Authentication failed.';
+            className = 'error';
           }
           break;
-        }
         default:
           response = `Unknown command: ${cmd}`;
+          className = 'error';
       }
-      typeResponse(`\n> ${cmd}\n${response}`);
+      appendToOutput(response, className);
     }
 
-    function typeResponse(text, i = 0) {
-      if (i < text.length) {
-        output.textContent += text.charAt(i);
-        output.scrollTop = output.scrollHeight;
-        setTimeout(() => typeResponse(text, i + 1), 15);
-      }
+    function appendToOutput(text, className = 'resp') {
+      const line = document.createElement('div');
+      line.className = className;
+      line.textContent = text;
+      output.appendChild(line);
+      output.scrollTop = output.scrollHeight;
     }
 
     function simulateHackingText() {
       const lines = [
-        'Establishing secure connection...\n',
-        'Bypassing firewall...\n',
-        'Decrypting access tokens...\n',
-        'Injecting payload...\n',
-        'Access granted. Admin privileges acquired.\n'
+        'Establishing secure connection...',
+        'Bypassing firewall...',
+        'Decrypting access tokens...',
+        'Injecting payload...',
+        'Access granted. Admin privileges acquired.'
       ];
       let delay = 0;
       for (let line of lines) {
-        setTimeout(() => typeResponse(line), delay);
+        setTimeout(() => appendToOutput(line, 'info'), delay);
         delay += 800;
       }
     }
 
     function simulateHackingAnimation(callback) {
-      const anim = ['|', '/', '-', '\\'];
+      const anim = ['|', '/', '-', '\\\\'];
       let i = 0;
       const spinner = setInterval(() => {
         input.placeholder = 'Processing ' + anim[i++ % anim.length];
