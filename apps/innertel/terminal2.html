@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Innertel Retro Terminal</title>
+  <link rel="stylesheet" href="css/terminal.css" />
+</head>
+<body>
+  <div class="terminal">
+    <pre id="terminal-output"></pre>
+    <div class="cursor">█</div>
+  </div>
+
+  <script>
+    const dateStamp = new Date().toISOString().slice(0, 10).replace(/-/g, "");
+
+    const steps = [
+      "[*] Initializing Innertel engine...",
+      "[*] Connecting to open web image stream...",
+      "[*] Scanning for public image content (keywords: architecture, brutalism, retro, futurism)...",
+
+      `[+] Found new image: brutalism_${dateStamp}.jpg`,
+      "[i] Indexed metadata: resolution=1920x1080, tags=[architecture, brutalism, modern]",
+      `[>] Stored to: /innertel/archive/brutalism_${dateStamp}.jpg`,
+
+      `[+] Found new image: neon_city_${dateStamp}.jpg`,
+      "[i] Indexed metadata: resolution=1280x720, tags=[city, night, neon]",
+      `[>] Stored to: /innertel/archive/neon_city_${dateStamp}.jpg`,
+
+      `[+] Found new image: mountain_trail_${dateStamp}.jpg`,
+      "[i] Indexed metadata: resolution=2048x1365, tags=[mountain, hiking, nature]",
+      `[>] Stored to: /innertel/archive/mountain_trail_${dateStamp}.jpg`,
+
+      `[+] Found new image: portrait_mira_${dateStamp}.jpg`,
+      "[i] Indexed metadata: resolution=1080x1350, tags=[portrait, woman, studio]",
+      `[>] Stored to: /innertel/archive/portrait_mira_${dateStamp}.jpg`,
+
+      "[~] Optimizing stored images...",
+      "[~] Uploading archive to live server...",
+
+      `[+] Created metadata file: images_${dateStamp}.json`,
+      `[>] Uploaded metadata: /innertel/archive/images_${dateStamp}.json`,
+
+      "[✔] Archive is live at: /innertel/archive",
+
+      "\n[✔] ARCHIVE COMPLETE — ALL SYSTEMS OPERATIONAL\n",
+    ];
+
+    const outputEl = document.getElementById("terminal-output");
+    const cursor = document.querySelector(".cursor");
+
+    let line = 0;
+
+    function typeNextLine() {
+      if (line >= steps.length) {
+        cursor.classList.add("done");
+        return;
+      }
+
+      const text = steps[line];
+      let char = 0;
+      const span = document.createElement("span");
+
+      function typeChar() {
+        if (char < text.length) {
+          span.textContent += text[char++];
+          setTimeout(typeChar, 10); // typing speed
+        } else {
+          outputEl.appendChild(span);
+          outputEl.appendChild(document.createElement("br"));
+          line++;
+          setTimeout(typeNextLine, 300); // delay between lines
+        }
+      }
+
+      typeChar();
+    }
+
+    typeNextLine();
+  </script>
+</body>
+</html>
