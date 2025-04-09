@@ -383,7 +383,7 @@ case 'decrypt':
 
 
   case 'fact':
-  fetch('./.netlify/functions/fact')
+  fetch('/run/terminal/.netlify/functions/fact')
     .then(res => res.json())
     .then(data => {
       if (data && data.fact) {
