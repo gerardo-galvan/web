@@ -116,9 +116,7 @@ const todayOffset = timestampSeed % dailyRange;
 const visitorId = baseVisitors + todayOffset;
     greetingEl.innerHTML = `Greetings, user #<strong>${visitorId}</strong>!`;
   // Display help on page load
-    window.addEventListener('load', () => {
-      processCommand('help');
-    });
+    
 </script></p>
  
     
@@ -211,7 +209,20 @@ const visitorId = baseVisitors + todayOffset;
 
       switch (base) {
         case 'help':
-          response = 'Available commands:\nhelp - list commands\nsearch - search web using keywords or phrase\nclear - clear console\nping - ping host\nls - list files\nlinks - list links. use open [link number] to open link.\nopen - open links in new window\ncat <filename> - view file contents\ncd <dir> - change directory\nauth <password> - unlock protected directory\nexit - exits terminal';
+        response = [
+  'Available commands:',
+  '<span class="cmd">help</span> - <span class="info">list commands</span>',
+  '<span class="cmd">search</span> - <span class="info">search web using keywords or phrase</span>',
+  '<span class="cmd">clear</span> - <span class="info">clear console</span>',
+  '<span class="cmd">ping</span> - <span class="info">ping host</span>',
+  '<span class="cmd">ls</span> - <span class="info">list files</span>',
+  '<span class="cmd">links</span> - <span class="info">list links. use <span class="cmd">open [link number]</span> to open link</span>',
+  '<span class="cmd">open</span> - <span class="info">open links in new window</span>',
+  '<span class="cmd">cat &lt;filename&gt;</span> - <span class="info">view file contents</span>',
+  '<span class="cmd">cd &lt;dir&gt;</span> - <span class="info">change directory</span>',
+  '<span class="cmd">auth &lt;password&gt;</span> - <span class="info">unlock protected directory</span>',
+  '<span class="cmd">exit</span> - <span class="info">exits terminal</span>'
+].join('<br>');
           break;
 
           case 'search': {
@@ -336,9 +347,56 @@ Ping statistics for ${target}:`,
         }
           
 
+        case 'info':
+          response = 'type "help" to get a list of available commands...';
+          break;
+
         case 'whoami':
           response = '@innertel' ;
           break;
+
+
+          case 'encrypt':
+  if (!arg) {
+    response = 'Usage: encrypt <message>';
+    className = 'error';
+  } else {
+    const encoded = btoa(cmd.slice(8)); // everything after 'encrypt '
+    response = `Encrypted: <span class="links">${encoded}</span>`;
+  }
+  break;
+
+case 'decrypt':
+  if (!arg) {
+    response = 'Usage: decrypt <encoded_message>';
+    className = 'error';
+  } else {
+    try {
+      const decoded = atob(cmd.slice(8)); // everything after 'decrypt '
+      response = `Decrypted: <span class="links">${decoded}</span>`;
+    } catch (e) {
+      response = 'Decryption failed: Invalid encoded message.';
+      className = 'error';
+    }
+  }
+  break;
+
+
+  case 'fact':
+  fetch('cmds/fact')
+    .then(res => res.json())
+    .then(data => {
+      if (data && data.fact) {
+        appendToOutput(`🧠 <span class="resp">${data.fact}</span>`);
+      } else {
+        appendToOutput('No fact received.', 'error');
+      }
+    })
+    .catch(() => {
+      appendToOutput('Error fetching fact.', 'error');
+    });
+  return;
+
 
 
         case 'exit':
@@ -360,7 +418,8 @@ Ping statistics for ${target}:`,
       output.style.display = 'block';
       const line = document.createElement('div');
       line.className = className;
-      line.textContent = text;
+      line.innerHTML = text;
+
       output.appendChild(line);
       output.scrollTop = output.scrollHeight;
     }
