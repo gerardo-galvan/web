@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Agent Dashboard</title>
+  <style>
+    body {
+      background-color: black;
+      color: #00FF00;
+      font-family: "Courier New", Courier, monospace;
+      padding: 40px;
+    }
+    h1 {
+      color: lime;
+    }
+    .console-box {
+      border: 2px solid #00FF00;
+      padding: 20px;
+      box-shadow: 0 0 15px #00FF00;
+      margin-top: 20px;
+    }
+    #output {
+      white-space: pre-wrap;
+      margin-top: 10px;
+      min-height: 200px;
+      max-height: 400px;
+      overflow-y: auto;
+    }
+    #prompt-line {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+    #prompt-label {
+      margin-right: 5px;
+      color: #00FF00;
+    }
+    #commandInput {
+      background-color: black;
+      color: #00FF00;
+      border: none;
+      outline: none;
+      width: 100%;
+      font-size: 1em;
+      font-family: inherit;
+    }
+  </style>
+</head>
+<body>
+  <h1>Welcome, Agent</h1>
+  <div class="console-box">
+    <p>Access Level: <strong>GRANTED</strong></p>
+    <p>System Status: <strong>ALL SYSTEMS ONLINE</strong></p>
+    <p>Last Login: <script>document.write(new Date().toLocaleString());</script></p>
+    <div id="prompt-line">
+      <span id="prompt-label">&gt;</span>
+      <input type="text" id="commandInput" autocomplete="off" autofocus onkeydown="handleCommand(event)">
+    </div>
+    <div id="output">Awaiting your next command...</div>
+  </div>
+
+  <script>
+    const output = document.getElementById('output');
+    const input = document.getElementById('commandInput');
+    const history = [];
+    let historyIndex = -1;
+    const protectedDirs = ['vault'];
+    let authenticatedPaths = [];
+
+    const fileSystem = {
+      "/": {
+        "logs.txt": "Agent login detected. Timestamp recorded.\nSystem scan complete. No threats found.",
+        "agents.db": "Agent_007\nAgent_404\nAgent_X",
+        "vault": {
+          "vault.key": "KEY-0932-ALPHA-SECTOR",
+          "secrets.enc": "Encrypted content - access denied"
+        },
+        "network.cfg": "IP=192.168.1.1\nSubnet=255.255.255.0\nGateway=192.168.1.254"
+      }
+    };
+    let currentPath = "/";
+
+    function handleCommand(event) {
+      if (event.key === 'Enter') {
+        const command = input.value.trim();
+        if (command !== '') {
+          history.push(command);
+          historyIndex = history.length;
+          simulateHackingAnimation(() => processCommand(command));
+          input.value = '';
+        }
+      } else if (event.key === 'ArrowUp') {
+        if (historyIndex > 0) {
+          historyIndex--;
+          input.value = history[historyIndex];
+        }
+        event.preventDefault();
+      } else if (event.key === 'ArrowDown') {
+        if (historyIndex < history.length - 1) {
+          historyIndex++;
+          input.value = history[historyIndex];
+        } else {
+          historyIndex = history.length;
+          input.value = '';
+        }
+        event.preventDefault();
+      }
+    }
+
+    function getDir(path) {
+      const parts = path.split('/').filter(p => p);
+      let dir = fileSystem["/"];
+      for (let part of parts) {
+        if (dir[part] && typeof dir[part] === 'object') {
+          dir = dir[part];
+        } else {
+          return null;
+        }
+      }
+      return dir;
+    }
+
+    function isProtected(path) {
+      return protectedDirs.some(dir => path.includes(`/${dir}`)) && !authenticatedPaths.includes(path);
+    }
+
+    function processCommand(cmd) {
+      const parts = cmd.split(' ');
+      const base = parts[0].toLowerCase();
+      const arg = parts[1];
+      let response;
+
+      switch (base) {
+        case 'help':
+          response = 'Available commands:\nhelp - list commands\ntime - show current time\nclear - clear console\nhack - simulate hacking\nls - list files\ncat <filename> - view file contents\ncd <dir> - change directory\nauth <password> - unlock protected directory';
+          break;
+        case 'time':
+          response = 'Current time: ' + new Date().toLocaleString();
+          break;
+        case 'clear':
+          output.textContent = '';
+          return;
+        case 'hack':
+          simulateHackingText();
+          return;
+        case 'ls': {
+          if (isProtected(currentPath)) {
+            response = 'Access denied. Authentication required.';
+          } else {
+            const dir = getDir(currentPath);
+            response = dir ? Object.keys(dir).join('\n') : 'Directory not found.';
+          }
+          break;
+        }
+        case 'cat': {
+          if (isProtected(currentPath)) {
+            response = 'Access denied. Authentication required.';
+          } else {
+            const dir = getDir(currentPath);
+            response = (arg && dir && dir[arg] && typeof dir[arg] === 'string') ? dir[arg] : 'File not found or access denied.';
+          }
+          break;
+        }
+        case 'cd': {
+          const newPath = arg === '..' ? currentPath.split('/').slice(0, -2).join('/') + '/' : (currentPath + '/' + arg).replace(/\/+/g, '/');
+          const dir = getDir(newPath);
+          if (arg === '..' || dir) {
+            currentPath = newPath === '' ? '/' : newPath;
+            response = 'Now in ' + currentPath;
+          } else {
+            response = 'Directory not found.';
+          }
+          break;
+        }
+        case 'auth': {
+          if (arg === 'accessgranted') {
+            authenticatedPaths.push(currentPath);
+            response = 'Authentication successful. Access granted to protected directory.';
+          } else {
+            response = 'Authentication failed.';
+          }
+          break;
+        }
+        default:
+          response = `Unknown command: ${cmd}`;
+      }
+      typeResponse(`\n> ${cmd}\n${response}`);
+    }
+
+    function typeResponse(text, i = 0) {
+      if (i < text.length) {
+        output.textContent += text.charAt(i);
+        output.scrollTop = output.scrollHeight;
+        setTimeout(() => typeResponse(text, i + 1), 15);
+      }
+    }
+
+    function simulateHackingText() {
+      const lines = [
+        'Establishing secure connection...\n',
+        'Bypassing firewall...\n',
+        'Decrypting access tokens...\n',
+        'Injecting payload...\n',
+        'Access granted. Admin privileges acquired.\n'
+      ];
+      let delay = 0;
+      for (let line of lines) {
+        setTimeout(() => typeResponse(line), delay);
+        delay += 800;
+      }
+    }
+
+    function simulateHackingAnimation(callback) {
+      const anim = ['|', '/', '-', '\\'];
+      let i = 0;
+      const spinner = setInterval(() => {
+        input.placeholder = 'Processing ' + anim[i++ % anim.length];
+      }, 100);
+      setTimeout(() => {
+        clearInterval(spinner);
+        input.placeholder = 'Enter command...';
+        callback();
+      }, 600);
+    }
+  </script>
+</body>
+</html>
