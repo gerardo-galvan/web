@@ -86,7 +86,7 @@
       font-family: inherit;
     }
     .cmd {
-      color: #00BFFF;
+      color: #00FF00;
     }
     .links {
       color:#00BFFF;
@@ -122,7 +122,7 @@ const visitorId = baseVisitors + todayOffset;
       <!-- Output appears above -->
 </div>
 <div id="prompt-line">
-  <span id="prompt-label">$root@innertel:</span>
+  <span id="prompt-label">innertel$</span>
   <input type="text" id="commandInput" autocomplete="off" autofocus onkeydown="handleCommand(event)">
 </div>
   </div>
@@ -207,13 +207,8 @@ const visitorId = baseVisitors + todayOffset;
 
       switch (base) {
         case 'help':
-          response = 'Available commands:\nhelp - list commands\nsearch - search web using keyword or phrase\nclear - clear console\nhack - simulate hacking\nls - list files\nlinks - list links\nopen - opens links in new window. use open [link number] for faster access\ncat <filename> - view file contents\ncd <dir> - change directory\nauth <password> - unlock protected directory\nexit - exits terminal';
+          response = 'Available commands:\nhelp - list commands\nsearch - search web using keywords or phrase\nclear - clear console\nping - ping host\nls - list files\nlinks - list links\nopen - opens links in new window. use open [link number] for faster access\ncat <filename> - view file contents\ncd <dir> - change directory\nauth <password> - unlock protected directory\nexit - exits terminal';
           break;
-
-        case 'time':
-          response = 'Current time: ' + new Date().toLocaleString();
-          break;
-
 
           case 'search': {
           const searchTerm = cmd.slice(cmd.indexOf(' ') + 1).trim();
@@ -227,16 +222,43 @@ const visitorId = baseVisitors + todayOffset;
           }
           break;
         }
-
-          
-
+       
         case 'clear':
           output.innerHTML = '';
           output.style.display = 'none';
           return;
+
+
         case 'hack':
           simulateHackingText();
           return;
+
+          case 'ping': {
+          const target = parts.slice(1).join(' ');
+          if (!target) {
+            response = 'Usage: ping <target>'; className = 'error'; break;
+          }
+          response = `Pinging ${target} with 32 bytes of data...`;
+          appendToOutput(response, className);
+          const results = [
+            `Reply from ${target}: bytes=32 time=32ms TTL=58`,
+            `Reply from ${target}: bytes=32 time=34ms TTL=58`,
+            `Reply from ${target}: bytes=32 time=29ms TTL=58`,
+            `Reply from ${target}: bytes=32 time=30ms TTL=58`,
+            `
+Ping statistics for ${target}:`,
+            `    Packets: Sent = 4, Received = 4, Lost = 0 (0% loss),`,
+            `Approximate round trip times in milli-seconds:`,
+            `    Minimum = 29ms, Maximum = 34ms, Average = 31ms`
+          ];
+          let delay = 500;
+          for (let line of results) {
+            setTimeout(() => appendToOutput(line, 'info'), delay);
+            delay += 400;
+          }
+          return;
+        }
+
         case 'ls':
           if (isProtected(currentPath)) {
             response = 'Access denied. Authentication required.';
@@ -246,6 +268,7 @@ const visitorId = baseVisitors + todayOffset;
             response = dir ? Object.keys(dir).join('\n') : 'Directory not found.';
           }
           break;
+
         case 'cat':
           if (isProtected(currentPath)) {
             response = 'Access denied. Authentication required.';
@@ -255,6 +278,7 @@ const visitorId = baseVisitors + todayOffset;
             response = (arg && dir && dir[arg] && typeof dir[arg] === 'string') ? dir[arg] : 'File not found or access denied.';
           }
           break;
+
         case 'cd':
           const newPath = arg === '..' ? currentPath.split('/').slice(0, -2).join('/') + '/' : (currentPath + '/' + arg).replace(/\/+/g, '/');
           const dir = getDir(newPath);
@@ -266,6 +290,7 @@ const visitorId = baseVisitors + todayOffset;
             className = 'error';
           }
           break;
+
         case 'auth':
           if (arg === 'accessgranted') {
             authenticatedPaths.push(currentPath);
@@ -284,11 +309,6 @@ const visitorId = baseVisitors + todayOffset;
           break;
         }
 
-        
-        case 'exit':
-          window.location.replace('/');
-          return;
-       
         case 'open': {
           let url = linkMap[arg] || arg;
           if (!url.startsWith('http')) {
@@ -311,6 +331,17 @@ const visitorId = baseVisitors + todayOffset;
           break;
         }
           
+
+        case 'whoami':
+          response = '@innertel' ;
+          break;
+
+
+        case 'exit':
+          window.location.replace('/');
+          return;
+       
+        
 
         default:
           response = `Unknown command: ${cmd}`;
@@ -353,7 +384,7 @@ const visitorId = baseVisitors + todayOffset;
       }, 100);
       setTimeout(() => {
         clearInterval(spinner);
-        input.placeholder = 'Enter command...';
+        input.placeholder = 'Type "help" for a list of commands...';
         callback();
       }, 600);
     }
