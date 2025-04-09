@@ -130,6 +130,11 @@ const visitorId = baseVisitors + todayOffset;
   </div>
 
   <script>
+
+
+
+
+
     const output = document.getElementById('output');
     const input = document.getElementById('commandInput');
     const history = [];
@@ -195,6 +200,9 @@ const visitorId = baseVisitors + todayOffset;
       return protectedDirs.some(dir => path.includes(`/${dir}`)) && !authenticatedPaths.includes(path);
     }
 
+    
+
+
     function processCommand(cmd) {
       const parts = cmd.split(' ');
       const base = parts[0].toLowerCase();
@@ -238,6 +246,20 @@ const visitorId = baseVisitors + todayOffset;
           break;
         }
        
+
+        case 'fact': {
+           
+  fetch('./.netlify/functions/fact')
+    .then(res => res.json())
+    .then(data => {
+      const out = document.getElementById('output');
+      out.innerHTML = `🧠 <span class="resp">${data.fact}</span>`;
+    })
+    .catch(() => {
+      alert("Failed to fetch fun fact.");
+    });
+}
+         
         case 'clear':
           output.innerHTML = '';
           output.style.display = 'none';
@@ -381,22 +403,7 @@ case 'decrypt':
   }
   break;
 
-
-  case 'fact':
-  fetch('/run/terminal/.netlify/functions/fact')
-    .then(res => res.json())
-    .then(data => {
-      if (data && data.fact) {
-        appendToOutput(`🧠 <span class="resp">${data.fact}</span>`);
-      } else {
-        appendToOutput('No fact received.', 'error');
-      }
-    })
-    .catch(() => {
-      appendToOutput('Error fetching fact.', 'error');
-    });
-  return;
-
+ 
 
 
         case 'exit':
