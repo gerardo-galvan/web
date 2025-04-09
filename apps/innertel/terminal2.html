@@ -13,70 +13,63 @@
 
   <script>
     const dateStamp = new Date().toISOString().slice(0, 10).replace(/-/g, "");
-
+  
     const steps = [
-      "[*] Initializing Innertel engine...",
-      "[*] Connecting to open web image stream...",
-      "[*] Scanning for public image content (keywords: architecture, brutalism, retro, futurism)...",
-
-      `[+] Found new image: brutalism_${dateStamp}.jpg`,
-      "[i] Indexed metadata: resolution=1920x1080, tags=[architecture, brutalism, modern]",
-      `[>] Stored to: /innertel/archive/brutalism_${dateStamp}.jpg`,
-
-      `[+] Found new image: neon_city_${dateStamp}.jpg`,
-      "[i] Indexed metadata: resolution=1280x720, tags=[city, night, neon]",
-      `[>] Stored to: /innertel/archive/neon_city_${dateStamp}.jpg`,
-
-      `[+] Found new image: mountain_trail_${dateStamp}.jpg`,
-      "[i] Indexed metadata: resolution=2048x1365, tags=[mountain, hiking, nature]",
-      `[>] Stored to: /innertel/archive/mountain_trail_${dateStamp}.jpg`,
-
-      `[+] Found new image: portrait_mira_${dateStamp}.jpg`,
-      "[i] Indexed metadata: resolution=1080x1350, tags=[portrait, woman, studio]",
-      `[>] Stored to: /innertel/archive/portrait_mira_${dateStamp}.jpg`,
-
-      "[~] Optimizing stored images...",
-      "[~] Uploading archive to live server...",
-
-      `[+] Created metadata file: images_${dateStamp}.json`,
-      `[>] Uploaded metadata: /innertel/archive/images_${dateStamp}.json`,
-
-      "[✔] Archive is live at: /innertel/archive",
-
-      "\n[✔] ARCHIVE COMPLETE — ALL SYSTEMS OPERATIONAL\n",
+      { type: "input", text: "> innertel --boot" },
+      { type: "system", text: "[*] Initializing Innertel engine..." },
+      { type: "system", text: "[*] Connecting to open web image stream..." },
+      { type: "input", text: "> scan --fetch-images" },
+      { type: "system", text: "[*] Scanning for public image content (keywords: architecture, brutalism, retro, futurism)..." },
+      { type: "system", text: `[+] Found new image: brutalism_${dateStamp}.jpg` },
+      { type: "system", text: "[i] Indexed metadata: resolution=1920x1080, tags=[architecture, brutalism, modern]" },
+      { type: "system", text: `[>] Stored to: /innertel/archive/brutalism_${dateStamp}.jpg` },
+      { type: "system", text: `[+] Created metadata file: images_${dateStamp}.json` },
+      { type: "system", text: `[>] Uploaded metadata: /innertel/archive/images_${dateStamp}.json` },
+      { type: "system", text: "[✔] Archive is live at: /innertel/archive" },
+      { type: "system", text: "\n[✔] ARCHIVE COMPLETE — ALL SYSTEMS OPERATIONAL\n" },
     ];
-
+  
     const outputEl = document.getElementById("terminal-output");
     const cursor = document.querySelector(".cursor");
-
-    let line = 0;
-
-    function typeNextLine() {
-      if (line >= steps.length) {
-        cursor.classList.add("done");
-        return;
-      }
-
-      const text = steps[line];
-      let char = 0;
+  
+    let stepIndex = 0;
+  
+    function typeLine({ text, type }, onComplete) {
+      let charIndex = 0;
       const span = document.createElement("span");
-
+  
+      if (type === "input") span.classList.add("input-line");
+  
       function typeChar() {
-        if (char < text.length) {
-          span.textContent += text[char++];
-          setTimeout(typeChar, 10); // typing speed
+        if (charIndex < text.length) {
+          span.textContent += text[charIndex++];
+          setTimeout(typeChar, 15); // typing speed
         } else {
           outputEl.appendChild(span);
           outputEl.appendChild(document.createElement("br"));
-          line++;
-          setTimeout(typeNextLine, 300); // delay between lines
+          onComplete();
         }
       }
-
+  
       typeChar();
     }
-
-    typeNextLine();
+  
+    function processSteps() {
+      if (stepIndex >= steps.length) {
+        cursor.classList.add("done");
+        return;
+      }
+  
+      const step = steps[stepIndex++];
+  
+      typeLine(step, () => {
+        const delay = step.type === "input" ? 500 : 300;
+        setTimeout(processSteps, delay);
+      });
+    }
+  
+    processSteps();
   </script>
+  
 </body>
 </html>

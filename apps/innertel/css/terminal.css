@@ -32,4 +32,9 @@ body {
       opacity: 0;
     }
   }
+
+  .input-line::before {
+    content: "";
+    margin-right: 6px;
+  }
   
