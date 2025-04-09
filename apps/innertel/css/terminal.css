@@ -1,3 +1,4 @@
+/* Base terminal look */
 body {
     background-color: #000;
     color: #0f0;
@@ -27,14 +28,28 @@ body {
     display: none;
   }
   
-  @keyframes blink {
-    50% {
-      opacity: 0;
-    }
+  /* === Color codes === */
+  .input-line {
+    color: #0f0; /* bright green */
   }
-
-  .input-line::before {
-    content: "";
-    margin-right: 6px;
+  
+  .system-line {
+    color: #0f0;
+  }
+  
+  .success-line {
+    color: #00ff00;
+  }
+  
+  .warning-line {
+    color: #ffff00;
+  }
+  
+  .error-line {
+    color: #ff5555;
+  }
+  
+  .info-line {
+    color: #00ffff;
   }
   

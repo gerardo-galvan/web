@@ -3,7 +3,44 @@
 <head>
   <meta charset="UTF-8" />
   <title>Innertel Retro Terminal</title>
-  <link rel="stylesheet" href="css/terminal.css" />
+  <style>
+    body {
+      background-color: #000;
+      color: #0f0;
+      font-family: 'Courier New', Courier, monospace;
+      font-size: 16px;
+      margin: 0;
+      padding: 20px;
+    }
+
+    .terminal {
+      position: relative;
+      white-space: pre-wrap;
+      max-width: 800px;
+    }
+
+    .cursor {
+      display: inline-block;
+      background: #0f0;
+      width: 10px;
+      height: 18px;
+      margin-left: 2px;
+      animation: blink 1s step-start infinite;
+      position: absolute;
+    }
+
+    .cursor.done {
+      display: none;
+    }
+
+    /* Color styles */
+    .input-line { color: #0f0; }
+    .system-line { color: #0f0; }
+    .success-line { color: #00ff00; }
+    .warning-line { color: #ffff00; }
+    .error-line { color: #ff5555; }
+    .info-line { color: #00ffff; }
+  </style>
 </head>
 <body>
   <div class="terminal">
@@ -13,63 +50,62 @@
 
   <script>
     const dateStamp = new Date().toISOString().slice(0, 10).replace(/-/g, "");
-  
+
     const steps = [
       { type: "input", text: "> innertel --boot" },
       { type: "system", text: "[*] Initializing Innertel engine..." },
       { type: "system", text: "[*] Connecting to open web image stream..." },
       { type: "input", text: "> scan --fetch-images" },
-      { type: "system", text: "[*] Scanning for public image content (keywords: architecture, brutalism, retro, futurism)..." },
-      { type: "system", text: `[+] Found new image: brutalism_${dateStamp}.jpg` },
-      { type: "system", text: "[i] Indexed metadata: resolution=1920x1080, tags=[architecture, brutalism, modern]" },
-      { type: "system", text: `[>] Stored to: /innertel/archive/brutalism_${dateStamp}.jpg` },
-      { type: "system", text: `[+] Created metadata file: images_${dateStamp}.json` },
-      { type: "system", text: `[>] Uploaded metadata: /innertel/archive/images_${dateStamp}.json` },
-      { type: "system", text: "[✔] Archive is live at: /innertel/archive" },
-      { type: "system", text: "\n[✔] ARCHIVE COMPLETE — ALL SYSTEMS OPERATIONAL\n" },
+      { type: "system", text: "[*] Scanning for public image content..." },
+      { type: "info", text: `[+] Found new image: brutalism_${dateStamp}.jpg` },
+      { type: "info", text: "[i] Indexed metadata: resolution=1920x1080, tags=[architecture, brutalism, modern]" },
+      { type: "success", text: `[>] Stored to: /innertel/archive/brutalism_${dateStamp}.jpg` },
+      { type: "warning", text: "[!] Compression exceeded threshold — using fallback." },
+      { type: "error", text: "[x] Upload failed: server timeout, retrying..." },
+      { type: "success", text: `[+] Created metadata file: images_${dateStamp}.json` },
+      { type: "success", text: `[>] Uploaded to: /innertel/archive/images_${dateStamp}.json` },
+      { type: "success", text: "[✔] Archive is live at: /innertel/archive" },
+      { type: "success", text: "\n[✔] ARCHIVE COMPLETE — ALL SYSTEMS OPERATIONAL\n" },
     ];
-  
+
     const outputEl = document.getElementById("terminal-output");
     const cursor = document.querySelector(".cursor");
-  
+
     let stepIndex = 0;
-  
+
     function typeLine({ text, type }, onComplete) {
       let charIndex = 0;
       const span = document.createElement("span");
-  
-      if (type === "input") span.classList.add("input-line");
-  
+      span.classList.add(`${type}-line`);
+
       function typeChar() {
         if (charIndex < text.length) {
           span.textContent += text[charIndex++];
-          setTimeout(typeChar, 15); // typing speed
+          setTimeout(typeChar, 15);
         } else {
           outputEl.appendChild(span);
           outputEl.appendChild(document.createElement("br"));
           onComplete();
         }
       }
-  
+
       typeChar();
     }
-  
+
     function processSteps() {
       if (stepIndex >= steps.length) {
         cursor.classList.add("done");
         return;
       }
-  
+
       const step = steps[stepIndex++];
-  
       typeLine(step, () => {
-        const delay = step.type === "input" ? 500 : 300;
+        const delay = step.type === "input" ? 600 : 300;
         setTimeout(processSteps, delay);
       });
     }
-  
+
     processSteps();
   </script>
-  
 </body>
 </html>
