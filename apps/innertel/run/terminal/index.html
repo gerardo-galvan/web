@@ -202,8 +202,9 @@ const visitorId = baseVisitors + todayOffset;
 
     
 
+   
 
-    function processCommand(cmd) {
+    async function processCommand(cmd)  {
       const parts = cmd.split(' ');
       const base = parts[0].toLowerCase();
       const arg = parts[1];
@@ -261,31 +262,47 @@ const visitorId = baseVisitors + todayOffset;
   break; // <-- IMPORTANT!
 }
 
+case 'joke': {
+  fetch('./.netlify/functions/joke')
+    .then(res => res.json())
+    .then(data => {
+      if (data.joke) {
+        appendToOutput(`🤣 <span class="resp">${data.joke}</span>`);
+      } else {
+        appendToOutput('No joke found.', 'error');
+      }
+    })
+    .catch(() => {
+      appendToOutput('Error fetching joke.', 'error');
+    });
+  break;
+}
 
-  case 'horoscope': {
+
+case 'horoscope': {
   const zodiac = (arg || '').toLowerCase();
   if (!zodiac) {
     appendToOutput('Usage: horoscope <sign>', 'error');
     break;
   }
 
-  fetch('./.netlify/functions/horoscope?sign=' + encodeURIComponent(zodiac))
-    .then(res => res.json())
-    .then(data => {
-      if (data.prediction) {
-        appendToOutput(`🪐 <span class="links">${data.sign.toUpperCase()}</span> | <span class="info">${data.date}</span>`);
-        appendToOutput(`<span class="resp">${data.prediction}</span>`);
-        appendToOutput(`✨ Mood: <span class="resp">${data.mood}</span> | Compat: <span class="resp">${data.compatibility}</span> | Lucky #: <span class="resp">${data.lucky_number}</span> | Time: <span class="resp">${data.lucky_time}</span>`);
-      } else {
-        appendToOutput(data.error || 'No horoscope found.', 'error');
-      }
-    })
-    .catch(() => {
-      appendToOutput('Error fetching horoscope.', 'error');
-    });
-  break; // ✅ ensures no fall-through to other cases
+  try {
+    const res = await fetch(`./.netlify/functions/horoscope?sign=${encodeURIComponent(zodiac)}`);
+    const data = await res.json();
+    if (data.prediction) {
+      appendToOutput(`🪐 <span class="links">${data.sign.toUpperCase()}</span> | <span class="info">${data.date}</span>`);
+      appendToOutput(`<span class="resp">${data.prediction}</span>`);
+      appendToOutput(`✨ Mood: <span class="resp">${data.mood}</span> | Compat: <span class="resp">${data.compatibility}</span> | Lucky #: <span class="resp">${data.lucky_number}</span> | Time: <span class="resp">${data.lucky_time}</span>`);
+    } else {
+      appendToOutput(data.error || 'No horoscope found.', 'error');
+    }
+  } catch {
+    appendToOutput('Error fetching horoscope.', 'error');
+  }
+  break;
 }
 
+ 
 
          
         case 'clear':
