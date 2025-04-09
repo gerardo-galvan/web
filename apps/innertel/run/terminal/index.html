@@ -115,6 +115,10 @@ const timestampSeed = new Date().setHours(0, 0, 0, 0);
 const todayOffset = timestampSeed % dailyRange;
 const visitorId = baseVisitors + todayOffset;
     greetingEl.innerHTML = `Greetings, user #<strong>${visitorId}</strong>!`;
+  // Display help on page load
+    window.addEventListener('load', () => {
+      processCommand('help');
+    });
 </script></p>
  
     
@@ -207,7 +211,7 @@ const visitorId = baseVisitors + todayOffset;
 
       switch (base) {
         case 'help':
-          response = 'Available commands:\nhelp - list commands\nsearch - search web using keywords or phrase\nclear - clear console\nping - ping host\nls - list files\nlinks - list links\nopen - opens links in new window. use open [link number] for faster access\ncat <filename> - view file contents\ncd <dir> - change directory\nauth <password> - unlock protected directory\nexit - exits terminal';
+          response = 'Available commands:\nhelp - list commands\nsearch - search web using keywords or phrase\nclear - clear console\nping - ping host\nls - list files\nlinks - list links\nopen - open links in new window. use open [link number] for faster access\ncat <filename> - view file contents\ncd <dir> - change directory\nauth <password> - unlock protected directory\nexit - exits terminal';
           break;
 
           case 'search': {
