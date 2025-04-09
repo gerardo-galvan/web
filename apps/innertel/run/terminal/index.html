@@ -86,10 +86,13 @@
       font-family: inherit;
     }
     .cmd {
-      color: #00BFFF;
+      color: #00FF00;
+    }
+    .links {
+      color:#00BFFF;
     }
     .resp {
-      color: #ADFF2F;
+      color: #83FF08;
     }
     .error {
       color: #FF5555;
@@ -101,16 +104,25 @@
 </head>
 <body>
   <h1>INNERTEL terminal</h1>
-  <div class="console-box">
-    <p class="info">Access Level: <strong>GRANTED</strong></p>
-    <p class="info">System Status: <strong>ALL SYSTEMS ONLINE</strong></p>
-    <p class="info">Last Login: <script>document.write(new Date().toLocaleString());</script></p>
+  <div class="console-box"> 
+    <p class="info" id="greeting"></p>
+    <p class="info">System Status: <strong>ONLINE</strong></p>
+    <p class="info">Last Online:  <script>document.write(new Date().toLocaleString());  // Generate unique greeting with random number
+      const greetingEl = document.getElementById('greeting');
+    const baseVisitors = 10000; // Estimate of cumulative visits
+const dailyRange = Math.floor(Math.random() * 9000) + 1000; // 1k–10k visits daily
+const timestampSeed = new Date().setHours(0, 0, 0, 0);
+const todayOffset = timestampSeed % dailyRange;
+const visitorId = baseVisitors + todayOffset;
+    greetingEl.innerHTML = `Greetings, user #<strong>${visitorId}</strong>!`;
+</script></p>
+ 
     
     <div id="output">
       <!-- Output appears above -->
 </div>
 <div id="prompt-line">
-  <span id="prompt-label">&gt;</span>
+  <span id="prompt-label">$root@innertel:</span>
   <input type="text" id="commandInput" autocomplete="off" autofocus onkeydown="handleCommand(event)">
 </div>
   </div>
@@ -195,14 +207,28 @@
 
       switch (base) {
         case 'help':
-          response = 'Available commands:\nhelp - list commands\ntime - show current time\nclear - clear console\nhack - simulate hacking\nls - list files\nlinks - list links\nopen - opens links in new window. use open [link number] for faster access\ncat <filename> - view file contents\ncd <dir> - change directory\nauth <password> - unlock protected directory';
+          response = 'Available commands:\nhelp - list commands\nsearch - search web using keyword or phrase\nclear - clear console\nhack - simulate hacking\nls - list files\nlinks - list links\nopen - opens links in new window. use open [link number] for faster access\ncat <filename> - view file contents\ncd <dir> - change directory\nauth <password> - unlock protected directory\nexit - exits terminal';
           break;
 
         case 'time':
           response = 'Current time: ' + new Date().toLocaleString();
           break;
 
-       
+
+          case 'search': {
+          const searchTerm = cmd.slice(cmd.indexOf(' ') + 1).trim();
+          if (searchTerm) {
+            const searchUrl = `https://inner.tel/search.html#gsc.tab=0&gsc.q=${encodeURIComponent(searchTerm)}`;
+            window.open(searchUrl, '_blank');
+            response = `Searching for '${searchTerm}'...`;
+          } else {
+            response = 'Please provide a search term.';
+            className = 'error';
+          }
+          break;
+        }
+
+          
 
         case 'clear':
           output.innerHTML = '';
