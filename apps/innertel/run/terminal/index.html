@@ -249,15 +249,16 @@ const visitorId = baseVisitors + todayOffset;
 
         case 'fact': {
            
-  fetch('.netlify/functions/fact')
-    .then(res => res.json())
-    .then(data => {
-      const out = document.getElementById('output');
-      out.innerHTML = `🧠 <span class="resp">${data.fact}</span>`;
-    })
-    .catch(() => {
-      alert("Failed to fetch fun fact.");
-    });
+          fetch('https://inner.tel/.netlify/functions/fact')
+  .then(res => res.json())
+  .then(data => {
+    const out = document.getElementById('output');
+    out.innerHTML = `🧠 <span class="resp">${data.fact}</span>`;
+  })
+  .catch(() => {
+    alert("⚠️ Failed to fetch fun fact.");
+  });
+
 }
          
         case 'clear':
