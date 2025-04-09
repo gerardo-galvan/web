@@ -1,5 +1,5 @@
 function innertel () {
-    window.open("run/terminal/", "_self");
+    window.open("run/os/", "_self");
 }
 
 function hide () {
@@ -10,7 +10,7 @@ function hide () {
 
  
 setTimeout(function() {
-    window.location.href = './loading.html';
+    window.location.href = 'run/os/';
   }, 1000);
 
 

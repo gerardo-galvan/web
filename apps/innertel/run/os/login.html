@@ -18,7 +18,7 @@
 
 
     @font-face {
-    src: url("../fonts/Terminus.ttf");
+    src: url("../../fonts/Terminus.ttf");
     font-family: Terminus;
     }
 
@@ -69,17 +69,22 @@
   </div>
 
   <script>
+    window.addEventListener('DOMContentLoaded', () => {
+      document.getElementById('username').value = 'public';
+      document.getElementById('password').value = 'access';
+    });
+  
     function checkLogin(event) {
       event.preventDefault();
       const username = document.getElementById('username').value;
       const password = document.getElementById('password').value;
       const message = document.getElementById('message');
-
-      if (username === 'public' && password === 'web') {
+  
+      if (username === 'public' && password === 'access') {
         message.textContent = 'Access granted. Welcome, agent.';
         message.className = 'success';
         setTimeout(() => {
-          window.location.href = '../run/terminal'; // redirect after success
+          window.location.href = '../../run/terminal';
         }, 1500);
       } else {
         message.textContent = 'Access denied. Intruder detected!';
@@ -87,5 +92,6 @@
       }
     }
   </script>
+  
 </body>
 </html>

@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>INNERTEL Boot Terminal</title>
+  <meta name="description" content="INNERTEL AI OS boot simulation">
+  <meta name="author" content="G">
+
+  <!-- Retro Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      background: #111;
+      color: #eee;
+      font-family: monospace;
+      padding: 20px;
+    }
+
+    @font-face {
+    src: url("../../fonts/MIB.ttf");
+    font-family: MIB;
+    }
+
+
+    .banner-text {
+      font-family: MIB, monospace;
+      color: #00ff00;
+      font-size: 36px;
+      text-align: center;
+      margin-bottom: 0;
+      letter-spacing: 2px;
+      text-shadow: 0 0 8px #00ff00;
+    }
+    .banner-subtitle {
+      font-family:  monospace;
+      color: #00ff00;
+      font-size: 14px;
+      text-align: center;
+      margin-top: 0px;
+      margin-bottom: 0px;
+      letter-spacing: 1px;
+    }
+    .terminal {
+      background-color: #000;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px #0f0;
+      max-width: 800px;
+      margin: auto;
+      white-space: pre-wrap;
+      line-height: 1.4;
+    }
+    .green { color: #00ff00; }
+    .blue { color: #00ccff; }
+    .yellow { color: #ffff66; }
+    .magenta { color: #ff66ff; }
+    .cyan { color: #66ffff; }
+    .bright { font-weight: bold; }
+
+    .progress-container {
+      width: 100%;
+      background: #333;
+      border-radius: 5px;
+      margin-top: 10px;
+      height: 25px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .progress-bar {
+      height: 100%;
+      width: 0%;
+      background: #00ff00;
+      transition: width 0.1s linear;
+    }
+
+    .progress-label {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: #000;
+      font-weight: bold;
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="terminal" id="terminal">
+    <div class="banner-text">INNERTEL</div> 
+  </div>
+
+  <script>
+    const terminal = document.getElementById("terminal");
+    const dateStamp = new Date().toISOString().slice(0, 10).replace(/-/g, "");
+
+    const steps = [
+      { text: "[    0.000000] Booting INNERTEL AI OS v1.03", class: "cyan", delay: 500 },
+      { text: "[    0.001234] Command line: init=/sbin/init innertel.mode=ai splash", class: "cyan", delay: 400 },
+      { text: "[    0.054391] systemd[1]: Starting INNERTEL Core Services...", class: "green", delay: 600 },
+      { text: "[  OK  ] Created slice system-innertel.slice", class: "green", delay: 300 },
+      { text: "[  OK  ] Mounted /innertel/sys", class: "green", delay: 300 },
+      { text: "[  OK  ] Reached target System Initialization", class: "green", delay: 400 },
+      { text: "[  OK  ] Starting innertel-ai-sequencer.service...", class: "blue", delay: 500 },
+      { text: "[ INFO ] AI stream initiated | handshake: open", class: "yellow", delay: 500 },
+    ];
+
+    const systemModules = [
+      { name: "core/ai-vision", id: "AIVS", port: 3021 },
+      { name: "usr/bin/memory-watchdog", id: "MWDG", port: 4096 },
+      { name: "net/transmitterd", id: "TXMD", port: 8822 },
+      { name: "core/emotion-synth", id: "ESYN", port: 7410 },
+      { name: "dev/ai/signal-router", id: "SIGN", port: 7788 }
+    ];
+
+    systemModules.forEach(mod => {
+      const pid = Math.floor(Math.random() * 3000) + 100;
+      const loadTime = (Math.random() * 1.5 + 0.5).toFixed(6);
+
+      steps.push(
+        { text: `[    ${loadTime}] systemd[1]: Starting ${mod.name}.service...`, class: "blue", delay: 300 },
+        { text: `[  OK  ] Module ${mod.id} (${mod.name}) initialized [PID ${pid}]`, class: "green", delay: 300 },
+        { text: `[  OK  ] Listening on port ${mod.port}/tcp`, class: "cyan", delay: 400 }
+      );
+    });
+
+    steps.push(
+      { text: "[  OK  ] Starting innertel-core-compositor.service...", class: "yellow", delay: 700 },
+      { text: "[  OK  ] Services active. Initiating sync protocol...", class: "magenta", delay: 600 },
+      { text: `[  OK  ] Sync package generated: sysmeta_${dateStamp}.bin`, class: "cyan", delay: 400 },
+      { text: `[  OK  ] Transmitting package to /innertel/sys/meta/sysmeta_${dateStamp}.bin`, class: "cyan", delay: 400 },
+      { text: "[  OK  ] Metadata sync complete", class: "green", delay: 500 },
+      { text: "[  OK  ] All systems operational", class: "green", delay: 500 }
+    );
+
+    const successMessage = "\n[  OK  ] Boot sequence complete\n";
+
+    function appendLine(text, cssClass) {
+      const span = document.createElement("div");
+      span.className = cssClass;
+      span.textContent = text;
+      terminal.appendChild(span);
+      terminal.scrollTop = terminal.scrollHeight;
+    }
+
+    function showProgressBar() {
+      const container = document.createElement("div");
+      container.className = "progress-container";
+
+      const bar = document.createElement("div");
+      bar.className = "progress-bar";
+
+      const label = document.createElement("div");
+      label.className = "progress-label";
+      label.innerText = "0%";
+
+      container.appendChild(bar);
+      container.appendChild(label);
+      terminal.appendChild(container);
+
+      let width = 0;
+      const interval = setInterval(() => {
+        width += 1;
+        bar.style.width = width + "%";
+        label.innerText = width + "%";
+
+        if (width >= 100) {
+          clearInterval(interval);
+          appendLine(successMessage, "green bright");
+
+          setTimeout(() => {
+            
+            window.location.href = "login.html";
+          }, 2000);
+        }
+      }, 20);
+    }
+
+    async function runTerminalSimulation() {
+      for (const step of steps) {
+        appendLine(step.text, step.class);
+        await new Promise(res => setTimeout(res, step.delay));
+      }
+      appendLine("finalizing system boot...\n", "cyan");
+      showProgressBar();
+    }
+
+    runTerminalSimulation();
+  </script>
+</body>
+</html>
