@@ -303,8 +303,56 @@ case 'horoscope': {
 }
 
  
+case 'vin': {
+  const vin = (arg || '').toUpperCase();
+  if (!vin || vin.length < 11) {
+    appendToOutput('Usage: vinlookup <VIN>', 'error');
+    break;
+  }
 
-         
+  try {
+    const res = await fetch(`/.netlify/functions/vinlookup?vin=${encodeURIComponent(vin)}`);
+    const data = await res.json();
+
+    if (data.error) {
+      appendToOutput(data.error, 'error');
+    } else {
+      appendToOutput(`🚗 VIN: <span class="resp">${vin}</span>`);
+      appendToOutput(`📅 Year: <span class="resp">${data.year}</span> | Make: <span class="resp">${data.make}</span> | Model: <span class="resp">${data.model}</span>`);
+      appendToOutput(`🛠️ Trim: <span class="resp">${data.trim || 'N/A'}</span> | Engine: <span class="resp">${data.engine || 'N/A'}</span>`);
+      appendToOutput(`🏷️ Manufacturer: <span class="resp">${data.manufacturer || 'N/A'}</span>`);
+    }
+  } catch {
+    appendToOutput('Error fetching VIN data.', 'error');
+  }
+  break;
+}
+
+case 'define': {
+  const word = (arg || '').toLowerCase();
+  if (!word) {
+    appendToOutput('Usage: define <word>', 'error');
+    break;
+  }
+
+  try {
+    const res = await fetch(`/.netlify/functions/define?word=${encodeURIComponent(word)}`);
+    const data = await res.json();
+
+    if (data.error) {
+      appendToOutput(`❌ ${data.error}`, 'error');
+    } else {
+      appendToOutput(`📚 <span class="links">${word}</span>`);
+      appendToOutput(`<span class="resp">${data.definition}</span>`);
+    }
+  } catch {
+    appendToOutput('Error fetching definition.', 'error');
+  }
+  break;
+}
+
+
+
         case 'clear':
           output.innerHTML = '';
           output.style.display = 'none';
