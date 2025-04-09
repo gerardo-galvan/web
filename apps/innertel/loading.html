@@ -64,62 +64,98 @@
   <div class="terminal" id="terminal"></div>
 
   <script>
-    const terminal = document.getElementById("terminal");
+    const dateStamp = new Date().toISOString().slice(0, 10).replace(/-/g, "");
 
-    // Generate date stamp: e.g., "20250408"
-const dateStamp = new Date().toISOString().slice(0, 10).replace(/-/g, "");
+// 🔧 Dynamic image file name generator
+function generateFileName(baseName) {
+  const suffixes = ["x", "IG", "tumblr", "pinterest", "artstation"];
+  const suffix = suffixes[Math.floor(Math.random() * suffixes.length)];
+  const randNum = Math.floor(Math.random() * 900) + 100;
+  return `${baseName}_${suffix}_${randNum}.jpg`;
+}
 
+// 🧱 Define image metadata
+const imageData = [
+  {
+    baseName: "brutalism",
+    resolution: "1920x1080",
+    tags: ["architecture", "brutalism", "modern"]
+  },
+  {
+    baseName: "cyberpunk",
+    resolution: "1280x720",
+    tags: ["city", "night", "neon"]
+  },
+  {
+    baseName: "nature",
+    resolution: "2048x1365",
+    tags: ["mountain", "hiking", "nature"]
+  },
+  {
+    baseName: "universe",
+    resolution: "1080x1350",
+    tags: ["supernova","cosmos","galaxy"]
+  }
+];
+
+// 📁 Steps array built dynamically
 const steps = [
-  // Bootup
   { text: "🤖 Initiating innertel engine...", class: "green", delay: 600 },
   { text: "🌐 Connecting to open web image stream...", class: "blue", delay: 800 },
   { text: "🔍 Searching for public image content (keywords: architecture, brutalism, retro, futurism)...", class: "yellow", delay: 1000 },
+];
 
-  // Images (with dynamic date number)
-  { text: `🖼️ Found new image: brutalism_${dateStamp}.jpg`, class: "magenta", delay: 300 },
-  { text: "📎 Indexing metadata: resolution=1920x1080, tags=[architecture, brutalism, modern]", class: "cyan", delay: 300 },
-  { text: `💾 Storing to: /innertel/archive/brutalism_${dateStamp}.jpg`, class: "green", delay: 400 },
+// 🧠 Generate file names + metadata steps
+const metadataList = [];
 
-  { text: `🖼️ Found new image: neon_city_${dateStamp}.jpg`, class: "magenta", delay: 300 },
-  { text: "📎 Indexing metadata: resolution=1280x720, tags=[city, night, neon]", class: "cyan", delay: 300 },
-  { text: `💾 Storing to: /innertel/archive/neon_city_${dateStamp}.jpg`, class: "green", delay: 400 },
+imageData.forEach(img => {
+  const fileName = generateFileName(img.baseName);
+  const archivePath = `/innertel/archive/${fileName}`;
 
-  { text: `🖼️ Found new image: mountain_trail_${dateStamp}.jpg`, class: "magenta", delay: 300 },
-  { text: "📎 Indexing metadata: resolution=2048x1365, tags=[mountain, hiking, nature]", class: "cyan", delay: 300 },
-  { text: `💾 Storing to: /innertel/archive/mountain_trail_${dateStamp}.jpg`, class: "green", delay: 400 },
+  // Add to the metadata archive (for .json export)
+  metadataList.push({
+    file: fileName,
+    resolution: img.resolution,
+    tags: img.tags,
+    path: archivePath,
+    date: dateStamp
+  });
 
-  { text: `🖼️ Found new image: portrait_mira_${dateStamp}.jpg`, class: "magenta", delay: 300 },
-  { text: "📎 Indexing metadata: resolution=1080x1350, tags=[portrait, woman, studio]", class: "cyan", delay: 300 },
-  { text: `💾 Storing to: /innertel/archive/portrait_mira_${dateStamp}.jpg`, class: "green", delay: 400 },
+  // Push simulated terminal output
+  steps.push(
+    { text: `🖼️ Found new image: ${fileName}`, class: "magenta", delay: 300 },
+    { text: `📎 Indexing metadata: resolution=${img.resolution}, tags=[${img.tags.join(", ")}]`, class: "cyan", delay: 300 },
+    { text: `💾 Storing to: ${archivePath}`, class: "green", delay: 400 }
+  );
+});
 
-  // Post-processing
+// Post-processing steps
+steps.push(
   { text: "🧠 Compressing and optimizing stored images...", class: "yellow", delay: 1000 },
-  { text: "📡 Uploading photo archive to live server...", class: "blue", delay: 1000 },
-];
+  { text: "📡 Uploading photo archive to live server...", class: "blue", delay: 1000 }
+);
 
-// Metadata generation
-const files = [
-  { text: `📄 Creating archive metadata: images_${dateStamp}.json`, class: "magenta", delay: 300 },
-  { text: `📦 Uploading metadata: /innertel/archive/images_${dateStamp}.json`, class: "cyan", delay: 300 },
-];
-
-const endSteps = [
-  // Final message
-  { text: "📂 Archive live at: /innertel/archive", class: "green", delay: 700 },
-];
+// Metadata simulation step
+const jsonMetaName = `images_${dateStamp}.json`;
+steps.push(
+  { text: `📄 Creating archive metadata: ${jsonMetaName}`, class: "magenta", delay: 300 },
+  { text: `📦 Uploading metadata: /innertel/archive/${jsonMetaName}`, class: "cyan", delay: 300 },
+  { text: "📂 Archive live at: /innertel/archive", class: "green", delay: 700 }
+);
 
 const successMessage = "\n✅ ARCHIVE COMPLETE — ALL SYSTEMS OPERATIONAL\n";
 
+// Show in terminal
+function appendLine(text, cssClass) {
+  const span = document.createElement("span");
+  span.className = cssClass;
+  span.textContent = text + "\n";
+  terminal.appendChild(span);
+  terminal.scrollTop = terminal.scrollHeight;
+}
 
-    function appendLine(text, cssClass) {
-      const span = document.createElement("span");
-      span.className = cssClass;
-      span.textContent = text + "\n";
-      terminal.appendChild(span);
-      terminal.scrollTop = terminal.scrollHeight;
-    }
-
-    function showProgressBar() {
+// Simulate progress bar
+function showProgressBar() {
   const container = document.createElement("div");
   container.className = "progress-container";
 
@@ -144,47 +180,39 @@ const successMessage = "\n✅ ARCHIVE COMPLETE — ALL SYSTEMS OPERATIONAL\n";
       clearInterval(interval);
       appendLine(successMessage, "green bright");
 
-      // ✅ Redirect after short delay
+      // Redirect after delay
       setTimeout(() => {
-
-
-  const topics = [
-  "architecture brutalism",
-  "retro futurism",  
-  "galaxy universe",
-  "cyberpunk city",
-  "sci-fi landscape" 
-];
-
+        const topics = [
+          "architecture brutalism", "retro futurism",  
+          "galaxy universe", "cyberpunk city", "sci-fi landscape"
+        ];
         const generateRandomLink = () => {
-  const topic = topics[Math.floor(Math.random() * topics.length)];
-  const encodedTopic = encodeURIComponent(topic); // Handles spaces
-  const page = Math.floor(Math.random() * 5) + 1; // Pages 1–5
-  return `search.html#gsc.tab=1&gsc.q=${encodedTopic}&gsc.sort=&gsc.page=${page}`;
-};
+          const topic = topics[Math.floor(Math.random() * topics.length)];
+          const encodedTopic = encodeURIComponent(topic);
+          const page = Math.floor(Math.random() * 5) + 1;
+          return `search.html#gsc.tab=1&gsc.q=${encodedTopic}&gsc.sort=&gsc.page=${page}`;
+        };
 
-
-const loadImages = generateRandomLink();
-
-
-window.location.href = loadImages;
+        const loadImages = generateRandomLink();
+        window.location.href = loadImages;
       }, 2000);
     }
   }, 20);
 }
 
+// Simulate terminal steps
+async function runTerminalSimulation() {
+  for (const step of steps) {
+    appendLine(step.text, step.class);
+    await new Promise(res => setTimeout(res, step.delay));
+  }
+  appendLine("Finalizing...\n", "cyan");
+  showProgressBar();
+ 
+}
 
-    async function runTerminalSimulation() {
-      const sequence = [...steps, ...files, ...endSteps];
-      for (const step of sequence) {
-        appendLine(step.text, step.class);
-        await new Promise(res => setTimeout(res, step.delay));
-      }
-      appendLine("Finalizing...\n", "cyan");
-      showProgressBar();
-    }
+runTerminalSimulation();
 
-    runTerminalSimulation();
   </script>
 </body>
 </html>
