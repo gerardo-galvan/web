@@ -249,7 +249,7 @@ const visitorId = baseVisitors + todayOffset;
 
         case 'fact': {
            
-  fetch('/run/.netlify/functions/fact')
+  fetch('.netlify/functions/fact')
     .then(res => res.json())
     .then(data => {
       const out = document.getElementById('output');
