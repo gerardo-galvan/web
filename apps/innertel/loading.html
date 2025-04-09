@@ -101,8 +101,8 @@ const imageData = [
 // 📁 Steps array built dynamically
 const steps = [
   { text: "🤖 Initiating innertel engine...", class: "green", delay: 600 },
-  { text: "🌐 Connecting to open web image stream...", class: "blue", delay: 800 },
-  { text: "🔍 Searching for public image content (keywords: architecture, brutalism, retro, futurism)...", class: "yellow", delay: 1000 },
+  { text: "🌐 Connecting to open web stream...", class: "blue", delay: 800 },
+  { text: "🔍 Searching for public data (keywords: architecture, brutalism, retro, futurism)...", class: "yellow", delay: 1000 },
 ];
 
 // 🧠 Generate file names + metadata steps
@@ -123,27 +123,27 @@ imageData.forEach(img => {
 
   // Push simulated terminal output
   steps.push(
-    { text: `🖼️ Found new image: ${fileName}`, class: "magenta", delay: 300 },
-    { text: `📎 Indexing metadata: resolution=${img.resolution}, tags=[${img.tags.join(", ")}]`, class: "cyan", delay: 300 },
-    { text: `💾 Storing to: ${archivePath}`, class: "green", delay: 400 }
+    { text: `[i] Found new image: ${fileName}`, class: "magenta", delay: 300 },
+    { text: `[+] Indexing metadata: resolution=${img.resolution}, tags=[${img.tags.join(", ")}]`, class: "cyan", delay: 300 },
+    { text: `[+] Storing to: ${archivePath}`, class: "green", delay: 400 }
   );
 });
 
 // Post-processing steps
 steps.push(
-  { text: "🧠 Compressing and optimizing stored images...", class: "yellow", delay: 1000 },
-  { text: "📡 Uploading photo archive to live server...", class: "blue", delay: 1000 }
+  { text: "[*] Compressing and optimizing stored images...", class: "yellow", delay: 1000 },
+  { text: "[*] Uploading photo archive to live server...", class: "blue", delay: 1000 }
 );
 
 // Metadata simulation step
 const jsonMetaName = `images_${dateStamp}.json`;
 steps.push(
-  { text: `📄 Creating archive metadata: ${jsonMetaName}`, class: "magenta", delay: 300 },
-  { text: `📦 Uploading metadata: /innertel/archive/${jsonMetaName}`, class: "cyan", delay: 300 },
-  { text: "📂 Archive live at: /innertel/archive", class: "green", delay: 700 }
+  { text: `[i] Creating archive metadata: ${jsonMetaName}`, class: "magenta", delay: 300 },
+  { text: `[*] Uploading metadata: /innertel/archive/${jsonMetaName}`, class: "cyan", delay: 300 },
+  { text: "[✔] Archive live at: /innertel/archive", class: "green", delay: 700 }
 );
 
-const successMessage = "\n✅ ARCHIVE COMPLETE — ALL SYSTEMS OPERATIONAL\n";
+const successMessage = "\n✔ ARCHIVE COMPLETE — ALL SYSTEMS OPERATIONAL\n";
 
 // Show in terminal
 function appendLine(text, cssClass) {
