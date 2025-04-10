@@ -242,7 +242,6 @@ case 'b':
   response = [
     '[Web & Lookup Tools]',
     '<span class="cmd">search &lt;term&gt;</span> - search the web',
-    '<span class="cmd">vin &lt;VIN&gt;</span> - lookup VIN info',
     '<span class="cmd">define &lt;word&gt;</span> - define a word',
     '<span class="cmd">horoscope &lt;sign&gt;</span> - daily horoscope'
   ].join('<br>');
@@ -274,6 +273,7 @@ case 'e':
     '<span class="cmd">joke</span> - get a random joke',
     '<span class="cmd">encrypt &lt;text&gt;</span> - base64 encode',
     '<span class="cmd">decrypt &lt;base64&gt;</span> - decode base64',
+    '<span class="cmd">qr &lt;text&gt;</span> - generate a QR code from text or link',
     '<span class="cmd">hack</span> - run simulated hack'
   ].join('<br>');
   break;
@@ -329,27 +329,74 @@ case 'joke': {
 
 
 case 'download-reel': {
-    const url = args[0]; // e.g., 'https://www.instagram.com/reel/xyz/'
+  const url = args[0];
 
-    try {
-      const res = await fetch('/.netlify/functions/downloadReel', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ reelUrl: url }),
-      });
-
-      if (!res.ok) {
-        const error = await res.json();
-        return sendMessage(`❌ Error: ${error.error}`);
-      }
-
-      const blob = await res.blob();
-      const downloadUrl = URL.createObjectURL(blob);
-      return sendMessage(`✅ Reel downloaded! [Click here to view](${downloadUrl})`);
-    } catch (err) {
-      return sendMessage(`❌ Unexpected error: ${err.message}`);
-    }
+  if (!url || !url.includes('instagram.com')) {
+    appendToOutput('Usage: download-reel <Instagram Reel/Post URL>', 'error');
+    break;
   }
+
+  const loadingId = `loading-${Date.now()}`;
+  const loadingLine = document.createElement('div');
+  loadingLine.className = 'info';
+  loadingLine.id = loadingId;
+  loadingLine.textContent = '⏳ Fetching reel from FastVideoSave...';
+  output.appendChild(loadingLine);
+  output.scrollTop = output.scrollHeight;
+
+  try {
+    const res = await fetch('/.netlify/functions/downloadReel', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ reelUrl: url })
+    });
+
+    const data = await res.json();
+
+    if (data.videoUrl) {
+      loadingLine.remove();
+
+      const videoWrapper = document.createElement('div');
+      videoWrapper.className = 'resp';
+      videoWrapper.innerHTML = `<video width="320" controls src="${data.videoUrl}"></video>`;
+      output.appendChild(videoWrapper);
+
+      appendToOutput(`⬇️ <a class="links" href="${data.videoUrl}" target="_blank" download>Download Video</a>`, 'resp');
+
+      if (!window.reelHistory) window.reelHistory = [];
+      window.reelHistory.push({ url, videoUrl: data.videoUrl });
+    } else {
+      loadingLine.textContent = `❌ ${data.error || 'Failed to extract video link.'}`;
+      loadingLine.className = 'error';
+    }
+  } catch (err) {
+    loadingLine.textContent = `❌ Network error: ${err.message}`;
+    loadingLine.className = 'error';
+  }
+
+  break; 
+}
+
+
+
+             
+ 
+  case 'qr': {
+  const textToEncode = cmd.slice(3).trim();
+  if (!textToEncode) {
+    appendToOutput('Usage: qr <text or link>', 'error');
+    break;
+  }
+
+  const encoded = encodeURIComponent(textToEncode);
+  const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encoded}`;
+  const qrImage = `<br><img src="${qrUrl}" alt="QR Code for ${textToEncode}" width="200" height="200"><br>`;
+
+  appendToOutput(`📦 QR Code for: <span class="links">${textToEncode}</span>${qrImage}`, 'resp');
+  break;
+}
+
+
 
 case 'horoscope': {
   const zodiac = (arg || '').toLowerCase();
@@ -375,53 +422,6 @@ case 'horoscope': {
 }
 
  
-case 'vin': {
-  const vin = (arg || '').toUpperCase();
-  if (!vin || vin.length < 11) {
-    appendToOutput('Usage: vinlookup <VIN>', 'error');
-    break;
-  }
-
-  try {
-    const res = await fetch(`/.netlify/functions/vinlookup?vin=${encodeURIComponent(vin)}`);
-    const data = await res.json();
-
-    if (data.error) {
-      appendToOutput(data.error, 'error');
-    } else {
-      appendToOutput(`🚗 VIN: <span class="resp">${vin}</span>`);
-      appendToOutput(`📅 Year: <span class="resp">${data.year}</span> | Make: <span class="resp">${data.make}</span> | Model: <span class="resp">${data.model}</span>`);
-      appendToOutput(`🛠️ Trim: <span class="resp">${data.trim || 'N/A'}</span> | Engine: <span class="resp">${data.engine || 'N/A'}</span>`);
-      appendToOutput(`🏷️ Manufacturer: <span class="resp">${data.manufacturer || 'N/A'}</span>`);
-    }
-  } catch {
-    appendToOutput('Error fetching VIN data.', 'error');
-  }
-  break;
-}
-
-case 'define': {
-  const word = (arg || '').toLowerCase();
-  if (!word) {
-    appendToOutput('Usage: define <word>', 'error');
-    break;
-  }
-
-  try {
-    const res = await fetch(`/.netlify/functions/define?word=${encodeURIComponent(word)}`);
-    const data = await res.json();
-
-    if (data.error) {
-      appendToOutput(`❌ ${data.error}`, 'error');
-    } else {
-      appendToOutput(`📚 <span class="links">${word}</span>`);
-      appendToOutput(`<span class="resp">${data.definition}</span>`);
-    }
-  } catch {
-    appendToOutput('Error fetching definition.', 'error');
-  }
-  break;
-}
 
 
 
