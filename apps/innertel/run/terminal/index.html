@@ -106,7 +106,7 @@
   <h1>INNERTEL terminal</h1>
   <div class="console-box"> 
     <p class="info" id="greeting"></p>
-    <p class="info">System Status: <strong>ONLINE</strong></p>
+    <p class="info">login: <strong>root (automatic login)</strong></p>
     <p class="info">Last Online:  <script>document.write(new Date().toLocaleString());  // Generate unique greeting with random number
       const greetingEl = document.getElementById('greeting');
     const baseVisitors = 10000; // Estimate of cumulative visits
@@ -114,7 +114,7 @@ const dailyRange = Math.floor(Math.random() * 9000) + 1000; // 1k–10k visits d
 const timestampSeed = new Date().setHours(0, 0, 0, 0);
 const todayOffset = timestampSeed % dailyRange;
 const visitorId = baseVisitors + todayOffset;
-    greetingEl.innerHTML = `Greetings, user #<strong>${visitorId}</strong>!`;
+    greetingEl.innerHTML = `<strong>INNERTEL AI OS 1.0.${visitorId}</strong>!`;
   // Display help on page load
     
 </script></p>
@@ -124,7 +124,7 @@ const visitorId = baseVisitors + todayOffset;
       <!-- Output appears above -->
 </div>
 <div id="prompt-line">
-  <span id="prompt-label">innertel$</span>
+  <span id="prompt-label">root@innertel$</span>
   <input type="text" id="commandInput" autocomplete="off" autofocus onkeydown="handleCommand(event)">
 </div>
   </div>
@@ -219,7 +219,7 @@ const visitorId = baseVisitors + todayOffset;
       switch (base) {
         case 'help':
   response = [
-    'INNERTEL Help System — v1.0 — terminal@innertel',
+    'INNERTEL Help System — v1.0',
     '',
     '[a] Core Utilities             [b] Web & Lookup Tools',
     '[c] File & Directory Commands [d] Network & Links',

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>INNERTEL</title>
+  <title>INNERTEL Boot Terminal</title>
   <meta name="description" content="INNERTEL">
   <meta name="author" content="G">
 
@@ -136,7 +136,7 @@
       { text: "[  OK  ] Starting Home Area Manager", class: "green", delay: 500 }
     );
 
-    const successMessage = "\n ⊙ INNERTEL AI OS launching...\n";
+    const successMessage = "\n[  OK  ] Startup complete. Launching INNERTEL AI OS...\n";
 
     function appendLine(text, cssClass) {
       const span = document.createElement("div");
@@ -184,7 +184,7 @@
         appendLine(step.text, step.class);
         await new Promise(res => setTimeout(res, step.delay));
       }
-      appendLine("Finalizing system boot...\n", "cyan");
+      appendLine("finalizing system boot...\n", "cyan");
       showProgressBar();
     }
 
