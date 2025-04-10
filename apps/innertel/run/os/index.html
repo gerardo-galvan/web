@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <title>INNERTEL Boot Terminal</title>
-  <meta name="description" content="INNERTEL AI OS boot simulation">
+  <meta name="description" content="INNERTEL">
   <meta name="author" content="G">
 
   <!-- Retro Google Font -->
@@ -96,9 +96,9 @@
     const dateStamp = new Date().toISOString().slice(0, 10).replace(/-/g, "");
 
     const steps = [
-      { text: "[    0.000000] INNERTEL AI OS v1.03 initiating...", class: "cyan", delay: 500 },
-      { text: "[    0.001234] Command line: init=/sbin/init innertel.mode=ai splash", class: "cyan", delay: 400 },
-      { text: "[    0.054391] systemd[1]: Starting INNERTEL Core Services...", class: "green", delay: 600 },
+      { text: "[   *  ] INNERTEL AI OS v1.03 initiating...", class: "cyan", delay: 500 },
+      { text: "[  OK  ] Command line: init=/sbin/init innertel.mode=CLI", class: "cyan", delay: 400 },
+      { text: "[  OK  ] systemd[1]: Starting INNERTEL Core Services...", class: "green", delay: 600 },
       { text: "[  OK  ] Created slice system-innertel.slice", class: "green", delay: 300 },
       { text: "[  OK  ] Mounted /innertel/sys", class: "green", delay: 300 },
       { text: "[  OK  ] Reached target System Initialization", class: "green", delay: 400 },
@@ -119,7 +119,7 @@
       const loadTime = (Math.random() * 1.5 + 0.5).toFixed(6);
 
       steps.push(
-        { text: `[    ${loadTime}] systemd[1]: Starting ${mod.name}.service...`, class: "blue", delay: 300 },
+        { text: `[${loadTime}] systemd[1]: Starting ${mod.name}.service...`, class: "blue", delay: 300 },
         { text: `[  OK  ] Module ${mod.id} (${mod.name}) initialized [PID ${pid}]`, class: "green", delay: 300 },
         { text: `[  OK  ] Listening on port ${mod.port}/tcp`, class: "cyan", delay: 400 }
       );
@@ -134,7 +134,7 @@
       { text: "[  OK  ] All systems operational", class: "green", delay: 500 }
     );
 
-    const successMessage = "\n[  OK  ] Boot sequence complete\n";
+    const successMessage = "\n[  OK  ] Startup complete. Launching OS...\n";
 
     function appendLine(text, cssClass) {
       const span = document.createElement("div");
