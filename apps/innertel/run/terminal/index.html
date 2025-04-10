@@ -328,6 +328,29 @@ case 'joke': {
 }
 
 
+case 'download-reel': {
+    const url = args[0]; // e.g., 'https://www.instagram.com/reel/xyz/'
+
+    try {
+      const res = await fetch('/.netlify/functions/downloadReel', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ reelUrl: url }),
+      });
+
+      if (!res.ok) {
+        const error = await res.json();
+        return sendMessage(`❌ Error: ${error.error}`);
+      }
+
+      const blob = await res.blob();
+      const downloadUrl = URL.createObjectURL(blob);
+      return sendMessage(`✅ Reel downloaded! [Click here to view](${downloadUrl})`);
+    } catch (err) {
+      return sendMessage(`❌ Unexpected error: ${err.message}`);
+    }
+  }
+
 case 'horoscope': {
   const zodiac = (arg || '').toLowerCase();
   if (!zodiac) {
