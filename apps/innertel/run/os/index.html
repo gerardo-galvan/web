@@ -96,7 +96,7 @@
     const dateStamp = new Date().toISOString().slice(0, 10).replace(/-/g, "");
 
     const steps = [
-      { text: "[   *  ] INNERTEL AI OS v1.03 initiating...", class: "cyan", delay: 500 },
+      { text: "[  OK  ] INNERTEL AI OS v1.03 initiating...", class: "cyan", delay: 500 },
       { text: "[  OK  ] Command line: init=/sbin/init innertel.mode=CLI", class: "cyan", delay: 400 },
       { text: "[  OK  ] systemd[1]: Starting INNERTEL Core Services...", class: "green", delay: 600 },
       { text: "[  OK  ] Created slice system-innertel.slice", class: "green", delay: 300 },
@@ -134,7 +134,7 @@
       { text: "[  OK  ] All systems operational", class: "green", delay: 500 }
     );
 
-    const successMessage = "\n[  OK  ] Startup complete. Launching OS...\n";
+    const successMessage = "\n[  OK  ] Startup complete. Launching system...\n";
 
     function appendLine(text, cssClass) {
       const span = document.createElement("div");
