@@ -375,11 +375,7 @@ case 'download-reel': {
   }
 
   break; 
-}
-
-
-
-             
+}            
  
   case 'qr': {
   const textToEncode = cmd.slice(3).trim();
@@ -393,6 +389,33 @@ case 'download-reel': {
   const qrImage = `<br><img src="${qrUrl}" alt="QR Code for ${textToEncode}" width="200" height="200"><br>`;
 
   appendToOutput(`📦 QR Code for: <span class="links">${textToEncode}</span>${qrImage}`, 'resp');
+  break;
+}
+
+case 'btc':
+case 'bitcoin': {
+  const loading = document.createElement('div');
+  loading.className = 'info';
+  loading.textContent = '⏳ Fetching BTC price...';
+  output.appendChild(loading);
+  output.scrollTop = output.scrollHeight;
+
+  try {
+    const res = await fetch('/.netlify/functions/getBitcoinPrice');
+    const data = await res.json();
+
+    if (data.price) {
+      loading.remove();
+      appendToOutput(`₿ 1 BTC = <span class="resp">$${Number(data.price).toLocaleString()}</span>`, 'resp');
+    } else {
+      loading.textContent = `❌ ${data.error || 'Could not fetch BTC price.'}`;
+      loading.className = 'error';
+    }
+  } catch (err) {
+    loading.textContent = `❌ Error: ${err.message}`;
+    loading.className = 'error';
+  }
+
   break;
 }
 
