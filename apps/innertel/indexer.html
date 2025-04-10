@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="description" content="Public archive preserving the complexity of our past and present. Curated by the algorithm.">
+  <meta name="keywords" content="AI, Automation, Photography, Architecture, Nature, Film, Curation, Fashion, Images, Videos, Retro, Futurism, Escapism, Self-Expression, Comfort, Visionary, Cyberpunk, Dystopia, Utopia, Aliens, Intergalactic, Space Travel, Tech, Science, Inner, Emotions, Thoughs, Ideas, Transmission, Self-Discovery, Chat, Chatbot, Digital Museum, Art, Magazine, Minimal, Brutalism, Music">
+  <meta name="author" content="G">
+  <title>INNERTEL</title>
+  <style>
+    body {
+      background: #111;
+      color: #eee;
+      font-family: monospace;
+      padding: 20px;
+    }
+    .terminal {
+      background-color: #000;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px #0f0;
+      max-width: 800px;
+      margin: auto;
+      white-space: pre-wrap;
+      line-height: 1.4;
+    }
+    .green { color: #00ff00; }
+    .blue { color: #00ccff; }
+    .yellow { color: #ffff66; }
+    .magenta { color: #ff66ff; }
+    .cyan { color: #66ffff; }
+    .bright { font-weight: bold; }
+
+    .progress-container {
+      width: 100%;
+      background: #333;
+      border-radius: 5px;
+      margin-top: 10px;
+      height: 25px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .progress-bar {
+      height: 100%;
+      width: 0%;
+      background: #00ff00;
+      transition: width 0.1s linear;
+    }
+
+    .progress-label {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: #000;
+      font-weight: bold;
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="terminal" id="terminal"></div>
+
+  <script>
+    const dateStamp = new Date().toISOString().slice(0, 10).replace(/-/g, "");
+
+    const steps = [
+      { text: "🤖 INNERTEL boot sequence initiated...", class: "green", delay: 600 },
+      { text: "🌐 Connecting to open web stream...", class: "blue", delay: 800 },
+      { text: "🔍 Searching for public data (keywords: architecture, universe, nature, retro, futurism)...", class: "yellow", delay: 1000 },
+    ];
+
+    // 🔧 Generate filename with suffix and associated tags
+    function generateFileName() {
+      const suffixes = ["architecture", "universe", "nature", "film", "cyberpunk"];
+      const suffix = suffixes[Math.floor(Math.random() * suffixes.length)];
+      const randNum = Math.floor(Math.random() * 900) + 100;
+
+      const suffixTagMap = {
+        architecture: ["brutalism", "minimal", "modern"],
+        universe: ["supernova", "cosmos", "galaxy"],
+        nature: ["mountain", "hiking", "nature"],
+        film: ["analog", "grain", "vintage"],
+        cyberpunk: ["city", "night", "neon"]
+      };
+
+      const tags = suffixTagMap[suffix] || ["misc"];
+      const tagString = tags.join("-");
+
+      const fileName = `photo_${suffix}_${randNum}.jpg`;
+
+      return { fileName, tags };
+    }
+
+    // 🧱 Define image metadata (resolution only used)
+    const imageData = [
+      { resolution: "1920x1080" },
+      { resolution: "1280x720" },
+      { resolution: "2048x1365" },
+      { resolution: "1080x1350" }
+    ];
+
+    const metadataList = [];
+
+    imageData.forEach(img => {
+      const { fileName, tags } = generateFileName();
+      const archivePath = `/innertel/archive/${fileName}`;
+
+      metadataList.push({
+        file: fileName,
+        resolution: img.resolution,
+        tags,
+        path: archivePath,
+        date: dateStamp
+      });
+
+      // 🧠 Generate file names + metadata 
+      steps.push(
+        { text: `[i] Found new image: ${fileName}`, class: "magenta", delay: 300 },
+        { text: `[+] Indexing metadata: resolution=${img.resolution}, tags=[${tags.join(", ")}]`, class: "cyan", delay: 300 },
+        { text: `[*] Storing to: ${archivePath}`, class: "green", delay: 400 }
+      );
+    });
+
+    
+    // Post-processing steps
+    steps.push(
+      { text: "[*] Compressing and optimizing stored images...", class: "yellow", delay: 1000 },
+      { text: "[*] Uploading photo archive to live server...", class: "blue", delay: 1000 }
+    );
+
+    // Metadata syncing
+    const jsonMetaName = `images_${dateStamp}.json`;
+    steps.push(
+      { text: `[i] Syncing metadata: ${jsonMetaName}`, class: "magenta", delay: 300 },
+      { text: `[*] Uploading metadata: /innertel/archive/${jsonMetaName}`, class: "cyan", delay: 300 },
+      { text: "[✔] Transmission Complete — data synced: /innertel/archive", class: "green", delay: 700 }
+    );
+
+    const successMessage = "\n🟢 ARCHIVE ONLINE — ALL SYSTEMS OPERATIONAL\n";
+
+    function appendLine(text, cssClass) {
+      const span = document.createElement("span");
+      span.className = cssClass;
+      span.textContent = text + "\n";
+      terminal.appendChild(span);
+      terminal.scrollTop = terminal.scrollHeight;
+    }
+
+    function showProgressBar() {
+      const container = document.createElement("div");
+      container.className = "progress-container";
+
+      const bar = document.createElement("div");
+      bar.className = "progress-bar";
+
+      const label = document.createElement("div");
+      label.className = "progress-label";
+      label.innerText = "0%";
+
+      container.appendChild(bar);
+      container.appendChild(label);
+      terminal.appendChild(container);
+
+      let width = 0;
+      const interval = setInterval(() => {
+        width += 1;
+        bar.style.width = width + "%";
+        label.innerText = width + "%";
+
+        if (width >= 100) {
+          clearInterval(interval);
+          appendLine(successMessage, "green bright");
+
+          setTimeout(() => {
+            const topics = [
+              "architecture brutalism", "retro futurism",  
+              "galaxy universe", "cyberpunk city", "sci-fi landscape"
+            ];
+            const generateRandomLink = () => {
+              const topic = topics[Math.floor(Math.random() * topics.length)];
+              const encodedTopic = encodeURIComponent(topic);
+              const page = Math.floor(Math.random() * 5) + 1;
+              return `search.html#gsc.tab=1&gsc.q=${encodedTopic}&gsc.sort=&gsc.page=${page}`;
+            };
+
+            window.location.href = generateRandomLink();
+          }, 2000);
+        }
+      }, 20);
+    }
+
+    async function runTerminalSimulation() {
+      for (const step of steps) {
+        appendLine(step.text, step.class);
+        await new Promise(res => setTimeout(res, step.delay));
+      }
+      appendLine("Finalizing...\n", "cyan");
+      showProgressBar();
+    }
+
+    runTerminalSimulation();
+  </script>
+</body>
+</html>
