@@ -70,7 +70,7 @@
 
   <script>
     window.addEventListener('DOMContentLoaded', () => {
-      document.getElementById('username').value = 'public';
+      document.getElementById('username').value = 'root';
       document.getElementById('password').value = 'access';
     });
   
@@ -80,8 +80,8 @@
       const password = document.getElementById('password').value;
       const message = document.getElementById('message');
   
-      if (username === 'public' && password === 'access') {
-        message.textContent = 'Access granted. Welcome, agent.';
+      if (username === 'root' && password === 'access') {
+        message.textContent = 'Access granted';
         message.className = 'success';
         setTimeout(() => {
           window.location.href = '../../run/terminal';

@@ -1,0 +1,142 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Innertel Boot Animation</title>
+  <style>
+    body {
+      background-color: #000;
+      color: #0f0;
+      font-family: monospace;
+      padding: 20px;
+      white-space: pre;
+      overflow: hidden;
+    }
+    .line {
+      opacity: 0;
+      animation: fadeIn 0.5s forwards;
+    }
+    @keyframes fadeIn {
+      to {
+        opacity: 1;
+      }
+    }
+    .highlight {
+      color: #0ff;
+    }
+    .ok {
+      color: #009E00;
+      font-weight: bold;
+    }
+
+    .start {
+      color: #59FFD6;
+      font-weight: bold;
+    }
+
+    .finish {
+      color: #D6EF35;
+      font-weight: bold;
+    }
+
+    .mount {
+      color: #BD58FF;
+      font-weight: bold;
+    }
+
+    
+
+    .progress {
+      display: inline-block;
+      white-space: nowrap;
+    }
+    .bar {
+      display: inline-block;
+      overflow: hidden;
+      white-space: nowrap;
+    }
+    .fill {
+      display: inline-block;
+      overflow: hidden;
+      color: #0f0;
+      animation: fillBar 4s steps(50, end) forwards;
+    }
+    @keyframes fillBar {
+      from { width: 0ch; }
+      to { width: 50ch; }
+    }
+    .percent {
+      display: inline-block;
+      width: 5ch;
+      text-align: right;
+    }
+  </style>
+</head>
+<body>
+  <div id="boot-sequence"></div>
+
+  <script>
+    const lines = [
+      ':: INNERTEL AI OS v1.03 initiating...',
+      'Starting systemd-udevd version 2025.1-innertel',
+      ':: running early hook [innerteliso_pxe_nbd]',
+      ':: running hook [innertel]',
+      ':: running hook [memdisk]',
+      ':: running hook [innertel_pxe_http]',
+      '[6.344] ELF header magic: ! TELF',
+      '',
+      ':: Mounting /run/os/innertel (tmpfs) filesystem, size=24MB..',
+      ':: loading rootfs image to RAM...',
+      '<span class="progress">24MB<span class="bar">[<span id="fill" class="fill">==================================================</span>]</span> <span id="percent" class="percent">0%</span> ETA 0:00:0</span>',
+      "mounting /dev/loop0/ to '/run/os/innertel/airootfs'",
+      ':: running late hook [innertel_pxe_common]',
+      ':: running cleanup hook [udev]',
+      '',
+      '<span class="highlight">Welcome to Innertel AI OS!</span>',
+      '',
+      '<span class="mount">[ OK ] Mounted Temporary Directory /tmp.</span>',
+      '<span class="finish">[ OK ] Finished Load Normal Module Config</span>',
+      '<span class="mount">[ OK ] Mounting Fuse Control File System...</span>',
+      '<span class="start">[ OK ] Starting Create Static Device Nodes in /dev</span>',
+      '<span class="finish">[ OK ] Finished Load/Save OS Random Seed.</span>',
+      '<span class="finish">[ OK ] Finished Apply Kernel Variables</span>',
+      '<span class="start">[ OK ] Starting User Database Manager</span>',
+      '<span class="start">[ OK ] Starting Update Boot Loader Random Seed...</span>',
+      '<span class="ok">[ OK ] Automatic Boot Loader Update...</span>',
+      '<span class="start">[ OK ] Starting Rebuild Dynamic Linker...</span>',
+      '<span class="start">[ OK ] Starting User Login Management</span>',
+      '<span class="start">[ OK ] Started Home Area Manager</span>',
+      '<span class="finish">[ OK ] Finished Home Area Activation</span>',
+      '<span class="start">[ OK ] Started User Login Management</span>',
+      '<span class="start">[ OK ] Starting Innertel SSH Daemon...</span>',
+      '<span class="start">[ OK ] Starting Permit User Session</span>',
+      '<span class="ok">[ OK ] Reached target Login Prompts.</span>',
+      '<span class="start">[ OK ] Started Innertel SSH Daemon.</span>',
+      '<span class="start">[ OK ] Started Process Core</span>'
+    ];
+
+    const container = document.getElementById('boot-sequence');
+
+    lines.forEach((line, index) => {
+      const div = document.createElement('div');
+      div.classList.add('line');
+      div.innerHTML = line;
+      div.style.animationDelay = `${index * 150}ms`;
+      container.appendChild(div);
+    });
+
+    const updatePercent = () => {
+      const percentEl = document.getElementById('percent');
+      let percent = 0;
+      const interval = setInterval(() => {
+        percent++;
+        if (percent > 100) percent = 100;
+        percentEl.textContent = `${percent}%`;
+        if (percent >= 100) clearInterval(interval);
+      }, 40);
+    };
+
+    setTimeout(updatePercent, 150 * 10);
+  </script>
+</body>
+</html>
