@@ -11,17 +11,21 @@
       font-family: Inconsolata, monospace, "Courier New", Courier ;
       padding: 40px;
     }
+
     @font-face {
-      src: url("../../fonts/MIB.ttf");
-      font-family: MIB;
+    src: url("../../fonts/MIB.ttf");
+    font-family: MIB;
     }
+
     @font-face {
-      src: url("../../fonts/Inconsolata.ttf");
-      font-family: Inconsolata;
+    src: url("../../fonts/Inconsolata.ttf");
+    font-family: Inconsolata;
     }
+
     h1 {
       font-family:  MIB;
       color: lime;
+   
     }
     .console-box {
       border: 1px solid #00FF00;
@@ -38,27 +42,31 @@
       max-height: 400px;
       overflow-y: auto;
     }
-    #output::-webkit-scrollbar {
-      width: 12px;
-    }
-    #output::-webkit-scrollbar-track {
-      background: black;
-    }
-    #output::-webkit-scrollbar-thumb {
-      background-color: #00FF00;
-      border-radius: 0px;
-      border: 1px solid black;
-    }
-    #output::-webkit-scrollbar-button:single-button {
-      background-color: #00FF00;
-      height: 10px;
-    }
-    #output::-webkit-scrollbar-button:single-button:vertical:decrement {
-      border-bottom: 1px solid black;
-    }
-    #output::-webkit-scrollbar-button:single-button:vertical:increment {
-      border-top: 1px solid black;
-    }
+
+      /* Terminal Scrollbar Styling */
+  #output::-webkit-scrollbar {
+    width: 12px;
+  }
+  #output::-webkit-scrollbar-track {
+    background: black;
+  }
+  #output::-webkit-scrollbar-thumb {
+    background-color: #00FF00;
+    border-radius: 0px;
+    border: 1px solid black;
+  }
+  #output::-webkit-scrollbar-button:single-button {
+    background-color: #00FF00;
+    height: 10px;
+  }
+  #output::-webkit-scrollbar-button:single-button:vertical:decrement {
+    border-bottom: 1px solid black;
+  }
+  #output::-webkit-scrollbar-button:single-button:vertical:increment {
+    border-top: 1px solid black;
+  }
+
+
     #prompt-line {
       display: flex;
       align-items: center;
@@ -77,11 +85,21 @@
       font-size: 1em;
       font-family: inherit;
     }
-    .cmd { color: #00FF00; }
-    .links { color:#00BFFF; }
-    .resp { color: #83FF08; }
-    .error { color: #FF5555; }
-    .info { color: #636363; }
+    .cmd {
+      color: #00FF00;
+    }
+    .links {
+      color:#00BFFF;
+    }
+    .resp {
+      color: #83FF08;
+    }
+    .error {
+      color: #FF5555;
+    }
+    .info {
+      color: #636363;
+    }
   </style>
 </head>
 <body>
@@ -89,50 +107,63 @@
   <div class="console-box"> 
     <p class="info" id="greeting"></p>
     <p class="info">System Status: <strong>ONLINE</strong></p>
-    <p class="info">Last Online: <script>
-      document.write(new Date().toLocaleString());
+    <p class="info">Last Online:  <script>document.write(new Date().toLocaleString());  // Generate unique greeting with random number
       const greetingEl = document.getElementById('greeting');
-      const baseVisitors = 10000;
-      const dailyRange = Math.floor(Math.random() * 9000) + 1000;
-      const timestampSeed = new Date().setHours(0, 0, 0, 0);
-      const todayOffset = timestampSeed % dailyRange;
-      const visitorId = baseVisitors + todayOffset;
-      greetingEl.innerHTML = `Greetings, user #<strong>${visitorId}</strong>!`;
-    </script></p>
-    <div id="output"></div>
-    <div id="prompt-line">
-      <span id="prompt-label">innertel$</span>
-      <input type="text" id="commandInput" autocomplete="off" autofocus onkeydown="handleCommand(event)">
-    </div>
+    const baseVisitors = 10000; // Estimate of cumulative visits
+const dailyRange = Math.floor(Math.random() * 9000) + 1000; // 1k–10k visits daily
+const timestampSeed = new Date().setHours(0, 0, 0, 0);
+const todayOffset = timestampSeed % dailyRange;
+const visitorId = baseVisitors + todayOffset;
+    greetingEl.innerHTML = `Greetings, user #<strong>${visitorId}</strong>!`;
+  // Display help on page load
+    
+</script></p>
+ 
+    
+    <div id="output">
+      <!-- Output appears above -->
+</div>
+<div id="prompt-line">
+  <span id="prompt-label">innertel$</span>
+  <input type="text" id="commandInput" autocomplete="off" autofocus onkeydown="handleCommand(event)">
+</div>
   </div>
 
   <script>
+
+
+
+
+
     const output = document.getElementById('output');
     const input = document.getElementById('commandInput');
     const history = [];
     let historyIndex = -1;
-    let helpMode = false;
-    const linkMap = {
-      '1': 'https://inner.tel/archive/images',
-      '2': 'https://inner.tel/archive/videos'
+    const protectedDirs = ['vault'];
+    let authenticatedPaths = [];
+
+    const fileSystem = {
+      "/": {
+        "logs.txt": "Agent login detected. Timestamp recorded.\nSystem scan complete. No threats found.",
+        "agents.db": "Agent_007\nAgent_404\nAgent_X",
+        "vault": {
+          "vault.key": "KEY-0932-ALPHA-SECTOR",
+          "secrets.enc": "Encrypted content - access denied"
+        },
+        "network.cfg": "IP=192.168.1.1\nSubnet=255.255.255.0\nGateway=192.168.1.254"
+      }
     };
+    let currentPath = "/";
 
     function handleCommand(event) {
       if (event.key === 'Enter') {
         const command = input.value.trim();
-        input.value = '';
-
-        if (helpMode && command.length === 1) {
-          helpMode = false;
-          handleHelpCategory(command.toLowerCase());
-          return;
-        }
-
         if (command !== '') {
           history.push(command);
           historyIndex = history.length;
           appendToOutput(`$${command}`, 'cmd');
           simulateHackingAnimation(() => processCommand(command));
+          input.value = '';
         }
       } else if (event.key === 'ArrowUp') {
         if (historyIndex > 0) {
@@ -152,64 +183,107 @@
       }
     }
 
-    function appendToOutput(text, className = 'resp') {
-      output.style.display = 'block';
-      const line = document.createElement('div');
-      line.className = className;
-      line.innerText = text;
-      output.appendChild(line);
-      output.scrollTop = output.scrollHeight;
+    function getDir(path) {
+      const parts = path.split('/').filter(p => p);
+      let dir = fileSystem["/"];
+      for (let part of parts) {
+        if (dir[part] && typeof dir[part] === 'object') {
+          dir = dir[part];
+        } else {
+          return null;
+        }
+      }
+      return dir;
     }
 
-    function simulateHackingAnimation(callback) {
-      const anim = ['|', '/', '-', '\\'];
-      let i = 0;
-      const spinner = setInterval(() => {
-        input.placeholder = 'Processing ' + anim[i++ % anim.length];
-      }, 100);
-      setTimeout(() => {
-        clearInterval(spinner);
-        input.placeholder = 'Type "help" for a list of commands...';
-        callback();
-      }, 600);
+    function isProtected(path) {
+      return protectedDirs.some(dir => path.includes(`/${dir}`)) && !authenticatedPaths.includes(path);
     }
 
-    function processCommand(cmd) {
+    
+
+   
+
+    async function processCommand(cmd)  {
       const parts = cmd.split(' ');
       const base = parts[0].toLowerCase();
       const arg = parts[1];
       let response = '';
       let className = 'resp';
 
+      const linkMap = {
+          '1': 'https://inner.tel/archive/videos',
+          '2': 'https://inner.tel/archive/images'
+        };
+
       switch (base) {
-        case 'encrypt': {
-          const text = cmd.slice(8).trim();
-          if (!text) {
-            response = 'Usage: encrypt <text>';
-            className = 'error';
-          } else {
-            const encoded = btoa(text);
-            response = `Encrypted: ${encoded}`;
-          }
-          break;
-        }
-        case 'decrypt': {
-          const encoded = cmd.slice(8).trim();
-          if (!encoded) {
-            response = 'Usage: decrypt <encoded_text>';
-            className = 'error';
-          } else {
-            try {
-              const decoded = atob(encoded);
-              response = `Decrypted: ${decoded}`;
-            } catch (e) {
-              response = 'Decryption failed: Invalid encoded text.';
-              className = 'error';
-            }
-          }
-          break;
-        }
-        case 'search': {
+        case 'help':
+  response = [
+    'INNERTEL Help System — v1.0 — terminal@innertel',
+    '',
+    '[a] Core Utilities             [b] Web & Lookup Tools',
+    '[c] File & Directory Commands [d] Network & Links',
+    '[e] Fun, Encode & Extras      [q] Exit Help',
+    '',
+    'Your Choice?'
+  ].join('<br>');
+  break;
+  case 'a':
+  response = [
+    '[Core Utilities]',
+    '<span class="cmd">help</span> - list all commands',
+    '<span class="cmd">clear</span> - clear the console',
+    '<span class="cmd">whoami</span> - show username',
+    '<span class="cmd">exit</span> - exit the terminal'
+  ].join('<br>');
+  break;
+
+case 'b':
+  response = [
+    '[Web & Lookup Tools]',
+    '<span class="cmd">search &lt;term&gt;</span> - search the web',
+    '<span class="cmd">vin &lt;VIN&gt;</span> - lookup VIN info',
+    '<span class="cmd">define &lt;word&gt;</span> - define a word',
+    '<span class="cmd">horoscope &lt;sign&gt;</span> - daily horoscope'
+  ].join('<br>');
+  break;
+
+case 'c':
+  response = [
+    '[File & Directory Commands]',
+    '<span class="cmd">ls</span> - list files',
+    '<span class="cmd">cd &lt;dir&gt;</span> - change directory',
+    '<span class="cmd">cat &lt;filename&gt;</span> - view file content',
+    '<span class="cmd">auth &lt;password&gt;</span> - authenticate to access vault'
+  ].join('<br>');
+  break;
+
+case 'd':
+  response = [
+    '[Network & Links]',
+    '<span class="cmd">ping &lt;host&gt;</span> - ping a target',
+    '<span class="cmd">links</span> - list available links',
+    '<span class="cmd">open &lt;# or url&gt;</span> - open a link'
+  ].join('<br>');
+  break;
+
+case 'e':
+  response = [
+    '[Fun, Encode & Extras]',
+    '<span class="cmd">fact</span> - get a random fact',
+    '<span class="cmd">joke</span> - get a random joke',
+    '<span class="cmd">encrypt &lt;text&gt;</span> - base64 encode',
+    '<span class="cmd">decrypt &lt;base64&gt;</span> - decode base64',
+    '<span class="cmd">hack</span> - run simulated hack'
+  ].join('<br>');
+  break;
+
+case 'q':
+  response = 'Exiting help. Type a command.';
+  break;
+
+
+          case 'search': {
           const searchTerm = cmd.slice(cmd.indexOf(' ') + 1).trim();
           if (searchTerm) {
             const searchUrl = `https://inner.tel/search.html#gsc.tab=0&gsc.q=${encodeURIComponent(searchTerm)}`;
@@ -221,29 +295,199 @@
           }
           break;
         }
-        case 'help':
-          helpMode = true;
-          response = [
-            'INNERTEL Help System — v1.0 — terminal@innertel',
-            '',
-            '[a] Core Utilities             [b] Web & Lookup Tools',
-            '[c] File & Directory Commands [d] Network & Links',
-            '[e] Fun, Encode & Extras      [q] Exit Help',
-            '',
-            'Your Choice?'
-          ].join('\n');
-          break;
+       
+
+        case 'fact': {
+  fetch('https://inner.tel/.netlify/functions/fact')
+    .then(res => res.json())
+    .then(data => {
+      const out = document.getElementById('output');
+      out.style.display = 'block';
+      appendToOutput(`🧠 ${data.fact}`, 'resp');
+    })
+    .catch(() => {
+      appendToOutput('[!] Failed to fetch fun fact.', 'error');
+    });
+  break; // <-- IMPORTANT!
+}
+
+case 'joke': {
+  fetch('./.netlify/functions/joke')
+    .then(res => res.json())
+    .then(data => {
+      if (data.joke) {
+        appendToOutput(`🤣 <span class="resp">${data.joke}</span>`);
+      } else {
+        appendToOutput('No joke found.', 'error');
+      }
+    })
+    .catch(() => {
+      appendToOutput('Error fetching joke.', 'error');
+    });
+  break;
+}
+
+
+case 'horoscope': {
+  const zodiac = (arg || '').toLowerCase();
+  if (!zodiac) {
+    appendToOutput('Usage: horoscope <sign>', 'error');
+    break;
+  }
+
+  try {
+    const res = await fetch(`./.netlify/functions/horoscope?sign=${encodeURIComponent(zodiac)}`);
+    const data = await res.json();
+    if (data.prediction) {
+      appendToOutput(`🪐 <span class="links">${data.sign.toUpperCase()}</span> | <span class="info">${data.date}</span>`);
+      appendToOutput(`<span class="resp">${data.prediction}</span>`);
+      appendToOutput(`✨ Mood: <span class="resp">${data.mood}</span> | Compat: <span class="resp">${data.compatibility}</span> | Lucky #: <span class="resp">${data.lucky_number}</span> | Time: <span class="resp">${data.lucky_time}</span>`);
+    } else {
+      appendToOutput(data.error || 'No horoscope found.', 'error');
+    }
+  } catch {
+    appendToOutput('Error fetching horoscope.', 'error');
+  }
+  break;
+}
+
+ 
+case 'vin': {
+  const vin = (arg || '').toUpperCase();
+  if (!vin || vin.length < 11) {
+    appendToOutput('Usage: vinlookup <VIN>', 'error');
+    break;
+  }
+
+  try {
+    const res = await fetch(`/.netlify/functions/vinlookup?vin=${encodeURIComponent(vin)}`);
+    const data = await res.json();
+
+    if (data.error) {
+      appendToOutput(data.error, 'error');
+    } else {
+      appendToOutput(`🚗 VIN: <span class="resp">${vin}</span>`);
+      appendToOutput(`📅 Year: <span class="resp">${data.year}</span> | Make: <span class="resp">${data.make}</span> | Model: <span class="resp">${data.model}</span>`);
+      appendToOutput(`🛠️ Trim: <span class="resp">${data.trim || 'N/A'}</span> | Engine: <span class="resp">${data.engine || 'N/A'}</span>`);
+      appendToOutput(`🏷️ Manufacturer: <span class="resp">${data.manufacturer || 'N/A'}</span>`);
+    }
+  } catch {
+    appendToOutput('Error fetching VIN data.', 'error');
+  }
+  break;
+}
+
+case 'define': {
+  const word = (arg || '').toLowerCase();
+  if (!word) {
+    appendToOutput('Usage: define <word>', 'error');
+    break;
+  }
+
+  try {
+    const res = await fetch(`/.netlify/functions/define?word=${encodeURIComponent(word)}`);
+    const data = await res.json();
+
+    if (data.error) {
+      appendToOutput(`❌ ${data.error}`, 'error');
+    } else {
+      appendToOutput(`📚 <span class="links">${word}</span>`);
+      appendToOutput(`<span class="resp">${data.definition}</span>`);
+    }
+  } catch {
+    appendToOutput('Error fetching definition.', 'error');
+  }
+  break;
+}
+
+
+
         case 'clear':
           output.innerHTML = '';
           output.style.display = 'none';
           return;
-        case 'exit':
-          window.location.replace('/');
+
+
+        case 'hack':
+          simulateHackingText();
           return;
+
+          case 'ping': {
+          const target = parts.slice(1).join(' ');
+          if (!target) {
+            response = 'Usage: ping <target>'; className = 'error'; break;
+          }
+          response = `Pinging ${target} with 32 bytes of data...`;
+          appendToOutput(response, className);
+          const results = [
+            `Reply from ${target}: bytes=32 time=32ms TTL=58`,
+            `Reply from ${target}: bytes=32 time=34ms TTL=58`,
+            `Reply from ${target}: bytes=32 time=29ms TTL=58`,
+            `Reply from ${target}: bytes=32 time=30ms TTL=58`,
+            `
+Ping statistics for ${target}:`,
+            `    Packets: Sent = 4, Received = 4, Lost = 0 (0% loss),`,
+            `Approximate round trip times in milli-seconds:`,
+            `    Minimum = 29ms, Maximum = 34ms, Average = 31ms`
+          ];
+          let delay = 500;
+          for (let line of results) {
+            setTimeout(() => appendToOutput(line, 'info'), delay);
+            delay += 400;
+          }
+          return;
+        }
+
+        case 'ls':
+          if (isProtected(currentPath)) {
+            response = 'Access denied. Authentication required.';
+            className = 'error';
+          } else {
+            const dir = getDir(currentPath);
+            response = dir ? Object.keys(dir).join('\n') : 'Directory not found.';
+          }
+          break;
+
+        case 'cat':
+          if (isProtected(currentPath)) {
+            response = 'Access denied. Authentication required.';
+            className = 'error';
+          } else {
+            const dir = getDir(currentPath);
+            response = (arg && dir && dir[arg] && typeof dir[arg] === 'string') ? dir[arg] : 'File not found or access denied.';
+          }
+          break;
+
+        case 'cd':
+          const newPath = arg === '..' ? currentPath.split('/').slice(0, -2).join('/') + '/' : (currentPath + '/' + arg).replace(/\/+/g, '/');
+          const dir = getDir(newPath);
+          if (arg === '..' || dir) {
+            currentPath = newPath === '' ? '/' : newPath;
+            response = 'Now in ' + currentPath;
+          } else {
+            response = 'Directory not found.';
+            className = 'error';
+          }
+          break;
+
+        case 'auth':
+          if (arg === 'accessgranted') {
+            authenticatedPaths.push(currentPath);
+            response = 'Authentication successful. Access granted to protected directory.';
+          } else {
+            response = 'Authentication failed.';
+            className = 'error';
+          }
+          break;
+
+          
+         
+
         case 'links': {
           response = 'Available links:\n[1] /archive/images  (Images)\n[2] /archive/videos  (Videos)';
           break;
         }
+
         case 'open': {
           let url = linkMap[arg] || arg;
           if (!url.startsWith('http')) {
@@ -265,6 +509,51 @@
           }
           break;
         }
+          
+
+        case 'info':
+          response = 'type "help" to get a list of available commands...';
+          break;
+
+        case 'whoami':
+          response = '@innertel' ;
+          break;
+
+
+          case 'encrypt':
+  if (!arg) {
+    response = 'Usage: encrypt <message>';
+    className = 'error';
+  } else {
+    const encoded = btoa(cmd.slice(8)); // everything after 'encrypt '
+    response = `Encrypted: <span class="links">${encoded}</span>`;
+  }
+  break;
+
+case 'decrypt':
+  if (!arg) {
+    response = 'Usage: decrypt <encoded_message>';
+    className = 'error';
+  } else {
+    try {
+      const decoded = atob(cmd.slice(8)); // everything after 'decrypt '
+      response = `Decrypted: <span class="links">${decoded}</span>`;
+    } catch (e) {
+      response = 'Decryption failed: Invalid encoded message.';
+      className = 'error';
+    }
+  }
+  break;
+
+ 
+
+
+        case 'exit':
+          window.location.replace('/');
+          return;
+       
+        
+
         default:
           response = `Unknown command: ${cmd}`;
           className = 'error';
@@ -272,62 +561,44 @@
       appendToOutput(response, className);
     }
 
-    function handleHelpCategory(choice) {
-      let message = '';
-      switch (choice) {
-        case 'a':
-          message = [
-            '[a] Core Utilities',
-            ' help      — List commands',
-            ' clear     — Clear console',
-            ' exit      — Exit terminal',
-            ' info      — Display system info',
-            ' whoami    — Identity check'
-          ].join('\n');
-          break;
-        case 'b':
-          message = [
-            '[b] Web & Lookup Tools',
-            ' search <query>    — Search the web',
-            ' define <word>     — Dictionary lookup',
-            ' horoscope <sign>  — Daily horoscope',
-            ' vin <VIN>         — Vehicle lookup',
-            ' joke              — Random joke',
-            ' fact              — Fun fact'
-          ].join('\n');
-          break;
-        case 'c':
-          message = [
-            '[c] File & Directory Commands',
-            ' ls                — List current directory',
-            ' cd <dir>          — Change directory',
-            ' cat <file>        — Show file content',
-            ' auth <password>   — Authenticate access'
-          ].join('\n');
-          break;
-        case 'd':
-          message = [
-            '[d] Network & Links',
-            ' ping <host>       — Simulate network ping',
-            ' links             — Show link shortcuts',
-            ' open <#|url>      — Open links externally'
-          ].join('\n');
-          break;
-        case 'e':
-          message = [
-            '[e] Fun, Encode & Extras',
-            ' hack              — Simulated hack screen',
-            ' encrypt <text>    — Base64 encode',
-            ' decrypt <text>    — Base64 decode'
-          ].join('\n');
-          break;
-        case 'q':
-          appendToOutput('Exited Help Menu.', 'info');
-          return;
-        default:
-          message = 'Unknown selection. Type "help" to try again.';
+    
+
+    function appendToOutput(text, className = 'resp') {
+      output.style.display = 'block';
+      const line = document.createElement('div');
+      line.className = className;
+      line.innerHTML = text;
+
+      output.appendChild(line);
+      output.scrollTop = output.scrollHeight;
+    }
+
+    function simulateHackingText() {
+      const lines = [
+        'Establishing secure connection...',
+        'Bypassing firewall...',
+        'Decrypting access tokens...',
+        'Injecting payload...',
+        'Access granted. Admin privileges acquired.'
+      ];
+      let delay = 0;
+      for (let line of lines) {
+        setTimeout(() => appendToOutput(line, 'info'), delay);
+        delay += 800;
       }
-      appendToOutput(message, 'resp');
+    }
+
+    function simulateHackingAnimation(callback) {
+      const anim = ['|', '/', '-', '\\\\'];
+      let i = 0;
+      const spinner = setInterval(() => {
+        input.placeholder = 'Processing ' + anim[i++ % anim.length];
+      }, 100);
+      setTimeout(() => {
+        clearInterval(spinner);
+        input.placeholder = 'Type "help" for a list of commands...';
+        callback();
+      }, 600);
     }
   </script>
 </body>
