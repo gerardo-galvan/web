@@ -182,6 +182,33 @@
       let className = 'resp';
 
       switch (base) {
+        case 'encrypt': {
+          const text = cmd.slice(8).trim();
+          if (!text) {
+            response = 'Usage: encrypt <text>';
+            className = 'error';
+          } else {
+            const encoded = btoa(text);
+            response = `Encrypted: ${encoded}`;
+          }
+          break;
+        }
+        case 'decrypt': {
+          const encoded = cmd.slice(8).trim();
+          if (!encoded) {
+            response = 'Usage: decrypt <encoded_text>';
+            className = 'error';
+          } else {
+            try {
+              const decoded = atob(encoded);
+              response = `Decrypted: ${decoded}`;
+            } catch (e) {
+              response = 'Decryption failed: Invalid encoded text.';
+              className = 'error';
+            }
+          }
+          break;
+        }
         case 'search': {
           const searchTerm = cmd.slice(cmd.indexOf(' ') + 1).trim();
           if (searchTerm) {
