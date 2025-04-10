@@ -103,7 +103,7 @@
   </style>
 </head>
 <body>
-  <h1>INNERTEL terminal</h1>
+  <h1>INNERTEL</h1>
   <div class="console-box"> 
     <p class="info" id="greeting"></p>
     <p class="info">login: <strong>root (automatic login)</strong></p>
@@ -114,7 +114,7 @@ const dailyRange = Math.floor(Math.random() * 9000) + 1000; // 1k–10k visits d
 const timestampSeed = new Date().setHours(0, 0, 0, 0);
 const todayOffset = timestampSeed % dailyRange;
 const visitorId = baseVisitors + todayOffset;
-    greetingEl.innerHTML = `<strong>INNERTEL AI OS 1.03.${visitorId}</strong>!`;
+    greetingEl.innerHTML = `<strong>INNERTEL AI OS [V1.0.${visitorId}]</strong>`;
   // Display help on page load
     
 </script></p>
@@ -328,54 +328,7 @@ case 'joke': {
 }
 
 
-case 'download-reel': {
-  const url = args[0];
-
-  if (!url || !url.includes('instagram.com')) {
-    appendToOutput('Usage: download-reel <Instagram Reel/Post URL>', 'error');
-    break;
-  }
-
-  const loadingId = `loading-${Date.now()}`;
-  const loadingLine = document.createElement('div');
-  loadingLine.className = 'info';
-  loadingLine.id = loadingId;
-  loadingLine.textContent = '⏳ Fetching reel from FastVideoSave...';
-  output.appendChild(loadingLine);
-  output.scrollTop = output.scrollHeight;
-
-  try {
-    const res = await fetch('/.netlify/functions/downloadReel', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ reelUrl: url })
-    });
-
-    const data = await res.json();
-
-    if (data.videoUrl) {
-      loadingLine.remove();
-
-      const videoWrapper = document.createElement('div');
-      videoWrapper.className = 'resp';
-      videoWrapper.innerHTML = `<video width="320" controls src="${data.videoUrl}"></video>`;
-      output.appendChild(videoWrapper);
-
-      appendToOutput(`⬇️ <a class="links" href="${data.videoUrl}" target="_blank" download>Download Video</a>`, 'resp');
-
-      if (!window.reelHistory) window.reelHistory = [];
-      window.reelHistory.push({ url, videoUrl: data.videoUrl });
-    } else {
-      loadingLine.textContent = `❌ ${data.error || 'Failed to extract video link.'}`;
-      loadingLine.className = 'error';
-    }
-  } catch (err) {
-    loadingLine.textContent = `❌ Network error: ${err.message}`;
-    loadingLine.className = 'error';
-  }
-
-  break; 
-}            
+       
  
   case 'qr': {
   const textToEncode = cmd.slice(3).trim();
@@ -391,34 +344,6 @@ case 'download-reel': {
   appendToOutput(`📦 QR Code for: <span class="links">${textToEncode}</span>${qrImage}`, 'resp');
   break;
 }
-
-case 'btc':
-case 'bitcoin': {
-  const loading = document.createElement('div');
-  loading.className = 'info';
-  loading.textContent = '⏳ Fetching BTC price...';
-  output.appendChild(loading);
-  output.scrollTop = output.scrollHeight;
-
-  try {
-    const res = await fetch('/.netlify/functions/getBitcoinPrice');
-    const data = await res.json();
-
-    if (data.price) {
-      loading.remove();
-      appendToOutput(`₿ 1 BTC = <span class="resp">$${Number(data.price).toLocaleString()}</span>`, 'resp');
-    } else {
-      loading.textContent = `❌ ${data.error || 'Could not fetch BTC price.'}`;
-      loading.className = 'error';
-    }
-  } catch (err) {
-    loading.textContent = `❌ Error: ${err.message}`;
-    loading.className = 'error';
-  }
-
-  break;
-}
-
 
 
 case 'horoscope': {
@@ -564,6 +489,30 @@ Ping statistics for ${target}:`,
         case 'whoami':
           response = '@innertel' ;
           break;
+         
+          
+          case 'define': {
+  const word = (arg || '').toLowerCase();
+  if (!word) {
+    appendToOutput('Usage: define <word>', 'error');
+    break;
+  }
+
+  try {
+    const res = await fetch(`/.netlify/functions/define?word=${encodeURIComponent(word)}`);
+    const data = await res.json();
+
+    if (data.error) {
+      appendToOutput(`❌ ${data.error}`, 'error');
+    } else {
+      appendToOutput(`📚 <span class="links">${word}</span>`);
+      appendToOutput(`<span class="resp">${data.definition}</span>`);
+    }
+  } catch {
+    appendToOutput('Error fetching definition.', 'error');
+  }
+  break;
+}
 
 
           case 'encrypt':
