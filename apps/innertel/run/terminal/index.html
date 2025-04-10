@@ -371,6 +371,40 @@ case 'horoscope': {
 
  
 
+case 'ip':
+case 'iplookup': {
+  const ip = args[0] || ''; // optional: user can enter IP, or leave it blank
+
+  const loading = document.createElement('div');
+  loading.className = 'info';
+  loading.textContent = ip ? `🌐 Looking up IP ${ip}...` : `🌐 Looking up your IP...`;
+  output.appendChild(loading);
+  output.scrollTop = output.scrollHeight;
+
+  try {
+    const res = await fetch(`/.netlify/functions/ipLookup${ip ? `?ip=${encodeURIComponent(ip)}` : ''}`);
+    const data = await res.json();
+
+    if (data.city || data.country) {
+      loading.remove();
+
+      appendToOutput(`🌍 IP Info for ${ip || 'your connection'}:
+📍 Location: ${data.city || 'Unknown'}, ${data.region || ''}, ${data.country || 'Unknown'}
+🌐 ISP: ${data.isp || 'Unknown'}
+🛰️ ASN: ${data.asn || 'Unknown'}
+🔧 Org: ${data.organization || 'Unknown'}
+🌐 IP Type: ${data.type || 'N/A'}`, 'resp');
+    } else {
+      loading.textContent = `❌ ${data.error || 'IP info not available.'}`;
+      loading.className = 'error';
+    }
+  } catch (err) {
+    loading.textContent = `❌ Error: ${err.message}`;
+    loading.className = 'error';
+  }
+
+  break;
+}
 
 
         case 'clear':
