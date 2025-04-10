@@ -2,332 +2,191 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>INNERTEL | Terminal</title>
+  <title>INNERTEL Boot Terminal</title>
+  <meta name="description" content="INNERTEL AI OS boot simulation">
+  <meta name="author" content="G">
+
+  <!-- Retro Google Font -->
+  <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
+
   <style>
     body {
-      background-color: black;
-      color: #00FF00;
-      font-family: Inconsolata, monospace, "Courier New", Courier ;
-      padding: 40px;
+      background: #111;
+      color: #eee;
+      font-family: monospace;
+      padding: 20px;
     }
+
     @font-face {
-      src: url("../../fonts/MIB.ttf");
-      font-family: MIB;
+    src: url("../../fonts/MIB.ttf");
+    font-family: MIB;
     }
-    @font-face {
-      src: url("../../fonts/Inconsolata.ttf");
-      font-family: Inconsolata;
+
+
+    .banner-text {
+      font-family: MIB, monospace;
+      color: #00ff00;
+      font-size: 36px;
+      text-align: center;
+      margin-bottom: 0;
+      letter-spacing: 2px;
+      text-shadow: 0 0 8px #00ff00;
     }
-    h1 {
-      font-family:  MIB;
-      color: lime;
+    .banner-subtitle {
+      font-family:  monospace;
+      color: #00ff00;
+      font-size: 14px;
+      text-align: center;
+      margin-top: 0px;
+      margin-bottom: 0px;
+      letter-spacing: 1px;
     }
-    .console-box {
-      border: 1px solid #00FF00;
-      padding: 10px;
-      box-shadow: 0 0 15px #00FF00;
-      margin-top: 20px;
-      border-radius: 10px;
-    }
-    #output {
-      display: none;
+    .terminal {
+      background-color: #000;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px #0f0;
+      max-width: 800px;
+      margin: auto;
       white-space: pre-wrap;
-      margin-top: 10px;
-      min-height: 200px;
-      max-height: 400px;
-      overflow-y: auto;
+      line-height: 1.4;
     }
-    #output::-webkit-scrollbar {
-      width: 12px;
-    }
-    #output::-webkit-scrollbar-track {
-      background: black;
-    }
-    #output::-webkit-scrollbar-thumb {
-      background-color: #00FF00;
-      border-radius: 0px;
-      border: 1px solid black;
-    }
-    #output::-webkit-scrollbar-button:single-button {
-      background-color: #00FF00;
-      height: 10px;
-    }
-    #output::-webkit-scrollbar-button:single-button:vertical:decrement {
-      border-bottom: 1px solid black;
-    }
-    #output::-webkit-scrollbar-button:single-button:vertical:increment {
-      border-top: 1px solid black;
-    }
-    #prompt-line {
-      display: flex;
-      align-items: center;
-      margin-bottom: 10px;
-    }
-    #prompt-label {
-      margin-right: 5px;
-      color: #00FF00;
-    }
-    #commandInput {
-      background-color: black;
-      color: #00FF00;
-      border: none;
-      outline: none;
+    .green { color: #00ff00; }
+    .blue { color: #00ccff; }
+    .yellow { color: #ffff66; }
+    .magenta { color: #ff66ff; }
+    .cyan { color: #66ffff; }
+    .bright { font-weight: bold; }
+
+    .progress-container {
       width: 100%;
-      font-size: 1em;
-      font-family: inherit;
+      background: #333;
+      border-radius: 5px;
+      margin-top: 10px;
+      height: 25px;
+      overflow: hidden;
+      position: relative;
     }
-    .cmd { color: #00FF00; }
-    .links { color:#00BFFF; }
-    .resp { color: #83FF08; }
-    .error { color: #FF5555; }
-    .info { color: #636363; }
+
+    .progress-bar {
+      height: 100%;
+      width: 0%;
+      background: #00ff00;
+      transition: width 0.1s linear;
+    }
+
+    .progress-label {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      color: #000;
+      font-weight: bold;
+      pointer-events: none;
+    }
   </style>
 </head>
 <body>
-  <h1>INNERTEL terminal</h1>
-  <div class="console-box"> 
-    <p class="info" id="greeting"></p>
-    <p class="info">System Status: <strong>ONLINE</strong></p>
-    <p class="info">Last Online: <script>
-      document.write(new Date().toLocaleString());
-      const greetingEl = document.getElementById('greeting');
-      const baseVisitors = 10000;
-      const dailyRange = Math.floor(Math.random() * 9000) + 1000;
-      const timestampSeed = new Date().setHours(0, 0, 0, 0);
-      const todayOffset = timestampSeed % dailyRange;
-      const visitorId = baseVisitors + todayOffset;
-      greetingEl.innerHTML = `Greetings, user #<strong>${visitorId}</strong>!`;
-    </script></p>
-    <div id="output"></div>
-    <div id="prompt-line">
-      <span id="prompt-label">innertel$</span>
-      <input type="text" id="commandInput" autocomplete="off" autofocus onkeydown="handleCommand(event)">
-    </div>
+  <div class="terminal" id="terminal">
+    <div class="banner-text">INNERTEL</div> 
   </div>
 
   <script>
-    const output = document.getElementById('output');
-    const input = document.getElementById('commandInput');
-    const history = [];
-    let historyIndex = -1;
-    let helpMode = false;
-    const linkMap = {
-      '1': 'https://inner.tel/archive/images',
-      '2': 'https://inner.tel/archive/videos'
-    };
+    const terminal = document.getElementById("terminal");
+    const dateStamp = new Date().toISOString().slice(0, 10).replace(/-/g, "");
 
-    function handleCommand(event) {
-      if (event.key === 'Enter') {
-        const command = input.value.trim();
-        input.value = '';
+    const steps = [
+      { text: "[    0.000000] INNERTEL AI OS v1.03 initiating...", class: "cyan", delay: 500 },
+      { text: "[    0.001234] Command line: init=/sbin/init innertel.mode=ai splash", class: "cyan", delay: 400 },
+      { text: "[    0.054391] systemd[1]: Starting INNERTEL Core Services...", class: "green", delay: 600 },
+      { text: "[  OK  ] Created slice system-innertel.slice", class: "green", delay: 300 },
+      { text: "[  OK  ] Mounted /innertel/sys", class: "green", delay: 300 },
+      { text: "[  OK  ] Reached target System Initialization", class: "green", delay: 400 },
+      { text: "[  OK  ] Starting innertel-ai-sequencer.service...", class: "blue", delay: 500 },
+      { text: "[ INFO ] AI stream initiated | handshake: open", class: "yellow", delay: 500 },
+    ];
 
-        if (helpMode && command.length === 1) {
-          helpMode = false;
-          handleHelpCategory(command.toLowerCase());
-          return;
-        }
+    const systemModules = [
+      { name: "core/ai-vision", id: "AIVS", port: 3021 },
+      { name: "usr/bin/memory-watchdog", id: "MWDG", port: 4096 },
+      { name: "net/transmitterd", id: "TXMD", port: 8822 },
+      { name: "core/emotion-synth", id: "ESYN", port: 7410 },
+      { name: "dev/ai/signal-router", id: "SIGN", port: 7788 }
+    ];
 
-        if (command !== '') {
-          history.push(command);
-          historyIndex = history.length;
-          appendToOutput(`$${command}`, 'cmd');
-          simulateHackingAnimation(() => processCommand(command));
+    systemModules.forEach(mod => {
+      const pid = Math.floor(Math.random() * 3000) + 100;
+      const loadTime = (Math.random() * 1.5 + 0.5).toFixed(6);
+
+      steps.push(
+        { text: `[    ${loadTime}] systemd[1]: Starting ${mod.name}.service...`, class: "blue", delay: 300 },
+        { text: `[  OK  ] Module ${mod.id} (${mod.name}) initialized [PID ${pid}]`, class: "green", delay: 300 },
+        { text: `[  OK  ] Listening on port ${mod.port}/tcp`, class: "cyan", delay: 400 }
+      );
+    });
+
+    steps.push(
+      { text: "[  OK  ] Starting innertel-core-compositor.service...", class: "yellow", delay: 700 },
+      { text: "[  OK  ] Services active. Initiating sync protocol...", class: "magenta", delay: 600 },
+      { text: `[  OK  ] Sync package generated: sysmeta_${dateStamp}.bin`, class: "cyan", delay: 400 },
+      { text: `[  OK  ] Transmitting package to /innertel/sys/meta/sysmeta_${dateStamp}.bin`, class: "cyan", delay: 400 },
+      { text: "[  OK  ] Metadata sync complete", class: "green", delay: 500 },
+      { text: "[  OK  ] All systems operational", class: "green", delay: 500 }
+    );
+
+    const successMessage = "\n[  OK  ] Boot sequence complete\n";
+
+    function appendLine(text, cssClass) {
+      const span = document.createElement("div");
+      span.className = cssClass;
+      span.textContent = text;
+      terminal.appendChild(span);
+      terminal.scrollTop = terminal.scrollHeight;
+    }
+
+    function showProgressBar() {
+      const container = document.createElement("div");
+      container.className = "progress-container";
+
+      const bar = document.createElement("div");
+      bar.className = "progress-bar";
+
+      const label = document.createElement("div");
+      label.className = "progress-label";
+      label.innerText = "0%";
+
+      container.appendChild(bar);
+      container.appendChild(label);
+      terminal.appendChild(container);
+
+      let width = 0;
+      const interval = setInterval(() => {
+        width += 1;
+        bar.style.width = width + "%";
+        label.innerText = width + "%";
+
+        if (width >= 100) {
+          clearInterval(interval);
+          appendLine(successMessage, "green bright");
+
+          setTimeout(() => {
+            
+            window.location.href = "login.html";
+          }, 2000);
         }
-      } else if (event.key === 'ArrowUp') {
-        if (historyIndex > 0) {
-          historyIndex--;
-          input.value = history[historyIndex];
-        }
-        event.preventDefault();
-      } else if (event.key === 'ArrowDown') {
-        if (historyIndex < history.length - 1) {
-          historyIndex++;
-          input.value = history[historyIndex];
-        } else {
-          historyIndex = history.length;
-          input.value = '';
-        }
-        event.preventDefault();
+      }, 20);
+    }
+
+    async function runTerminalSimulation() {
+      for (const step of steps) {
+        appendLine(step.text, step.class);
+        await new Promise(res => setTimeout(res, step.delay));
       }
+      appendLine("finalizing system boot...\n", "cyan");
+      showProgressBar();
     }
 
-    function appendToOutput(text, className = 'resp') {
-      output.style.display = 'block';
-      const line = document.createElement('div');
-      line.className = className;
-      line.innerText = text;
-      output.appendChild(line);
-      output.scrollTop = output.scrollHeight;
-    }
-
-    function simulateHackingAnimation(callback) {
-      const anim = ['|', '/', '-', '\\'];
-      let i = 0;
-      const spinner = setInterval(() => {
-        input.placeholder = 'Processing ' + anim[i++ % anim.length];
-      }, 100);
-      setTimeout(() => {
-        clearInterval(spinner);
-        input.placeholder = 'Type "help" for a list of commands...';
-        callback();
-      }, 600);
-    }
-
-    function processCommand(cmd) {
-      const parts = cmd.split(' ');
-      const base = parts[0].toLowerCase();
-      const arg = parts[1];
-      let response = '';
-      let className = 'resp';
-
-      switch (base) {
-        case 'encrypt': {
-          const text = cmd.slice(8).trim();
-          if (!text) {
-            response = 'Usage: encrypt <text>';
-            className = 'error';
-          } else {
-            const encoded = btoa(text);
-            response = `Encrypted: ${encoded}`;
-          }
-          break;
-        }
-        case 'decrypt': {
-          const encoded = cmd.slice(8).trim();
-          if (!encoded) {
-            response = 'Usage: decrypt <encoded_text>';
-            className = 'error';
-          } else {
-            try {
-              const decoded = atob(encoded);
-              response = `Decrypted: ${decoded}`;
-            } catch (e) {
-              response = 'Decryption failed: Invalid encoded text.';
-              className = 'error';
-            }
-          }
-          break;
-        }
-        case 'search': {
-          const searchTerm = cmd.slice(cmd.indexOf(' ') + 1).trim();
-          if (searchTerm) {
-            const searchUrl = `https://inner.tel/search.html#gsc.tab=0&gsc.q=${encodeURIComponent(searchTerm)}`;
-            window.open(searchUrl, '_blank');
-            response = `Searching for '${searchTerm}'...`;
-          } else {
-            response = 'Please provide a search term.';
-            className = 'error';
-          }
-          break;
-        }
-        case 'help':
-          helpMode = true;
-          response = [
-            'INNERTEL Help System — v1.0 — terminal@innertel',
-            '',
-            '[a] Core Utilities             [b] Web & Lookup Tools',
-            '[c] File & Directory Commands [d] Network & Links',
-            '[e] Fun, Encode & Extras      [q] Exit Help',
-            '',
-            'Your Choice?'
-          ].join('\n');
-          break;
-        case 'clear':
-          output.innerHTML = '';
-          output.style.display = 'none';
-          return;
-        case 'exit':
-          window.location.replace('/');
-          return;
-        case 'links': {
-          response = 'Available links:\n[1] /archive/images  (Images)\n[2] /archive/videos  (Videos)';
-          break;
-        }
-        case 'open': {
-          let url = linkMap[arg] || arg;
-          if (!url.startsWith('http')) {
-            url = 'https://' + url;
-          }
-          try {
-            const parsed = new URL(url);
-            const allowedDomains = ['inner.tel', 'inner.tel/'];
-            if (allowedDomains.some(domain => parsed.hostname.includes(domain))) {
-              window.open(parsed.href, '_blank');
-              response = `Opening ${parsed.href}...`;
-            } else {
-              response = `Access to ${parsed.hostname} is not permitted.`;
-              className = 'error';
-            }
-          } catch (e) {
-            response = 'Invalid URL format or unknown shortcut.';
-            className = 'error';
-          }
-          break;
-        }
-        default:
-          response = `Unknown command: ${cmd}`;
-          className = 'error';
-      }
-      appendToOutput(response, className);
-    }
-
-    function handleHelpCategory(choice) {
-      let message = '';
-      switch (choice) {
-        case 'a':
-          message = [
-            '[a] Core Utilities',
-            ' help      — List commands',
-            ' clear     — Clear console',
-            ' exit      — Exit terminal',
-            ' info      — Display system info',
-            ' whoami    — Identity check'
-          ].join('\n');
-          break;
-        case 'b':
-          message = [
-            '[b] Web & Lookup Tools',
-            ' search <query>    — Search the web',
-            ' define <word>     — Dictionary lookup',
-            ' horoscope <sign>  — Daily horoscope',
-            ' vin <VIN>         — Vehicle lookup',
-            ' joke              — Random joke',
-            ' fact              — Fun fact'
-          ].join('\n');
-          break;
-        case 'c':
-          message = [
-            '[c] File & Directory Commands',
-            ' ls                — List current directory',
-            ' cd <dir>          — Change directory',
-            ' cat <file>        — Show file content',
-            ' auth <password>   — Authenticate access'
-          ].join('\n');
-          break;
-        case 'd':
-          message = [
-            '[d] Network & Links',
-            ' ping <host>       — Simulate network ping',
-            ' links             — Show link shortcuts',
-            ' open <#|url>      — Open links externally'
-          ].join('\n');
-          break;
-        case 'e':
-          message = [
-            '[e] Fun, Encode & Extras',
-            ' encrypt <text>    — Base64 encode',
-            ' decrypt <text>    — Base64 decode'
-          ].join('\n');
-          break;
-        case 'q':
-          appendToOutput('Exited Help Menu.', 'info');
-          return;
-        default:
-          message = 'Unknown selection. Type "help" to try again.';
-      }
-      appendToOutput(message, 'resp');
-    }
+    runTerminalSimulation();
   </script>
 </body>
 </html>
