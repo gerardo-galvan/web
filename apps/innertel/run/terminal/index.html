@@ -204,12 +204,13 @@ const visitorId = baseVisitors + todayOffset;
 
    
 
-    async function processCommand(cmd)  {
-      const parts = cmd.split(' ');
-      const base = parts[0].toLowerCase();
-      const arg = parts[1];
-      let response = '';
-      let className = 'resp';
+    async function processCommand(cmd) {
+  const inputStr = String(cmd).trim();
+  const [command, ...args] = inputStr.split(/\s+/);
+  const base = command.toLowerCase(); // 👈 this replaces parts[0]
+  const arg = args[0];                 // 👈 this replaces parts[1]
+  let response = '';
+  let className = 'resp';
 
       const linkMap = {
           '1': 'https://inner.tel/archive/videos',
