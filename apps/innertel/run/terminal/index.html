@@ -328,7 +328,7 @@ case 'e':
   response = [
     '[Fun, Encode & Extras]',
     '<span class="cmd">fact</span> - get a random fact',
-    '<span class="cmd">joke</span> - get a random joke',
+    '<span class="cmd">passwd</span> - generate complex password',
     '<span class="cmd">encrypt &lt;text&gt;</span> - base64 encode',
     '<span class="cmd">decrypt &lt;base64&gt;</span> - decode base64',
     '<span class="cmd">qr &lt;text&gt;</span> - generate a QR code from text or link',
@@ -369,19 +369,31 @@ case 'q':
   break; // <-- IMPORTANT!
 }
 
-case 'joke': {
-  fetch('/.netlify/functions/joke')
-    .then(res => res.json())
-    .then(data => {
-      if (data.joke) {
-        appendToOutput(`🤣 <span class="resp">${data.joke}</span>`);
-      } else {
-        appendToOutput('No joke found.', 'error');
-      }
-    })
-    .catch(() => {
-      appendToOutput('Error fetching joke.', 'error');
-    });
+case 'passwd': {
+  const length = parseInt(args[0]) || 16;
+
+  const loading = document.createElement('div');
+  loading.className = 'info';
+  loading.textContent = `🔐 Generating password (${length} characters)...`;
+  output.appendChild(loading);
+  output.scrollTop = output.scrollHeight;
+
+  try {
+    const res = await fetch(`/.netlify/functions/password?length=${length}`);
+    const data = await res.json();
+
+    if (data.password) {
+      loading.remove();
+      appendToOutput(`🔑 Generated Password (${length} chars): <span class="resp">${data.password}</span>`);
+    } else {
+      loading.textContent = `❌ ${data.error || 'Password generation failed.'}`;
+      loading.className = 'error';
+    }
+  } catch (err) {
+    loading.textContent = `❌ Error: ${err.message}`;
+    loading.className = 'error';
+  }
+
   break;
 }
 
