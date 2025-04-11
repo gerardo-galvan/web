@@ -346,30 +346,7 @@ case 'joke': {
   break;
 }
 
-
-case 'horoscope': {
-  const zodiac = (arg || '').toLowerCase();
-  if (!zodiac) {
-    appendToOutput('Usage: horoscope <sign>', 'error');
-    break;
-  }
-
-  try {
-    const res = await fetch(`./.netlify/functions/horoscope?sign=${encodeURIComponent(zodiac)}`);
-    const data = await res.json();
-    if (data.prediction) {
-      appendToOutput(`🪐 <span class="links">${data.sign.toUpperCase()}</span> | <span class="info">${data.date}</span>`);
-      appendToOutput(`<span class="resp">${data.prediction}</span>`);
-      appendToOutput(`✨ Mood: <span class="resp">${data.mood}</span> | Compat: <span class="resp">${data.compatibility}</span> | Lucky #: <span class="resp">${data.lucky_number}</span> | Time: <span class="resp">${data.lucky_time}</span>`);
-    } else {
-      appendToOutput(data.error || 'No horoscope found.', 'error');
-    }
-  } catch {
-    appendToOutput('Error fetching horoscope.', 'error');
-  }
-  break;
-}
-
+ 
  
 
 case 'ip':
@@ -406,6 +383,41 @@ case 'iplookup': {
 
   break;
 }
+
+
+case 'horoscope': {
+  const sign = args[0]?.toLowerCase();
+
+  const loading = document.createElement('div');
+  loading.className = 'info';
+  loading.textContent = sign
+    ? `🔮 Reading stars for "${sign}"...`
+    : `🛑 Please enter a zodiac sign (e.g., horoscope leo)`;
+  output.appendChild(loading);
+  output.scrollTop = output.scrollHeight;
+
+  if (!sign) break;
+
+  try {
+    const res = await fetch(`/.netlify/functions/getHoroscope?sign=${encodeURIComponent(sign)}`);
+    const data = await res.json();
+
+    if (data.horoscope) {
+      loading.remove();
+      appendToOutput(`♈ Horoscope for <b>${sign}</b>:
+      <span class="resp">${data.horoscope}</span>`, 'resp');
+    } else {
+      loading.textContent = `❌ ${data.error || 'No horoscope available.'}`;
+      loading.className = 'error';
+    }
+  } catch (err) {
+    loading.textContent = `❌ Error: ${err.message}`;
+    loading.className = 'error';
+  }
+
+  break;
+}
+
 
 
         case 'clear':
