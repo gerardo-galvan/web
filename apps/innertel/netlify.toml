@@ -3,4 +3,6 @@
   
 [build]
 publish = "/"
-functions = ".innertel/cmds"
+
+[functions]
+  directory = ".innertel/functions"
