@@ -15,7 +15,7 @@ exports.handler = async function(event) {
     }
   
     try {
-      const response = await fetch(`https://api.api-ninjas.com/v1/horoscope?sign=${sign}`, {
+      const response = await fetch(`https://api.api-ninjas.com/v1/horoscope?zodiac=${sign}`, {
         headers: {
           'X-Api-Key': API_KEY,
         },

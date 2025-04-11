@@ -385,7 +385,7 @@ case 'iplookup': {
 }
 
 
-case 'btcstats': {
+case 'btc': {
   const loading = document.createElement('div');
   loading.className = 'info';
   loading.textContent = '📡 Fetching Bitcoin stats...';
@@ -430,7 +430,7 @@ case 'horoscope': {
   if (!sign) break;
 
   try {
-    const res = await fetch(`/.netlify/functions/getHoroscope?sign=${encodeURIComponent(sign)}`);
+    const res = await fetch(`/.netlify/functions/getHoroscope?zodiac=${encodeURIComponent(sign)}`);
     const data = await res.json();
 
     if (data.horoscope) {
