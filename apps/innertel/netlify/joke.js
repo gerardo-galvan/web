@@ -3,13 +3,11 @@ exports.handler = async function () {
   
     try {
       const res = await fetch('https://api.api-ninjas.com/v1/jokes?limit=1', {
-        headers: {
-          'X-Api-Key': API_KEY,
-        },
+        headers: { 'X-Api-Key': API_KEY },
       });
   
       if (!res.ok) {
-        throw new Error(`API request failed: ${res.status}`);
+        throw new Error('API request failed');
       }
   
       const data = await res.json();
