@@ -29,7 +29,7 @@
     }
 
     .terminal-wrapper {
-  max-width: 900px;
+  max-width: 850px;
   margin: 0 auto;
 }
 
@@ -311,8 +311,7 @@ case 'b':
   response = [
     '[Web & Lookup Tools]',
     '<span class="cmd">search &lt;term&gt;</span> - search the web',
-    '<span class="cmd">define &lt;word&gt;</span> - define a word',
-    '<span class="cmd">horoscope &lt;sign&gt;</span> - daily horoscope'
+    '<span class="cmd">define &lt;word&gt;</span> - define a word' 
   ].join('<br>');
   break;
 
@@ -329,9 +328,9 @@ case 'c':
 case 'd':
   response = [
     '[Network & Links]',
-    '<span class="cmd">ping &lt;host&gt;</span> - ping a target',
     '<span class="cmd">links</span> - list available links',
-    '<span class="cmd">open &lt;# or url&gt;</span> - open a link'
+    '<span class="cmd">open &lt;# or url&gt;</span> - open a link',
+    '<span class="cmd">ping &lt;host&gt;</span> - ping a target'
   ].join('<br>');
   break;
 
@@ -339,11 +338,11 @@ case 'e':
   response = [
     '[Fun, Encode & Extras]',
     '<span class="cmd">fact</span> - get a random fact',
+    '<span class="cmd">horoscope &lt;sign&gt;</span> - get info for zodiac sign ',
     '<span class="cmd">passwd</span> - generate complex password',
     '<span class="cmd">encrypt &lt;text&gt;</span> - base64 encode',
     '<span class="cmd">decrypt &lt;base64&gt;</span> - decode base64',
-    '<span class="cmd">qr &lt;text&gt;</span> - generate a QR code from text or link',
-    '<span class="cmd">horoscope &lt;sign&gt;</span> - get info for sign '
+    '<span class="cmd">qr &lt;text&gt;</span> - generate a QR code from text or link' 
   ].join('<br>');
   break;
 
@@ -367,7 +366,7 @@ case 'q':
        
 
         case 'fact': {
-  fetch('https://inner.tel/.netlify/functions/fact')
+  fetch('https://inner.tel/.innertel/cmds/fact')
     .then(res => res.json())
     .then(data => {
       const out = document.getElementById('output');
@@ -390,7 +389,7 @@ case 'passwd': {
   output.scrollTop = output.scrollHeight;
 
   try {
-    const res = await fetch(`/.netlify/functions/password?length=${length}`);
+    const res = await fetch(`/.innertel/cmds/password?length=${length}`);
     const data = await res.json();
 
     if (data.password) {
@@ -440,7 +439,7 @@ case 'iplookup': {
   output.scrollTop = output.scrollHeight;
 
   try {
-    const res = await fetch(`/.netlify/functions/ipLookup${ip ? `?ip=${encodeURIComponent(ip)}` : ''}`);
+    const res = await fetch(`/.innertel/cmds/ipLookup${ip ? `?ip=${encodeURIComponent(ip)}` : ''}`);
     const data = await res.json();
 
     if (data.city || data.country) {
@@ -473,7 +472,7 @@ case 'btc': {
   output.scrollTop = output.scrollHeight;
 
   try {
-    const res = await fetch('/.netlify/functions/btc');
+    const res = await fetch('/.innertel/cmds/btc');
     const data = await res.json();
 
     if (data.price) {
@@ -507,7 +506,7 @@ case 'horoscope': {
   if (!sign) break;
 
   try {
-    const res = await fetch(`/.netlify/functions/getHoroscope?sign=${encodeURIComponent(sign)}`);
+    const res = await fetch(`/.innertel/cmds/getHoroscope?sign=${encodeURIComponent(sign)}`);
     const data = await res.json();
 
     if (data.horoscope) {
@@ -654,7 +653,7 @@ Ping statistics for ${target}:`,
   }
 
   try {
-    const res = await fetch(`/.netlify/functions/define?word=${encodeURIComponent(word)}`);
+    const res = await fetch(`/.innertel/cmds/define?word=${encodeURIComponent(word)}`);
     const data = await res.json();
 
     if (data.error) {
