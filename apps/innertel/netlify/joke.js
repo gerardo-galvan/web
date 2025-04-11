@@ -2,7 +2,7 @@ exports.handler = async function () {
     const API_KEY = process.env.API_NINJAS_KEY;
   
     try {
-      const res = await fetch('https://api.api-ninjas.com/v1/cryptoprice?symbol=BTCUSD', {
+      const res = await fetch('https://api.api-ninjas.com/v1/jokes?limit=1', {
         headers: {
           'X-Api-Key': API_KEY,
         },
@@ -13,6 +13,7 @@ exports.handler = async function () {
       }
   
       const data = await res.json();
+      const joke = data[0]?.joke || "No joke found.";
   
       return {
         statusCode: 200,
@@ -20,7 +21,7 @@ exports.handler = async function () {
           'Access-Control-Allow-Origin': '*',
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ price: data.price }),
+        body: JSON.stringify({ joke }),
       };
     } catch (err) {
       return {
@@ -29,7 +30,7 @@ exports.handler = async function () {
           'Access-Control-Allow-Origin': '*',
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ error: 'Failed to fetch BTC price.' }),
+        body: JSON.stringify({ error: 'Failed to fetch joke.' }),
       };
     }
   };

@@ -445,7 +445,7 @@ case 'iplookup': {
 case 'btc': {
   const loading = document.createElement('div');
   loading.className = 'info';
-  loading.textContent = '📡 Fetching Bitcoin stats...';
+  loading.textContent = '⏳ Fetching BTC price...';
   output.appendChild(loading);
   output.scrollTop = output.scrollHeight;
 
@@ -455,13 +455,9 @@ case 'btc': {
 
     if (data.price) {
       loading.remove();
-      appendToOutput(`₿ <b>${data.name} (${data.symbol})</b>:
-💵 Price: $${Number(data.price).toLocaleString()}
-📈 Market Cap: $${Number(data.marketCap).toLocaleString()}
-🔄 24h Volume: $${Number(data.volume).toLocaleString()}
-📊 Change 1h: ${data.priceChange1h}% | 1d: ${data.priceChange1d}% | 1w: ${data.priceChange1w}%`, 'resp');
+      appendToOutput(`₿ 1 BTC = <span class="resp">$${Number(data.price).toLocaleString()}</span>`, 'resp');
     } else {
-      loading.textContent = `❌ ${data.error || 'Unable to retrieve BTC stats.'}`;
+      loading.textContent = `❌ ${data.error || 'Could not fetch BTC price.'}`;
       loading.className = 'error';
     }
   } catch (err) {
@@ -471,6 +467,7 @@ case 'btc': {
 
   break;
 }
+
 
 
 case 'horoscope': {
