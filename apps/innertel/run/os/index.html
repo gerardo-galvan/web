@@ -6,8 +6,11 @@
   <meta name="description" content="INNERTEL">
   <meta name="author" content="G">
 
-  <!-- Retro Google Font -->
+  <!-- Font Optimization -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <link rel="preload" href="../../fonts/MIB.ttf" as="font" type="font/ttf" crossorigin>
 
   <style>
     body {
@@ -18,10 +21,9 @@
     }
 
     @font-face {
-    src: url("../../fonts/MIB.ttf");
-    font-family: MIB;
+      font-family: MIB;
+      src: url("../../fonts/MIB.ttf");
     }
-
 
     .banner-text {
       font-family: MIB, monospace;
@@ -33,12 +35,11 @@
       text-shadow: 0 0 8px #00ff00;
     }
     .banner-subtitle {
-      font-family:  monospace;
+      font-family: monospace;
       color: #00ff00;
       font-size: 14px;
       text-align: center;
-      margin-top: 0px;
-      margin-bottom: 0px;
+      margin: 0;
       letter-spacing: 1px;
     }
     .terminal {
@@ -95,7 +96,14 @@
   <script>
     const terminal = document.getElementById("terminal");
     const dateStamp = new Date().toISOString().slice(0, 10).replace(/-/g, "");
-
+    const totalBootTime = 10000; // 10 seconds
+    const bootLogTime = 7000;    // 7 seconds for boot steps
+    const progressTime = 3000;   // 3 seconds for progress bar
+  
+    // Calculate speed multiplier based on total delay of steps
+    const urlParams = new URLSearchParams(window.location.search);
+    const fastBoot = urlParams.get("fast") === "true";
+  
     const steps = [
       { text: ":: INNERTEL AI OS v1.0 initiating...", class: "gray", delay: 500 },
       { text: ":: running early hook [innerteliso_pxe_nbd]", class: "gray", delay: 400 },
@@ -106,27 +114,26 @@
       { text: ":: loading rootfs image to RAM...", class: "gray", delay: 500 },
       { text: ":: running cleanup hook [udev]", class: "gray", delay: 500 },
     ];
-
+  
     const systemModules = [
       { name: "core/ai", id: "AI", port: 3021 },
       { name: "usr/bin/indexer", id: "IDX", port: 4096 },
       { name: "core/terminal", id: "TRM", port: 8822 },
       { name: "core/login", id: "LOGN", port: 7410 },
       { name: "core/signal-router", id: "SIGN", port: 7788 }
-      
     ];
-
+  
     systemModules.forEach(mod => {
       const pid = Math.floor(Math.random() * 3000) + 100;
       const loadTime = (Math.random() * 1.5 + 0.5).toFixed(6);
-
+  
       steps.push(
         { text: `[${loadTime}] systemd[1]: Starting ${mod.name}.service...`, class: "blue", delay: 300 },
         { text: `[  OK  ] Module ${mod.id} (${mod.name}) initialized [PID ${pid}]`, class: "green", delay: 300 },
         { text: `[  OK  ] Listening on port ${mod.port}/tcp`, class: "cyan", delay: 400 }
       );
     });
-
+  
     steps.push(
       { text: "[  OK  ] Starting innertel-core-compositor.service...", class: "yellow", delay: 700 },
       { text: "[  OK  ] Services active. Initiating sync protocol...", class: "magenta", delay: 600 },
@@ -135,9 +142,12 @@
       { text: "[  OK  ] Starting Login Management", class: "green", delay: 500 },
       { text: "[  OK  ] Starting Home Area Manager", class: "green", delay: 500 }
     );
-
+  
+    const totalStepDelay = steps.reduce((sum, step) => sum + step.delay, 0);
+    const SPEED_MULTIPLIER = fastBoot ? 0.1 : (bootLogTime / totalStepDelay);
+  
     const successMessage = "\n ⊙ INNERTEL AI OS launching...\n";
-
+  
     function appendLine(text, cssClass) {
       const span = document.createElement("div");
       span.className = cssClass;
@@ -145,50 +155,56 @@
       terminal.appendChild(span);
       terminal.scrollTop = terminal.scrollHeight;
     }
-
+  
     function showProgressBar() {
       const container = document.createElement("div");
       container.className = "progress-container";
-
+  
       const bar = document.createElement("div");
       bar.className = "progress-bar";
-
+  
       const label = document.createElement("div");
       label.className = "progress-label";
       label.innerText = "0%";
-
+  
       container.appendChild(bar);
       container.appendChild(label);
       terminal.appendChild(container);
-
+  
       let width = 0;
-      const interval = setInterval(() => {
-        width += 1;
+      const steps = 100;
+      const interval = progressTime / steps;
+      const increment = 100 / steps;
+  
+      const timer = setInterval(() => {
+        width += increment;
         bar.style.width = width + "%";
-        label.innerText = width + "%";
-
+        label.innerText = Math.min(Math.floor(width), 100) + "%";
+  
         if (width >= 100) {
-          clearInterval(interval);
+          clearInterval(timer);
           appendLine(successMessage, "green bright");
-
+  
           setTimeout(() => {
-            
             window.location.href = "login.html";
-          }, 2000);
+          }, fastBoot ? 300 : 1200);
         }
-      }, 20);
+      }, interval);
     }
-
-    async function runTerminalSimulation() {
-      for (const step of steps) {
+  
+    function runBootSequence(i = 0) {
+      if (i < steps.length) {
+        const step = steps[i];
         appendLine(step.text, step.class);
-        await new Promise(res => setTimeout(res, step.delay));
+        setTimeout(() => runBootSequence(i + 1), step.delay * SPEED_MULTIPLIER);
+      } else {
+        appendLine("Finalizing system boot...\n", "cyan");
+        showProgressBar();
       }
-      appendLine("Finalizing system boot...\n", "cyan");
-      showProgressBar();
     }
-
-    runTerminalSimulation();
+  
+    runBootSequence();
   </script>
+  
 </body>
 </html>
