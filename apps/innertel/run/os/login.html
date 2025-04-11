@@ -1,37 +1,41 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>INNERTEL | Login </title>
+  <title>INNERTEL | Login</title>
   <style>
     body {
       background-color: black;
       color: #00FF00;
-      font-family: Terminus,"Courier New", Courier, monospace;
+      font-family: Terminus, "Courier New", Courier, monospace;
       display: flex;
       justify-content: center;
       align-items: center;
       height: 100vh;
       margin: 0;
+      padding: 20px; /* ensures spacing on small screens */
+      box-sizing: border-box;
     }
-
 
     @font-face {
-    src: url("../../fonts/Terminus.ttf");
-    font-family: Terminus;
+      src: url("../../fonts/Terminus.ttf");
+      font-family: Terminus;
     }
 
-    
     .terminal {
-      width: 500px;
+      width: 100%;
+      max-width: 400px;
       padding: 20px;
       border: 1px solid #00FF00;
       background-color: #000000;
       border-radius: 10px;
       box-shadow: 0 0 20px #00FF00;
+      box-sizing: border-box;
     }
-    input[type="text"], input[type="password"] {
+
+    input[type="text"],
+    input[type="password"] {
       background-color: black;
       color: #00FF00;
       border: none;
@@ -40,6 +44,7 @@
       font-size: 1em;
       margin-bottom: 10px;
     }
+
     input[type="submit"] {
       background-color: black;
       color: #00FF00;
@@ -48,9 +53,11 @@
       font-size: 1em;
       padding: 5px 10px;
     }
+
     .success {
       color: lime;
     }
+
     .error {
       color: red;
     }
@@ -73,13 +80,13 @@
       document.getElementById('username').value = 'root';
       document.getElementById('password').value = 'access';
     });
-  
+
     function checkLogin(event) {
       event.preventDefault();
       const username = document.getElementById('username').value;
       const password = document.getElementById('password').value;
       const message = document.getElementById('message');
-  
+
       if (username === 'root' && password === 'access') {
         message.textContent = 'Access granted';
         message.className = 'success';
@@ -92,6 +99,5 @@
       }
     }
   </script>
-  
 </body>
 </html>

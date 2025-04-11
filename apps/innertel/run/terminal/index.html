@@ -27,6 +27,13 @@
       color: lime;
    
     }
+
+    .terminal-wrapper {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+
     .console-box {
       border: 1px solid #00FF00;
       padding: 10px;
@@ -160,6 +167,8 @@
   </style>
 </head>
 <body>
+
+  <div class="terminal-wrapper">
   <h1>INNERTEL</h1>
   <div class="console-box"> 
     <p class="info" id="greeting"></p>
@@ -185,6 +194,8 @@ const visitorId = baseVisitors + todayOffset;
   <input type="text" id="commandInput" autocomplete="off" autofocus onkeydown="handleCommand(event)">
 </div>
   </div>
+
+</div>
 
   <script>
 
