@@ -275,7 +275,7 @@ case 'e':
     '<span class="cmd">encrypt &lt;text&gt;</span> - base64 encode',
     '<span class="cmd">decrypt &lt;base64&gt;</span> - decode base64',
     '<span class="cmd">qr &lt;text&gt;</span> - generate a QR code from text or link',
-    '<span class="cmd">hack</span> - run simulated hack'
+    '<span class="cmd">horoscope &lt;sign&gt;</span> - get info for sign '
   ].join('<br>');
   break;
 
@@ -393,7 +393,7 @@ case 'btc': {
   output.scrollTop = output.scrollHeight;
 
   try {
-    const res = await fetch('/.netlify/functions/btcStats');
+    const res = await fetch('/.netlify/functions/btc');
     const data = await res.json();
 
     if (data.price) {
