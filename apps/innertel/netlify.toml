@@ -3,6 +3,4 @@
   
 [build]
 publish = "/"
-
-[functions]
-  directory = ".innertel/functions"
+functions = ".netlify/functions"

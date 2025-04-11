@@ -366,7 +366,7 @@ case 'q':
        
 
         case 'fact': {
-  fetch('https://inner.tel/.innertel/cmds/fact')
+  fetch('/.netlify/functions/fact')
     .then(res => res.json())
     .then(data => {
       const out = document.getElementById('output');
@@ -389,7 +389,7 @@ case 'passwd': {
   output.scrollTop = output.scrollHeight;
 
   try {
-    const res = await fetch(`/.innertel/cmds/password?length=${length}`);
+    const res = await fetch(`/.netlify/functions/password?length=${length}`);
     const data = await res.json();
 
     if (data.password) {
@@ -439,7 +439,7 @@ case 'iplookup': {
   output.scrollTop = output.scrollHeight;
 
   try {
-    const res = await fetch(`/.innertel/cmds/ipLookup${ip ? `?ip=${encodeURIComponent(ip)}` : ''}`);
+    const res = await fetch(`/.netlify/functions/ipLookup${ip ? `?ip=${encodeURIComponent(ip)}` : ''}`);
     const data = await res.json();
 
     if (data.city || data.country) {
@@ -472,7 +472,7 @@ case 'btc': {
   output.scrollTop = output.scrollHeight;
 
   try {
-    const res = await fetch('/.innertel/cmds/btc');
+    const res = await fetch('/.netlify/functions/btc');
     const data = await res.json();
 
     if (data.price) {
@@ -506,7 +506,7 @@ case 'horoscope': {
   if (!sign) break;
 
   try {
-    const res = await fetch(`/.innertel/cmds/getHoroscope?sign=${encodeURIComponent(sign)}`);
+    const res = await fetch(`/.netlify/functions/getHoroscope?sign=${encodeURIComponent(sign)}`);
     const data = await res.json();
 
     if (data.horoscope) {
@@ -653,7 +653,7 @@ Ping statistics for ${target}:`,
   }
 
   try {
-    const res = await fetch(`/.innertel/cmds/define?word=${encodeURIComponent(word)}`);
+    const res = await fetch(`/.netlify/functions/define?word=${encodeURIComponent(word)}`);
     const data = await res.json();
 
     if (data.error) {
