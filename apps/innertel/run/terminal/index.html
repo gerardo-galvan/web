@@ -385,6 +385,37 @@ case 'iplookup': {
 }
 
 
+case 'btcstats': {
+  const loading = document.createElement('div');
+  loading.className = 'info';
+  loading.textContent = '📡 Fetching Bitcoin stats...';
+  output.appendChild(loading);
+  output.scrollTop = output.scrollHeight;
+
+  try {
+    const res = await fetch('/.netlify/functions/btcStats');
+    const data = await res.json();
+
+    if (data.price) {
+      loading.remove();
+      appendToOutput(`₿ <b>${data.name} (${data.symbol})</b>:
+💵 Price: $${Number(data.price).toLocaleString()}
+📈 Market Cap: $${Number(data.marketCap).toLocaleString()}
+🔄 24h Volume: $${Number(data.volume).toLocaleString()}
+📊 Change 1h: ${data.priceChange1h}% | 1d: ${data.priceChange1d}% | 1w: ${data.priceChange1w}%`, 'resp');
+    } else {
+      loading.textContent = `❌ ${data.error || 'Unable to retrieve BTC stats.'}`;
+      loading.className = 'error';
+    }
+  } catch (err) {
+    loading.textContent = `❌ Error: ${err.message}`;
+    loading.className = 'error';
+  }
+
+  break;
+}
+
+
 case 'horoscope': {
   const sign = args[0]?.toLowerCase();
 
